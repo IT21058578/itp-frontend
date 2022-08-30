@@ -1,4 +1,4 @@
-# ITP Project Codebase
+# ITP Project Frontend Codebase
 Note that Git does not care about empty directories so I could not include the sub-directories for each person in this repository. Instead take it upon yourself to follow this format when implementing functions.
 
 ## For Frontend
