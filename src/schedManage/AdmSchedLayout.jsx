@@ -1,5 +1,5 @@
 import { Button, Sidebar } from "flowbite-react";
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthProvider";
 import { SchedCalenderPage, SchedStatPage, SchedListPage } from "./page";
