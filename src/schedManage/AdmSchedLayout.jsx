@@ -8,6 +8,11 @@ function AdmSchedLayout() {
 	const navigate = useNavigate();
 	const { auth, setAuth } = useContext(AuthContext);
 
+	function userLogout() {
+		setAuth({}); //Revoke authorization.
+		navigate("/login"); //Redirect to login.
+	}
+
 	return (
 		//TODO: Make top-bar for scheduling navigation.
 		//TODO: Make admin side-bar.

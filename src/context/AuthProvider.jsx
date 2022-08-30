@@ -7,7 +7,7 @@ const AuthContext = createContext({});
 // imported and used in index.js .This allows us to use the setAuth and auth and other global
 // state anywhere in our components as long as we use the useContext() hook.
 export function AuthProvider({ children }) {
-	const { auth, setAuth } = useState({}); //Should store an object containing user details.
+	const [auth, setAuth] = useState({}); //Should store an object containing user details.
 
 	return (
 		<AuthContext.Provider value={{ auth, setAuth }}>

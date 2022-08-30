@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 // AdmEmpPage. The empId received is {empId}. This page will make a GET
 // request using this id and present the details
-function AdmEmpPage() {
+function AdmEmpPage({ auth }) {
 	const { empId } = useParams();
 
 	return (
