@@ -1,10 +1,12 @@
 import { Button, Sidebar } from "flowbite-react";
 import React, { Fragment } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
+import AuthContext from "../context/AuthProvider";
 import { SchedCalenderPage, SchedStatPage, SchedListPage } from "./page";
 
 function AdmSchedLayout() {
 	const navigate = useNavigate();
+	const { auth, setAuth } = useContext(AuthContext);
 
 	return (
 		//TODO: Make top-bar for scheduling navigation.
@@ -21,9 +23,9 @@ function AdmSchedLayout() {
 			</div>
 
 			<Routes>
-				<Route path="/" element={<SchedCalenderPage />}></Route>
-				<Route path="/stat" element={<SchedStatPage />}></Route>
-				<Route path="/list" element={<SchedListPage />}></Route>
+				<Route path="/" element={<SchedCalenderPage auth={auth} />}></Route>
+				<Route path="/stat" element={<SchedStatPage auth={auth} />}></Route>
+				<Route path="/list" element={<SchedListPage auth={auth} />}></Route>
 			</Routes>
 		</Fragment>
 	);
