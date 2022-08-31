@@ -20,11 +20,9 @@ const months = [
 	"December",
 ];
 
-function SchedulerTopBar() {
+function SchedulerTopBar({ handleMonthChange, handleYearChange, year, month }) {
 	const navigate = useNavigate();
 	const [years, setYears] = useState([]);
-	const [year, setYear] = useState(new Date().getFullYear());
-	const [month, setMonth] = useState(new Date().getMonth());
 
 	//Create year list
 	useEffect(() => {
@@ -35,14 +33,6 @@ function SchedulerTopBar() {
 		}
 		setYears(temp);
 	}, []);
-
-	function handleMonthChange(e) {
-		setMonth(e.target.value);
-	}
-
-	function handleYearChange(e) {
-		setYear(e.target.value);
-	}
 
 	return (
 		<div className="flex flex-row h-full gap-2">
@@ -79,23 +69,28 @@ function SchedulerTopBar() {
 			<div className="basis-1/5 border-x flex flex-row items-center justify-center">
 				<AddScheduleInterface />
 			</div>
-			<div className="grow  flex flex-row items-center justify-center">
-				<ButtonGroup>
-					<Button
-						onClick={() => {
-							navigate("/admin/jobs/stat");
-						}}
-					>
-						View Job Statistics
-					</Button>
-					<Button
-						onClick={() => {
-							navigate("/admin/jobs/list");
-						}}
-					>
-						View Job List
-					</Button>
-				</ButtonGroup>
+			<div className="grow flex flex-row items-center gap-4 justify-center">
+				<Button
+					onClick={() => {
+						navigate("/admin/jobs");
+					}}
+				>
+					To Calender
+				</Button>
+				<Button
+					onClick={() => {
+						navigate("/admin/jobs/stat");
+					}}
+				>
+					To Statistics
+				</Button>
+				<Button
+					onClick={() => {
+						navigate("/admin/jobs/list");
+					}}
+				>
+					To List
+				</Button>
 			</div>
 		</div>
 	);

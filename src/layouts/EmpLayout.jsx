@@ -16,8 +16,8 @@ function EmpLayout() {
 				<div className="bg-gray-100 p-2 w-full">
 					<Routes>
 						<Route path="/" element={<EmpLandPage auth={auth} />}></Route>
-						<Route path="/stat" element={<EmpStatPage auth={auth} />}></Route>
-						<Route path="/jobs" element={<EmpJobPage auth={auth} />}></Route>
+						<Route path="/stat/*" element={<EmpStatPage auth={auth} />}></Route>
+						<Route path="/jobs/*" element={<EmpJobPage auth={auth} />}></Route>
 					</Routes>
 				</div>
 			</div>

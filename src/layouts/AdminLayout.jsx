@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import { SchedCalenderPage, AdmEmpPage } from "../pages";
 import { Fragment } from "react";
 import { AuthContext } from "../context";
+import AdminSchedLayout from "./AdminSchedLayout";
 
 function AdminLayout() {
 	const { auth } = useContext(AuthContext);
@@ -17,11 +18,11 @@ function AdminLayout() {
 				<div className="bg-gray-100 p-2 w-full">
 					<Routes>
 						<Route
-							path="jobs"
-							element={<SchedCalenderPage auth={auth} />}
+							path="jobs/*"
+							element={<AdminSchedLayout auth={auth} />}
 						></Route>
 						<Route
-							path="employees"
+							path="employees/*"
 							element={<AdmEmpPage auth={auth} />}
 						></Route>
 					</Routes>
