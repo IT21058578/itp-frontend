@@ -1,8 +1,8 @@
 import React, { Fragment, useContext } from "react";
 import { Routes, Route } from "react-router-dom";
-import AuthContext from "../context/AuthProvider";
-import { EmpSidebar } from "./components";
-import { EmpJobPage, EmpLandPage, EmpStatPage } from "./page";
+import { AuthContext } from "../context";
+import { EmpSidebar } from "../components";
+import { EmpJobPage, EmpLandPage, EmpStatPage } from "../pages";
 
 function EmpLayout() {
 	const { auth } = useContext(AuthContext);

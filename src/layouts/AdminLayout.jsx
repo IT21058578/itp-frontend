@@ -1,10 +1,9 @@
 import React, { useContext } from "react";
-import { AdminSidebar } from "./empManage/components";
+import { AdminSidebar } from "../components";
 import { Route, Routes } from "react-router-dom";
-import { SchedCalenderPage } from "./schedManage/page";
+import { SchedCalenderPage, AdmEmpPage } from "../pages";
 import { Fragment } from "react";
-import AuthContext from "./context/AuthProvider";
-import { AdmEmpPage } from "./empManage/page";
+import { AuthContext } from "../context";
 
 function AdminLayout() {
 	const { auth } = useContext(AuthContext);

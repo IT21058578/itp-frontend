@@ -1,6 +1,5 @@
-import { Container } from "../../empManage/components";
 import React, { Fragment } from "react";
-import { Calender, SchedulerTopBar } from "../components";
+import { Calender, SchedulerTopBar, Container } from "../components";
 
 // SchedCalenderPage. This page will hold the main calender that will display
 // minimal information for each day. on its interface and when a admin

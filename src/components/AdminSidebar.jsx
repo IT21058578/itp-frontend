@@ -2,23 +2,21 @@ import { Avatar, Sidebar } from "flowbite-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
-import AuthContext from "../../context/AuthProvider";
+import { AuthContext } from "../context";
 import {
 	ChevronDoubleRightIcon,
 	ChevronDoubleLeftIcon,
 	UserIcon,
-	ChartBarIcon,
 	BriefcaseIcon,
-	IdentificationIcon,
 	ArrowRightOnRectangleIcon,
+	UserGroupIcon,
 } from "@heroicons/react/24/solid";
 
-const EMP_LAND_URL = "/employee";
-const EMP_STAT_URL = "/employee/stat";
-const EMP_JOBS_URL = "/employee/jobs";
-const EMP_PERS_URL = "/employee/personal";
+const ADM_LAND_URL = "/admin";
+const ADM_EMPS_URL = "/admin/employees";
+const ADM_JOBS_URL = "/admin/jobs";
 
-function EmpSidebar({ auth }) {
+function AdminSidebar({ auth }) {
 	const { setAuth } = useContext(AuthContext);
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
@@ -78,7 +76,7 @@ function EmpSidebar({ auth }) {
 					<Sidebar.ItemGroup>
 						<Sidebar.Item
 							href=""
-							onClick={(e) => gotoPage(e, EMP_LAND_URL)}
+							onClick={(e) => gotoPage(e, ADM_LAND_URL)}
 							icon={UserIcon}
 							style={{ height: "2.5rem" }}
 						>
@@ -86,23 +84,15 @@ function EmpSidebar({ auth }) {
 						</Sidebar.Item>
 						<Sidebar.Item
 							href=""
-							onClick={(e) => gotoPage(e, EMP_PERS_URL)}
-							icon={IdentificationIcon}
+							onClick={(e) => gotoPage(e, ADM_EMPS_URL)}
+							icon={UserGroupIcon}
 							style={{ height: "2.5rem" }}
 						>
-							<div className="inline-block align-middle">Personal</div>
+							<div className="inline-block align-middle">Employees</div>
 						</Sidebar.Item>
 						<Sidebar.Item
 							href=""
-							onClick={(e) => gotoPage(e, EMP_STAT_URL)}
-							icon={ChartBarIcon}
-							style={{ height: "2.5rem" }}
-						>
-							<div className="inline-block align-middle">Statistics</div>
-						</Sidebar.Item>
-						<Sidebar.Item
-							href=""
-							onClick={(e) => gotoPage(e, EMP_JOBS_URL)}
+							onClick={(e) => gotoPage(e, ADM_JOBS_URL)}
 							icon={BriefcaseIcon}
 							style={{ height: "2.5rem" }}
 						>
@@ -125,4 +115,4 @@ function EmpSidebar({ auth }) {
 	);
 }
 
-export default EmpSidebar;
+export default AdminSidebar;
