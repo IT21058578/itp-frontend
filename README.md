@@ -4,21 +4,21 @@ Note that Git does not care about empty directories so I could not include the s
 
 ## Frontend Folder Structure
 
-src
-├── components
-│ ├── empManage
-│ ├── schdManage
-│ ├── crewAssign
-│ ├── invManage
-│ ├── usrManage
-│ ├── servBook
-│ ├── servCreate
-│ └── payManage
-├── context
-├── hooks
-├── layouts
-├── pages
-├── test
+src  
+├── components  
+│ ├── empManage  
+│ ├── schdManage  
+│ ├── crewAssign  
+│ ├── invManage  
+│ ├── usrManage  
+│ ├── servBook  
+│ ├── servCreate  
+│ └── payManage  
+├── context  
+├── hooks  
+├── layouts  
+├── pages  
+├── test  
 └── utils
 
 **_ Please use the index.js in each directory for easy imports. _**
