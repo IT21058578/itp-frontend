@@ -1,7 +1,6 @@
 import EmpLayout from "./empManage/EmpLayout";
-import AdmEmpLayout from "./empManage/AdmEmpLayout";
-import AdmSchedLayout from "./schedManage/AdmSchedLayout";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import AdminLayout from "./AdminLayout";
 
 function App() {
   return (
@@ -9,13 +8,10 @@ function App() {
       <Router>
         <Routes>
           <Route path="employee/*" element={<EmpLayout />}></Route>
-          <Route path="admin">
-            <Route path="schedule/*" element={<AdmSchedLayout />}></Route>
-            <Route path="employee/*" element={<AdmEmpLayout />}></Route>
-          </Route>
+          <Route path="admin/*" element={<AdminLayout />} ></Route>
         </Routes>
       </Router>
-    </div>
+    </div >
   );
 }
 

@@ -1,7 +1,7 @@
 import { Avatar, Sidebar } from "flowbite-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import AuthContext from "../../context/AuthProvider";
 import {
 	ChevronDoubleRightIcon,
@@ -20,9 +20,19 @@ const EMP_PERS_URL = "/employee/personal";
 
 function EmpSidebar({ auth }) {
 	const { setAuth } = useContext(AuthContext);
+	const [firstName, setFirstName] = useState("");
+	const [lastName, setLastName] = useState("");
+	const [email, setEmail] = useState("");
+	const [avatarUrl, setAvatarUrl] = useState("");
 	const navigate = useNavigate();
-
 	const [collapsed, setCollapsed] = useState(true);
+
+	useEffect(() => {
+		setFirstName(auth?.firstName);
+		setLastName(auth?.lastName);
+		setEmail(auth?.email);
+		setAvatarUrl(auth?.avatarUrl);
+	}, [auth]);
 
 	function gotoPage(e, url) {
 		e.preventDefault();
@@ -56,11 +66,11 @@ function EmpSidebar({ auth }) {
 						</Sidebar.Item>
 					</Sidebar.ItemGroup>
 					<Sidebar.ItemGroup style={{ height: "3.25rem" }}>
-						<Avatar size="md">
+						<Avatar size="md" img={avatarUrl}>
 							{!collapsed ? (
 								<div>
-									<div className="text-sm">Tharindu Gunasekera</div>
-									<div className="text-xs">gunasekeratharindu@gmail</div>
+									<div className="text-sm">{firstName + " " + lastName}</div>
+									<div className="text-xs">{email}</div>
 								</div>
 							) : null}
 						</Avatar>

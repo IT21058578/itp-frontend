@@ -1,13 +1,11 @@
-import { Button, Sidebar } from "flowbite-react";
 import React, { Fragment, useContext } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import AuthContext from "../context/AuthProvider";
 import { EmpSidebar } from "./components";
 import { EmpJobPage, EmpLandPage, EmpStatPage } from "./page";
 
 function EmpLayout() {
-	const navigate = useNavigate();
-	const { auth, setAuth } = useContext(AuthContext);
+	const { auth } = useContext(AuthContext);
 
 	return (
 		<Fragment>
