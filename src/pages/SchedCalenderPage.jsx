@@ -7,16 +7,17 @@ import { Calender, SchedulerTopBar, Container } from "../components";
 function SchedCalenderPage({ auth }) {
 	return (
 		<Fragment>
-			<div className="grid grid-rows-6 gap-2 mb-4 h-full mx-auto">
+			<div className="flex flex-col gap-2 h-full border">
 				<Container>
 					<SchedulerTopBar />
 				</Container>
-				<div className="row-span-6 grid gap-2 ">
+				<div className="grow grid gap-2 ">
 					<Container title="Calender">
 						<Calender />
 					</Container>
 				</div>
 			</div>
+
 			{/* <div className="border p-2 h-full border-gray-300 bg-white"></div> */}
 		</Fragment>
 	);
