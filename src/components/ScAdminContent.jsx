@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-//import UpdatePopupHook from "./hooks/UpdatePopupHook";
 import {useNavigate} from 'react-router-dom';
 import ScPopupUpdate from "./ScPopupUpdate";
 import {Link} from "react-router-dom"
@@ -8,22 +7,23 @@ import axios from 'axios';
 
 
 const ScAdminContent = ({service}) =>{
-    const navigate=useNavigate();
+    
 
-    const navigateToUpForm = () => {
-        navigate('/update');
-    }
-    //navigateToUpForm();
     const [sid, setSid] = useState();
 
-    console.log("sid : ",sid);
-
-    function Delete(){
-        axios.delete(`http://localhost:8080/deleteCate/${sid}`)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-    }    
+    //console.log("sid : ",sid);
     
+    
+        
+    axios.delete(`http://localhost:8080/deleteCate/${sid}`)
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err));
+     
+    function DeleteAlert(){
+        
+        alert("The service sccessfully deleted!");
+        window.location.reload(false);
+    }
 
     
 
@@ -34,7 +34,7 @@ const ScAdminContent = ({service}) =>{
         
             <div className="inline-flex transition-all">      
                 
-                    <div className="w-56 h-80 m-6 relative overflow-hidden shadow-lg transition-all rounded-2xl hover:bg-transparent">
+                    <div className="w-56 h-80 m-2 relative overflow-hidden shadow-lg transition-all rounded-2xl hover:bg-transparent">
                         <div className="absolute p-4 w-full top-0 text-gray-900 hover:opacity-100">
                             <p className="mt-1 text-black">{service.name}</p>
                         </div>
@@ -54,7 +54,7 @@ const ScAdminContent = ({service}) =>{
                     
                 
                     <div className=" relative overflow-hidden transition-all top-36">
-                        <button class="m-2 inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-md" onClick={()=>{Delete();setSid(service.id)}}>
+                        <button class="m-2 inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-md" onClick={()=>{setSid(service.id);DeleteAlert()}}>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                         </svg> 
@@ -83,9 +83,3 @@ const ScAdminContent = ({service}) =>{
     );
 }
 export default ScAdminContent;
-// <Router>
-//<Routes>
-//<Route path='/update' element={<PopupUpdate />} />
-//</Routes> 
-//</Router>
-//onClick={() =>  {selectService(service.id);navigateToUpForm();}}
