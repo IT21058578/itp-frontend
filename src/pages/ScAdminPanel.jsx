@@ -1,7 +1,6 @@
 import React,{Component} from "react";
 import ScAdminContent from "../components/ScAdminContent";
 import axios from 'axios';
-//import PopupUpdate from "../components/PopupUpdate";
 import ScCreateButton from "../components/ScCreateButton";
 
 //import '../App.css';
@@ -23,6 +22,9 @@ class ScAdminPanel extends Component{
       });
       
     }
+
+
+    
     
     render(){
         
@@ -36,15 +38,10 @@ class ScAdminPanel extends Component{
                     
                     ?(
                         <div>
-                            <div className=" grid justify-items-end m-14">
-                                <div className="">
-                                
-                                    <ScCreateButton />
-                                    
-                                   
-                                </div>
+                            <div className=" grid justify-items-end m-10">
+                                <ScCreateButton/>
                             </div>
-                        <div className="w-full h-full justify-center items-center bottom-52 mx-22">
+                        <div className="w-full h-full justify-center items-center bottom-52 mx-auto">
                             
 
                             
