@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Modal } from "flowbite-react";
+import { Button, Label, Modal, Textarea, TextInput } from "flowbite-react";
 
 function AddScheduleInterface() {
 	const [showModal, setShowModal] = useState(false);
@@ -10,19 +10,68 @@ function AddScheduleInterface() {
 		<div>
 			<Button onClick={() => setShowModal(true)}>Add Schedule</Button>
 			<Modal show={showModal} onClose={() => setShowModal(false)}>
-				<Modal.Header>Adding New Schedule</Modal.Header>
+				<Modal.Header>Create Schedule</Modal.Header>
 				<Modal.Body>
-					<div className="space-y-6">
-						<p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-							Please enter the details for the new schedule.
-						</p>
+					<div className="flex flex-col gap-4">
+						<div>
+							<div className="mb-2">
+								<Label value="Title" />
+							</div>
+							<div>
+								<TextInput type="text" placeholder="Title here..." />
+							</div>
+						</div>
+						<div className="flex flex-row gap-4">
+							<div className="flex-1">
+								<div className="mb-2">
+									<Label value="Date" />
+								</div>
+								<div>
+									<TextInput type="date" placeholder="Title here..." />
+								</div>
+							</div>
+							<div className="border-r" />
+							<div className="flex-1 flex flex-row gap-4">
+								<div>
+									<div className="mb-2">
+										<Label value="Start time" />
+									</div>
+									<div>
+										<TextInput type="time" placeholder="Title here..." />
+									</div>
+								</div>
+								<div>
+									<div className="mb-2">
+										<Label value="End time" />
+									</div>
+									<div>
+										<TextInput type="time" placeholder="Title here..." />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div>
+							<div className="mb-2">
+								<Label value="Description" />
+							</div>
+							<div>
+								<Textarea
+									placeholder="Type your description here..."
+									rows={5}
+									style={{ resize: "none", fontSize: "0.90em" }}
+								/>
+							</div>
+						</div>
 					</div>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button onClick={handleSubmit}>Submit</Button>
-					<Button color="gray" onClick={() => setShowModal(false)}>
-						Cancel
-					</Button>
+					<div className="flex gap-2 justify-end w-full">
+						<Button color="gray" onClick={() => setShowModal(false)}>
+							Cancel
+						</Button>
+						
+						<Button onClick={handleSubmit}>Submit</Button>
+					</div>
 				</Modal.Footer>
 			</Modal>
 		</div>

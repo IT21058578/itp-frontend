@@ -1,7 +1,8 @@
 import React, { Fragment, useState } from "react";
+import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Calender, SchedulerTopBar, Container } from "../components";
-import { SchedCalenderPage, SchedListPage, SchedStatPage } from "../pages";
+import { SchedCalenderPage, SchedItemListPage, SchedListPage } from "../pages";
 
 /* 
 This layout goes inside the AdminLayout. It contains the Sidebar which is common to all
@@ -19,6 +20,31 @@ function AdminSchedLayout({ auth }) {
 		setYear(e.target.value);
 	}
 
+	function handleNextMonthChange(e) {
+		let tempMonth = month;
+		let tempYear = year;
+		if (month == 11) {
+			tempMonth = -1;
+			tempYear++;
+		}
+		tempMonth++;
+		setMonth(tempMonth);
+		setYear(tempYear);
+		//TODO: Fix scheduler top bar
+	}
+
+	function handlePrevMonthChange(e) {
+		let tempMonth = month;
+		let tempYear = year;
+		if (month == 0) {
+			tempMonth = 12;
+			tempYear--;
+		}
+		tempMonth--;
+		setMonth(tempMonth);
+		setYear(tempYear);
+	}
+
 	return (
 		<Fragment>
 			<div className="flex flex-col gap-2 h-full">
@@ -32,8 +58,18 @@ function AdminSchedLayout({ auth }) {
 				</Container>
 				<div className="grow grid gap-2 ">
 					<Routes>
-						<Route path="" element={<SchedCalenderPage />}></Route>
-						<Route path="stat" element={<SchedStatPage />}></Route>
+						<Route
+							path=""
+							element={
+								<SchedCalenderPage
+									year={year}
+									month={month}
+									handleNextMonthChange={handleNextMonthChange}
+									handlePrevMonthChange={handlePrevMonthChange}
+								/>
+							}
+						></Route>
+						<Route path="sched" element={<SchedItemListPage />}></Route>
 						<Route path="list" element={<SchedListPage />}></Route>
 					</Routes>
 				</div>

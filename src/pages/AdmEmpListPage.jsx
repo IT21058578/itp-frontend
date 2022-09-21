@@ -14,16 +14,3 @@ function AdmEmpListPage({ auth }) {
 }
 
 export default AdmEmpListPage;
-
-
-import React, { Component } from 'react'
-
-export class AdmEmpListPage extends Component {
-  render() {
-	return (
-	  <div>AdmEmpListPage</div>
-	)
-  }
-}
-
-export default AdmEmpListPage

@@ -79,17 +79,17 @@ function SchedulerTopBar({ handleMonthChange, handleYearChange, year, month }) {
 				</Button>
 				<Button
 					onClick={() => {
-						navigate("/admin/jobs/stat");
+						navigate("/admin/jobs/sched");
 					}}
 				>
-					To Statistics
+					To Schedules
 				</Button>
 				<Button
 					onClick={() => {
 						navigate("/admin/jobs/list");
 					}}
 				>
-					To List
+					To Jobs
 				</Button>
 			</div>
 		</div>
