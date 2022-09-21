@@ -1,16 +1,108 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { Button, Label, Modal, Textarea, TextInput } from "flowbite-react";
+import { ScheduleDetails } from "./ScheduleItem";
 
 function AddScheduleInterface() {
 	const [showModal, setShowModal] = useState(false);
 
-	function handleSubmit() {}
+	//For the modals data.
+	const [tempTitle, setTempTitle] = useState("");
+	const [tempDate, setTempDate] = useState("");
+	const [tempStartTime, setTempStartTime] = useState("");
+	const [tempEndTime, setTempEndTime] = useState("");
+	const [tempDescription, setTempDescription] = useState("");
+
+	//For modal validation.
+	const [tempTitleHasErr, setTempTitleHasErr] = useState(false);
+	const [tempDateHasErr, setTempDateHasErr] = useState(false);
+	const [tempTimeHasErr, setTempTimeHasErr] = useState(false);
+	const [tempDescriptionHasErr, setTempDescriptionHasErr] = useState(false);
+
+	function handleTempTitleChange(e) {
+		setTempTitle(e.target.value);
+	}
+
+	function handleTempDateChange(e) {
+		setTempDate(e.target.value);
+	}
+
+	function handleTempStartTimeChange(e) {
+		setTempStartTime(e.target.value);
+	}
+
+	function handleTempEndTimeChange(e) {
+		setTempEndTime(e.target.value);
+	}
+
+	function handleTempDescriptionChange(e) {
+		setTempDescription(e.target.value);
+	}
+
+	function validateSubmission() {
+		let hasAnyErr = false;
+
+		//Check Title (length)
+		setTempTitleHasErr(false);
+		if (tempTitle.length >= 50 || tempTitle.length == 0) {
+			setTempTitleHasErr(true);
+			hasAnyErr = true;
+		}
+
+		//Check Date (not before current date)
+		setTempDateHasErr(false);
+		let chosenDate = new Date(tempDate);
+		let crntDate = new Date();
+		if (chosenDate <= crntDate || tempDate === "") {
+			setTempDateHasErr(true);
+			hasAnyErr = true;
+		}
+
+		//Check Time (startTime < endTime)
+		let startTimeArr = tempStartTime.split(":");
+		let endTimeArr = tempEndTime.split(":");
+		let startTimeReal = new Date(0, 0, 0, startTimeArr[0], startTimeArr[1]);
+		let endTimeReal = new Date(0, 0, 0, endTimeArr[0], endTimeArr[1]);
+		setTempTimeHasErr(false);
+		if (
+			startTimeReal > endTimeReal ||
+			tempStartTime === "" ||
+			tempEndTime === ""
+		) {
+			setTempTimeHasErr(true);
+			hasAnyErr = true;
+		}
+
+		//Check Description (length)
+		setTempDescriptionHasErr(false);
+		if (tempDescription.length >= 100 || tempDescription.length === 0) {
+			setTempDescriptionHasErr(true);
+			hasAnyErr = true;
+		}
+
+		//Call handleFunction. Takes in a ScheduleDetails object.
+		if (!hasAnyErr) {
+			const editedScheduleDetails = new ScheduleDetails(
+				"",
+				tempTitle,
+				tempDate,
+				tempStartTime,
+				tempEndTime,
+				tempDescription,
+				true
+			);
+			handleSubmit(editedScheduleDetails);
+		}
+	}
+
+	function handleSubmit(scheduleDetails) {
+		console.log("Schedule created! Making axios post request", scheduleDetails);
+	}
 
 	return (
 		<div>
 			<Button onClick={() => setShowModal(true)}>Add Schedule</Button>
 			<Modal show={showModal} onClose={() => setShowModal(false)}>
-				<Modal.Header>Create Schedule</Modal.Header>
+				<Modal.Header>Edit Schedule</Modal.Header>
 				<Modal.Body>
 					<div className="flex flex-col gap-4">
 						<div>
@@ -18,7 +110,25 @@ function AddScheduleInterface() {
 								<Label value="Title" />
 							</div>
 							<div>
-								<TextInput type="text" placeholder="Title here..." />
+								<TextInput
+									type="text"
+									placeholder="Title here..."
+									value={tempTitle}
+									onChange={handleTempTitleChange}
+									color={tempTitleHasErr ? "failure" : "gray"}
+									helperText={
+										<Fragment>
+											{tempTitleHasErr ? (
+												<span className="text-red-600">
+													Title cannot be empty and must be less than 50
+													characters!
+												</span>
+											) : (
+												""
+											)}
+										</Fragment>
+									}
+								/>
 							</div>
 						</div>
 						<div className="flex flex-row gap-4">
@@ -27,26 +137,67 @@ function AddScheduleInterface() {
 									<Label value="Date" />
 								</div>
 								<div>
-									<TextInput type="date" placeholder="Title here..." />
+									<TextInput
+										type="date"
+										placeholder="Title here..."
+										value={tempDate}
+										onChange={handleTempDateChange}
+										color={tempDateHasErr ? "failure" : "gray"}
+										helperText={
+											<Fragment>
+												{tempDateHasErr ? (
+													<span className="text-red-600">
+														Date cannot be empty and must be a future date!
+													</span>
+												) : (
+													""
+												)}
+											</Fragment>
+										}
+									/>
 								</div>
 							</div>
 							<div className="border-r" />
-							<div className="flex-1 flex flex-row gap-4">
-								<div>
-									<div className="mb-2">
-										<Label value="Start time" />
+							<div className="flex flex-col w-2/4">
+								<div className="flex-1 flex flex-row gap-4">
+									<div>
+										<div className="mb-2">
+											<Label value="Start time" />
+										</div>
+										<div>
+											<TextInput
+												type="time"
+												placeholder="Title here..."
+												value={tempStartTime}
+												onChange={handleTempStartTimeChange}
+												color={tempTimeHasErr ? "failure" : "gray"}
+											/>
+										</div>
 									</div>
 									<div>
-										<TextInput type="time" placeholder="Title here..." />
+										<div className="mb-2">
+											<Label value="End time" />
+										</div>
+										<div>
+											<TextInput
+												type="time"
+												placeholder="Title here..."
+												value={tempEndTime}
+												onChange={handleTempEndTimeChange}
+												color={tempTimeHasErr ? "failure" : "gray"}
+											/>
+										</div>
 									</div>
 								</div>
-								<div>
-									<div className="mb-2">
-										<Label value="End time" />
-									</div>
-									<div>
-										<TextInput type="time" placeholder="Title here..." />
-									</div>
+								<div className="">
+									{tempTimeHasErr ? (
+										<p className="text-red-600 text-sm leading-snug">
+											Times must not be empty, Start Time must be before End
+											Time
+										</p>
+									) : (
+										""
+									)}
 								</div>
 							</div>
 						</div>
@@ -59,6 +210,21 @@ function AddScheduleInterface() {
 									placeholder="Type your description here..."
 									rows={5}
 									style={{ resize: "none", fontSize: "0.90em" }}
+									value={tempDescription}
+									onChange={handleTempDescriptionChange}
+									color={tempDescriptionHasErr ? "failure" : "gray"}
+									helperText={
+										<Fragment>
+											{tempDescriptionHasErr ? (
+												<span className="text-red-600">
+													Description cannot be empty and must be less than 100
+													characters long!
+												</span>
+											) : (
+												""
+											)}
+										</Fragment>
+									}
 								/>
 							</div>
 						</div>
@@ -69,8 +235,8 @@ function AddScheduleInterface() {
 						<Button color="gray" onClick={() => setShowModal(false)}>
 							Cancel
 						</Button>
-						
-						<Button onClick={handleSubmit}>Submit</Button>
+
+						<Button onClick={validateSubmission}>Submit</Button>
 					</div>
 				</Modal.Footer>
 			</Modal>

@@ -9,29 +9,86 @@ const GET_JOB_LIST_URL = "#"; //process.env.REACT_APP_BACKEND_URL + "jobs";
 // This page will have a searchable and sortable list of all schedules. The
 // entries of the table shown will link directly to a the main job page where
 // further information can be seen in detail.
+
+class SearchSortParams {
+	constructor(
+		jobId,
+		lengthSelect,
+		length,
+		crewSelect,
+		crew,
+		revenueSelect,
+		revenue,
+		ratingSelect,
+		rating,
+		sortCol,
+		sortDir
+	) {
+		this.jobId = jobId;
+		this.lengthSelect = lengthSelect;
+		this.length = length;
+		this.crewSelect = crewSelect;
+		this.crew = crew;
+		this.revenueSelect = revenueSelect;
+		this.revenue = revenue;
+		this.ratingSelect = ratingSelect;
+		this.rating = rating;
+		this.sortCol = sortCol;
+		this.sortDir = sortDir;
+	}
+}
+
 function SchedListPage({ auth }) {
-	const navigate = useNavigate();
-	const [startDay, setStartDay] = useState(0);
-	const [endDay, setEndDay] = useState(0);
-	const [searchStr, setSearchStr] = useState("");
-	const [searchType, setSearchType] = useState("");
 	const [jobList, setJobList] = useState([]);
-	const [sortBy, setSortBy] = useState({ sortCol: "jobId", isUp: true }); // {sortCol, dir}
+	const [searchSortParams, setSearchSortParams] = useState({});
+	const [sortDir, setSortDir] = useState("");
+	const [sortCol, setSortCol] = useState("");
+
+	function handleSearch(s) {
+		setSearchSortParams(
+			new SearchSortParams(
+				s.jobId,
+				s.lengthSelect,
+				s.length,
+				s.crewSelect,
+				s.crew,
+				s.revenueSelect,
+				s.revenue,
+				s.ratingSelect,
+				s.rating,
+				s.sortCol,
+				s.sortDir,
+				sortCol,
+				sortDir
+			)
+		);
+	}
+
+	function handleSortChange(col) {
+		if (sortCol === col) {
+			if (sortDir === "") {
+				setSortDir("asc");
+			}
+			if (sortDir === "asc") {
+				setSortDir("desc");
+			}
+			if (sortDir === "desc") {
+				setSortDir("");
+			}
+		} else {
+			setSortCol(col);
+			setSortDir("asc");
+		}
+	}
 
 	useEffect(() => {
-		axios
-			.get(GET_JOB_LIST_URL, {
-				params: {},
-				headers: {},
-			})
-			.then((data) => {
-				console.log(data);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-		console.log(jobList);
-	}, []);
+		console.log(
+			"Making axios get request for job list!",
+			searchSortParams,
+			sortCol,
+			sortDir
+		);
+	}, [searchSortParams, sortCol, sortDir]);
 
 	return (
 		<Fragment>
@@ -40,12 +97,16 @@ function SchedListPage({ auth }) {
 					<div className="flex w-full h-full gap-2">
 						<Container
 							title="Search Options"
-							className="flex-grow rounded-md justify-center p-3 w-1/6"
+							className="flex-grow rounded-md justify-center p-3 w-2/6"
 						>
-							<JobTableSearch />
+							<JobTableSearch handleSearch={handleSearch} />
 						</Container>
-						<div className="flex-grow flex border p-2 rounded-md">
-							<JobTable />
+						<div className="flex-grow flex border p-2 rounded-md w-3/4">
+							<JobTable
+								handleSortChange={handleSortChange}
+								sortCol={sortCol}
+								sortDir={sortDir}
+							/>
 						</div>
 					</div>
 				</Container>

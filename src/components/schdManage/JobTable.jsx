@@ -1,30 +1,66 @@
 import React from "react";
 import { Button, Table } from "flowbite-react";
-import { ChevronUpIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import JobTableHeader from "./JobTableHeader";
+import { useEffect } from "react";
 const JOB_INFO_URL = "#"; //admin/job/;
 
-function JobTable({ jobList }) {
+function JobTable({ jobList, handleSortChange, sortDir, sortCol }) {
 	const navigate = useNavigate();
+
 	return (
 		<div className="w-full h-full">
 			<Table hoverable={true}>
 				<Table.Head>
 					<Table.HeadCell>
-						<div className="flex flex-row items-center">
-							<div className="pr-2 h-fit">Job Id</div>
-							<div className="hover:cursor-pointer active:text-blue-500 w-fit">
-								<ChevronUpIcon className="h-5 w-5" />
-							</div>
-						</div>
+						<JobTableHeader
+							colName="Job Id"
+							sortCol={sortCol}
+							sortDir={sortDir}
+							handleSortChange={handleSortChange}
+						/>
 					</Table.HeadCell>
-					<Table.HeadCell>Start Time</Table.HeadCell>
-					<Table.HeadCell>End Time</Table.HeadCell>
-					<Table.HeadCell>Client Id</Table.HeadCell>
-					<Table.HeadCell>Crew</Table.HeadCell>
-					<Table.HeadCell>Revenue</Table.HeadCell>
-					<Table.HeadCell>Rating</Table.HeadCell>
-					<Table.HeadCell>Recurring</Table.HeadCell>
+					<Table.HeadCell>
+						<JobTableHeader
+							colName="Date"
+							sortCol={sortCol}
+							sortDir={sortDir}
+							handleSortChange={handleSortChange}
+						/>
+					</Table.HeadCell>
+					<Table.HeadCell>
+						<JobTableHeader
+							colName="Length"
+							sortCol={sortCol}
+							sortDir={sortDir}
+							handleSortChange={handleSortChange}
+						/>
+					</Table.HeadCell>
+					<Table.HeadCell>
+						<JobTableHeader
+							colName="Crew"
+							sortCol={sortCol}
+							sortDir={sortDir}
+							handleSortChange={handleSortChange}
+						/>
+					</Table.HeadCell>
+					<Table.HeadCell>
+						<JobTableHeader
+							colName="Revenue"
+							sortCol={sortCol}
+							sortDir={sortDir}
+							handleSortChange={handleSortChange}
+						/>
+					</Table.HeadCell>
+					<Table.HeadCell>
+						<JobTableHeader
+							colName="Rating"
+							sortCol={sortCol}
+							sortDir={sortDir}
+							handleSortChange={handleSortChange}
+						/>
+					</Table.HeadCell>
 					<Table.HeadCell></Table.HeadCell>
 				</Table.Head>
 				<Table.Body className="divide-y">
@@ -33,13 +69,11 @@ function JobTable({ jobList }) {
 							<Table.Cell lassName="whitespace-nowrap font-medium text-gray-900 dark:text-white">
 								{job.jobId}
 							</Table.Cell>
-							<Table.Cell>{job.startTime}</Table.Cell>
-							<Table.Cell>{job.endTime}</Table.Cell>
-							<Table.Cell>{job.clientId}</Table.Cell>
+							<Table.Cell>{job.date}</Table.Cell>
+							<Table.Cell>{job.length}</Table.Cell>
 							<Table.Cell>{job.crewNum}</Table.Cell>
 							<Table.Cell>{job.revenue}</Table.Cell>
 							<Table.Cell>{job.rating}</Table.Cell>
-							<Table.Cell>{job.isRecurring}</Table.Cell>
 							<Table.Cell>
 								<Button
 									size="xs"
