@@ -1,5 +1,5 @@
 import { Button } from "flowbite-react";
-import React, { Fragment } from "react";
+import React from "react";
 import { useState, useEffect } from "react";
 import CalenderDay from "./CalenderDay";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
@@ -7,7 +7,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 class DayData {
 	constructor(dayNum, isDisabled) {
 		this.dayNum = dayNum;
-		if (isDisabled == undefined) {
+		if (isDisabled === undefined) {
 			this.isDisabled = false;
 		} else {
 			this.isDisabled = isDisabled;
@@ -28,9 +28,11 @@ function Calender({
 	}, [year, month]);
 
 	function populateCalender(year, month) {
+		//Make Get Request
+
+		//All Presentation Logic
 		const prevMonthDays = new Date(year, month, 0).getDate();
 		const crntMonthDays = new Date(year, month + 1, 0).getDate();
-
 		const calenderSlots = 7 * 6;
 		const crntMonthFirstDay = new Date(year, month, 1).getDay();
 		let calenderArray = [];

@@ -1,10 +1,6 @@
-import axios from "axios";
 import React from "react";
 import { Fragment, useState, useEffect } from "react";
 import { Container, JobTable, JobTableSearch } from "../components";
-import { useNavigate } from "react-router-dom";
-
-const GET_JOB_LIST_URL = "#"; //process.env.REACT_APP_BACKEND_URL + "jobs";
 
 // This page will have a searchable and sortable list of all schedules. The
 // entries of the table shown will link directly to a the main job page where
@@ -39,7 +35,7 @@ class SearchSortParams {
 }
 
 function SchedListPage({ auth }) {
-	const [jobList, setJobList] = useState([]);
+	const [jobList] = useState([]);
 	const [searchSortParams, setSearchSortParams] = useState({});
 	const [sortDir, setSortDir] = useState("");
 	const [sortCol, setSortCol] = useState("");
@@ -106,6 +102,7 @@ function SchedListPage({ auth }) {
 								handleSortChange={handleSortChange}
 								sortCol={sortCol}
 								sortDir={sortDir}
+								jobList={jobList}
 							/>
 						</div>
 					</div>

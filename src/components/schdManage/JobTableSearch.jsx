@@ -1,11 +1,4 @@
-import {
-	Button,
-	Checkbox,
-	Label,
-	Select,
-	TextInput,
-	ToggleSwitch,
-} from "flowbite-react";
+import { Button, Label, Select, TextInput } from "flowbite-react";
 import React from "react";
 import { useState } from "react";
 
@@ -56,25 +49,25 @@ function JobTableSearch({ handleSearch }) {
 		let hasAnyErr = false;
 
 		setLengthHasErr(false);
-		if (length < 1 && lengthSelect != "ignore") {
+		if (length < 1 && lengthSelect !== "ignore") {
 			setLengthHasErr(true);
 			hasAnyErr = true;
 		}
 
 		setCrewHasErr(false);
-		if (crew < 1 && crewSelect != "ignore") {
+		if (crew < 1 && crewSelect !== "ignore") {
 			setCrewHasErr(true);
 			hasAnyErr = true;
 		}
 
 		setRevenueHasErr(false);
-		if (revenue < 1 && revenueSelect != "ignore") {
+		if (revenue < 1 && revenueSelect !== "ignore") {
 			setRevenueHasErr(true);
 			hasAnyErr = true;
 		}
 
 		setRatingHasErr(false);
-		if (rating < 0 || (rating > 5 && ratingSelect != "ignore")) {
+		if (rating < 0 || (rating > 5 && ratingSelect !== "ignore")) {
 			setRatingHasErr(true);
 			hasAnyErr = true;
 		}
@@ -112,6 +105,8 @@ function JobTableSearch({ handleSearch }) {
 							type="text"
 							sizing="sm"
 							placeholder="Type Job Id here..."
+							value={jobId}
+							onChange={(e) => setJobId(e.target.value)}
 						/>
 					</div>
 				</div>

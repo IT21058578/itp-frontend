@@ -45,7 +45,7 @@ function ScheduleItem({ handleEdit, handleDelete, scheduleDetails }) {
 
 	useEffect(() => {
 		resolveBgClasses();
-	}, []);
+	});
 
 	function showEditModal() {
 		setTempTitle(scheduleDetails.title);
@@ -65,32 +65,12 @@ function ScheduleItem({ handleEdit, handleDelete, scheduleDetails }) {
 		setIsRenewMdlActive(true);
 	}
 
-	function handleTempTitleChange(e) {
-		setTempTitle(e.target.value);
-	}
-
-	function handleTempDateChange(e) {
-		setTempDate(e.target.value);
-	}
-
-	function handleTempStartTimeChange(e) {
-		setTempStartTime(e.target.value);
-	}
-
-	function handleTempEndTimeChange(e) {
-		setTempEndTime(e.target.value);
-	}
-
-	function handleTempDescriptionChange(e) {
-		setTempDescription(e.target.value);
-	}
-
 	function validateEditSubmission() {
 		let hasAnyErr = false;
 
 		//Check Title (length)
 		setTempTitleHasErr(false);
-		if (tempTitle.length >= 50 || tempTitle.length == 0) {
+		if (tempTitle.length >= 50 || tempTitle.length === 0) {
 			setTempTitleHasErr(true);
 			hasAnyErr = true;
 		}
@@ -284,7 +264,7 @@ function ScheduleItem({ handleEdit, handleDelete, scheduleDetails }) {
 									type="text"
 									placeholder="Title here..."
 									value={tempTitle}
-									onChange={handleTempTitleChange}
+									onChange={(e) => setTempTitle(e.target.value)}
 									color={tempTitleHasErr ? "failure" : "gray"}
 									helperText={
 										<Fragment>
@@ -311,7 +291,7 @@ function ScheduleItem({ handleEdit, handleDelete, scheduleDetails }) {
 										type="date"
 										placeholder="Title here..."
 										value={tempDate}
-										onChange={handleTempDateChange}
+										onChange={(e) => setTempDate(e.target.value)}
 										color={tempDateHasErr ? "failure" : "gray"}
 										helperText={
 											<Fragment>
@@ -339,7 +319,7 @@ function ScheduleItem({ handleEdit, handleDelete, scheduleDetails }) {
 												type="time"
 												placeholder="Title here..."
 												value={tempStartTime}
-												onChange={handleTempStartTimeChange}
+												onChange={(e) => setTempStartTime(e.target.value)}
 												color={tempTimeHasErr ? "failure" : "gray"}
 											/>
 										</div>
@@ -353,7 +333,7 @@ function ScheduleItem({ handleEdit, handleDelete, scheduleDetails }) {
 												type="time"
 												placeholder="Title here..."
 												value={tempEndTime}
-												onChange={handleTempEndTimeChange}
+												onChange={(e) => setTempEndTime(e.target.value)}
 												color={tempTimeHasErr ? "failure" : "gray"}
 											/>
 										</div>
@@ -381,7 +361,7 @@ function ScheduleItem({ handleEdit, handleDelete, scheduleDetails }) {
 									rows={5}
 									style={{ resize: "none", fontSize: "0.90em" }}
 									value={tempDescription}
-									onChange={handleTempDescriptionChange}
+									onChange={(e) => setTempDescription(e.target.value)}
 									color={tempDescriptionHasErr ? "failure" : "gray"}
 									helperText={
 										<Fragment>
@@ -448,7 +428,7 @@ function ScheduleItem({ handleEdit, handleDelete, scheduleDetails }) {
 									type="date"
 									placeholder="Title here..."
 									value={tempDate}
-									onChange={handleTempDateChange}
+									onChange={(e) => setTempDate(e.target.value)}
 									color={tempDateHasErr ? "failure" : "gray"}
 									helperText={
 										<Fragment>
@@ -476,7 +456,7 @@ function ScheduleItem({ handleEdit, handleDelete, scheduleDetails }) {
 											type="time"
 											placeholder="Title here..."
 											value={tempStartTime}
-											onChange={handleTempStartTimeChange}
+											onChange={(e) => setTempStartTime(e.target.value)}
 											color={tempTimeHasErr ? "failure" : "gray"}
 										/>
 									</div>
@@ -490,7 +470,7 @@ function ScheduleItem({ handleEdit, handleDelete, scheduleDetails }) {
 											type="time"
 											placeholder="Title here..."
 											value={tempEndTime}
-											onChange={handleTempEndTimeChange}
+											onChange={(e) => setTempEndTime(e.target.value)}
 											color={tempTimeHasErr ? "failure" : "gray"}
 										/>
 									</div>

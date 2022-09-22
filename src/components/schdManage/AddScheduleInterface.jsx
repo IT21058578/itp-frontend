@@ -43,7 +43,7 @@ function AddScheduleInterface() {
 
 		//Check Title (length)
 		setTempTitleHasErr(false);
-		if (tempTitle.length >= 50 || tempTitle.length == 0) {
+		if (tempTitle.length >= 50 || tempTitle.length === 0) {
 			setTempTitleHasErr(true);
 			hasAnyErr = true;
 		}

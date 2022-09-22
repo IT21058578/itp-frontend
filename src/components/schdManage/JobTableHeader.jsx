@@ -16,7 +16,7 @@ function JobTableHeader({ colName, sortCol, sortDir, handleSortChange }) {
 			>
 				{sortCol === colName ? (
 					sortDir !== "" ? (
-						sortDir == "asc" ? (
+						sortDir === "asc" ? (
 							<ChevronUpIcon className="h-5 w-5" />
 						) : (
 							<ChevronDownIcon className="h-5 w-5" />

@@ -1,7 +1,6 @@
 import React, { Fragment, useState } from "react";
-import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
-import { Calender, SchedulerTopBar, Container } from "../components";
+import { SchedulerTopBar, Container } from "../components";
 import { SchedCalenderPage, SchedItemListPage, SchedListPage } from "../pages";
 
 /* 
@@ -23,7 +22,7 @@ function AdminSchedLayout({ auth }) {
 	function handleNextMonthChange(e) {
 		let tempMonth = month;
 		let tempYear = year;
-		if (month == 11) {
+		if (month === 11) {
 			tempMonth = -1;
 			tempYear++;
 		}
@@ -36,7 +35,7 @@ function AdminSchedLayout({ auth }) {
 	function handlePrevMonthChange(e) {
 		let tempMonth = month;
 		let tempYear = year;
-		if (month == 0) {
+		if (month === 0) {
 			tempMonth = 12;
 			tempYear--;
 		}
