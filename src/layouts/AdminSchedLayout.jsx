@@ -10,13 +10,15 @@ Schedule/Job pages and also stores the state shared across all 3 pages.
 function AdminSchedLayout({ auth }) {
 	const [year, setYear] = useState(new Date().getFullYear());
 	const [month, setMonth] = useState(new Date().getMonth());
+	const [isDataUpdated, setIsDataUpdated] = useState(false);
 
 	function handleMonthChange(e) {
-		setMonth(e.target.value);
+		setMonth(parseInt(e.target.value));
+		console.log(e.target.value);
 	}
 
 	function handleYearChange(e) {
-		setYear(e.target.value);
+		setYear(parseInt(e.target.value));
 	}
 
 	function handleNextMonthChange(e) {
@@ -53,6 +55,8 @@ function AdminSchedLayout({ auth }) {
 						handleYearChange={handleYearChange}
 						year={year}
 						month={month}
+						isDataUpdated={isDataUpdated}
+						setIsDataUpdated={setIsDataUpdated}
 					/>
 				</Container>
 				<div className="grow grid gap-2 ">
@@ -68,7 +72,15 @@ function AdminSchedLayout({ auth }) {
 								/>
 							}
 						></Route>
-						<Route path="sched" element={<SchedItemListPage />}></Route>
+						<Route
+							path="sched"
+							element={
+								<SchedItemListPage
+									isDataUpdated={isDataUpdated}
+									setIsDataUpdated={setIsDataUpdated}
+								/>
+							}
+						></Route>
 						<Route path="list" element={<SchedListPage />}></Route>
 					</Routes>
 				</div>

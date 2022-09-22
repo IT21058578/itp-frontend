@@ -3,17 +3,26 @@ import React from "react";
 import { useState, useEffect } from "react";
 import CalenderDay from "./CalenderDay";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
+import axios from "axios";
 
 class DayData {
-	constructor(dayNum, isDisabled) {
-		this.dayNum = dayNum;
+	//TODO: Make a day-of-month field we create here.
+	constructor(dayOfMonth, isDisabled, data) {
+		this.dayOfMonth = dayOfMonth;
 		if (isDisabled === undefined) {
 			this.isDisabled = false;
 		} else {
 			this.isDisabled = isDisabled;
 		}
+		if (data === undefined) {
+			this.data = false;
+		} else {
+			this.data = data;
+		}
 	}
 }
+
+const JOB_URL = process.env.REACT_APP_JOB_API_URL;
 
 function Calender({
 	year,
@@ -29,25 +38,37 @@ function Calender({
 
 	function populateCalender(year, month) {
 		//Make Get Request
+		let daysData = [];
 
-		//All Presentation Logic
-		const prevMonthDays = new Date(year, month, 0).getDate();
-		const crntMonthDays = new Date(year, month + 1, 0).getDate();
-		const calenderSlots = 7 * 6;
-		const crntMonthFirstDay = new Date(year, month, 1).getDay();
-		let calenderArray = [];
+		axios
+			.get(JOB_URL, { params: { year: year, month: month + 1 } })
+			.then((response) => {
+				console.log(
+					"Axios get request succeeded. Data received for calender: ",
+					response.data
+				);
+				daysData = response.data;
+			})
+			.then(() => {
+				//All Presentation Logic
+				const prevMonthDays = new Date(year, month, 0).getDate();
+				const crntMonthDays = new Date(year, month + 1, 0).getDate();
+				const calenderSlots = 7 * 6;
+				const crntMonthFirstDay = new Date(year, month, 1).getDay();
+				let calenderArray = [];
 
-		for (let i = crntMonthFirstDay; i > 0; i--) {
-			calenderArray.push(new DayData(prevMonthDays - i + 1, true));
-		}
-		for (let i = 0; i < crntMonthDays; i++) {
-			calenderArray.push(new DayData(i + 1));
-		}
-		let lengthBeforeFill = calenderArray.length;
-		for (let i = calenderArray.length; i < calenderSlots; i++) {
-			calenderArray.push(new DayData(i + 1 - lengthBeforeFill, true));
-		}
-		setDayList(calenderArray);
+				for (let i = crntMonthFirstDay; i > 0; i--) {
+					calenderArray.push(new DayData(prevMonthDays - i + 1, true));
+				}
+				for (let i = 0; i < crntMonthDays; i++) {
+					calenderArray.push(new DayData(i + 1, false, daysData[i]));
+				}
+				let lengthBeforeFill = calenderArray.length;
+				for (let i = calenderArray.length; i < calenderSlots; i++) {
+					calenderArray.push(new DayData(i + 1 - lengthBeforeFill, true));
+				}
+				setDayList(calenderArray);
+			});
 	}
 
 	return (

@@ -1,8 +1,11 @@
 import React, { useState, Fragment } from "react";
 import { Button, Label, Modal, Textarea, TextInput } from "flowbite-react";
 import { ScheduleDetails } from "./ScheduleItem";
+import axios from "axios";
 
-function AddScheduleInterface() {
+const SCHEDULE_URL = process.env.REACT_APP_SCHEDULE_API_URL;
+
+function AddScheduleInterface({ isDataUpdated, setIsDataUpdated }) {
 	const [showModal, setShowModal] = useState(false);
 
 	//For the modals data.
@@ -17,26 +20,6 @@ function AddScheduleInterface() {
 	const [tempDateHasErr, setTempDateHasErr] = useState(false);
 	const [tempTimeHasErr, setTempTimeHasErr] = useState(false);
 	const [tempDescriptionHasErr, setTempDescriptionHasErr] = useState(false);
-
-	function handleTempTitleChange(e) {
-		setTempTitle(e.target.value);
-	}
-
-	function handleTempDateChange(e) {
-		setTempDate(e.target.value);
-	}
-
-	function handleTempStartTimeChange(e) {
-		setTempStartTime(e.target.value);
-	}
-
-	function handleTempEndTimeChange(e) {
-		setTempEndTime(e.target.value);
-	}
-
-	function handleTempDescriptionChange(e) {
-		setTempDescription(e.target.value);
-	}
 
 	function validateSubmission() {
 		let hasAnyErr = false;
@@ -82,7 +65,7 @@ function AddScheduleInterface() {
 		//Call handleFunction. Takes in a ScheduleDetails object.
 		if (!hasAnyErr) {
 			const editedScheduleDetails = new ScheduleDetails(
-				"",
+				null,
 				tempTitle,
 				tempDate,
 				tempStartTime,
@@ -91,11 +74,21 @@ function AddScheduleInterface() {
 				true
 			);
 			handleSubmit(editedScheduleDetails);
+			setShowModal(false);
+			setTempTitle("");
+			setTempDate("");
+			setTempStartTime("");
+			setTempEndTime("");
+			setTempDescription("");
 		}
 	}
 
 	function handleSubmit(scheduleDetails) {
 		console.log("Schedule created! Making axios post request", scheduleDetails);
+		axios.post(SCHEDULE_URL, scheduleDetails).then((response) => {
+			console.log(response);
+			setIsDataUpdated(false);
+		});
 	}
 
 	return (
@@ -114,7 +107,7 @@ function AddScheduleInterface() {
 									type="text"
 									placeholder="Title here..."
 									value={tempTitle}
-									onChange={handleTempTitleChange}
+									onChange={(e) => setTempTitle(e.target.value)}
 									color={tempTitleHasErr ? "failure" : "gray"}
 									helperText={
 										<Fragment>
@@ -141,7 +134,7 @@ function AddScheduleInterface() {
 										type="date"
 										placeholder="Title here..."
 										value={tempDate}
-										onChange={handleTempDateChange}
+										onChange={(e) => setTempDate(e.target.value)}
 										color={tempDateHasErr ? "failure" : "gray"}
 										helperText={
 											<Fragment>
@@ -169,7 +162,7 @@ function AddScheduleInterface() {
 												type="time"
 												placeholder="Title here..."
 												value={tempStartTime}
-												onChange={handleTempStartTimeChange}
+												onChange={(e) => setTempStartTime(e.target.value)}
 												color={tempTimeHasErr ? "failure" : "gray"}
 											/>
 										</div>
@@ -183,7 +176,7 @@ function AddScheduleInterface() {
 												type="time"
 												placeholder="Title here..."
 												value={tempEndTime}
-												onChange={handleTempEndTimeChange}
+												onChange={(e) => setTempEndTime(e.target.value)}
 												color={tempTimeHasErr ? "failure" : "gray"}
 											/>
 										</div>
@@ -211,7 +204,7 @@ function AddScheduleInterface() {
 									rows={5}
 									style={{ resize: "none", fontSize: "0.90em" }}
 									value={tempDescription}
-									onChange={handleTempDescriptionChange}
+									onChange={(e) => setTempDescription(e.target.value)}
 									color={tempDescriptionHasErr ? "failure" : "gray"}
 									helperText={
 										<Fragment>

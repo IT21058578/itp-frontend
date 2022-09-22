@@ -10,16 +10,18 @@ import { useEffect } from "react";
 import { useState } from "react";
 
 export class ScheduleDetails {
-	constructor(id, title, date, startTime, endTime, description, isActive) {
+	constructor(id, title, date, startTime, endTime, description, active) {
 		this.id = id;
 		this.title = title;
 		this.date = date;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.description = description;
-		this.isActive = isActive;
+		this.active = active;
 	}
 }
+
+const descCharCount = 200;
 
 function ScheduleItem({ handleEdit, handleDelete, scheduleDetails }) {
 	const [bgClasses, setBgClasses] = useState("");
@@ -101,7 +103,10 @@ function ScheduleItem({ handleEdit, handleDelete, scheduleDetails }) {
 
 		//Check Description (length)
 		setTempDescriptionHasErr(false);
-		if (tempDescription.length >= 100 || tempDescription.length === 0) {
+		if (
+			tempDescription.length >= descCharCount ||
+			tempDescription.length === 0
+		) {
 			setTempDescriptionHasErr(true);
 			hasAnyErr = true;
 		}
@@ -115,9 +120,10 @@ function ScheduleItem({ handleEdit, handleDelete, scheduleDetails }) {
 				tempStartTime,
 				tempEndTime,
 				tempDescription,
-				scheduleDetails.isActive
+				scheduleDetails.active
 			);
 			handleEdit(editedScheduleDetails);
+			setIsEditMdlActive(false);
 		}
 	}
 
@@ -159,9 +165,10 @@ function ScheduleItem({ handleEdit, handleDelete, scheduleDetails }) {
 				tempStartTime,
 				tempEndTime,
 				scheduleDetails.description,
-				scheduleDetails.isActive
+				true
 			);
 			handleEdit(editedScheduleDetails);
+			setIsRenewMdlActive(false);
 		}
 	}
 
@@ -170,19 +177,20 @@ function ScheduleItem({ handleEdit, handleDelete, scheduleDetails }) {
 		const editedScheduleDetails = new ScheduleDetails(
 			scheduleDetails.id,
 			scheduleDetails.title,
-			tempDate,
-			tempStartTime,
-			tempEndTime,
+			scheduleDetails.date,
+			scheduleDetails.startTime,
+			scheduleDetails.endTime,
 			scheduleDetails.description,
 			false
 		);
 		handleEdit(editedScheduleDetails);
+		setIsCompleteMdlActive(false);
 	}
 
 	function resolveBgClasses() {
 		let classes =
 			"border shadow-lg rounded-md p-4 flex w-full flex-col gap-2 h-fit ";
-		if (scheduleDetails.isActive === false) {
+		if (scheduleDetails.active === false) {
 			classes += "bg-gray-200 border-gray-200";
 		} else {
 			classes += "bg-white border-gray-50";
@@ -196,7 +204,7 @@ function ScheduleItem({ handleEdit, handleDelete, scheduleDetails }) {
 				<div className="flex flex-row">
 					<div className="w-4/6">
 						<div className="flex flex-row justify-between">
-							{scheduleDetails.isActive ? (
+							{scheduleDetails.active ? (
 								<div className="text-gray-700 text-lg">
 									{scheduleDetails.title}
 								</div>
@@ -221,7 +229,7 @@ function ScheduleItem({ handleEdit, handleDelete, scheduleDetails }) {
 						<Button color="failure" onClick={() => setIsDeleteMdlActive(true)}>
 							<TrashIcon className="h-6 w-6" />
 						</Button>
-						{scheduleDetails.isActive ? (
+						{scheduleDetails.active ? (
 							<Button onClick={showEditModal}>
 								<PencilIcon className="h-6 w-6" />
 							</Button>
@@ -230,7 +238,7 @@ function ScheduleItem({ handleEdit, handleDelete, scheduleDetails }) {
 								<PencilIcon className="h-6 w-6" />
 							</Button>
 						)}
-						{scheduleDetails.isActive ? (
+						{scheduleDetails.active ? (
 							<Button
 								color="success"
 								onClick={() => setIsCompleteMdlActive(true)}
@@ -244,7 +252,7 @@ function ScheduleItem({ handleEdit, handleDelete, scheduleDetails }) {
 						)}
 					</div>
 				</div>
-				{scheduleDetails.isActive ? (
+				{scheduleDetails.active ? (
 					<div>{scheduleDetails.description}</div>
 				) : (
 					<div className="text-gray-500">{scheduleDetails.description}</div>
@@ -367,7 +375,8 @@ function ScheduleItem({ handleEdit, handleDelete, scheduleDetails }) {
 										<Fragment>
 											{tempDescriptionHasErr ? (
 												<span className="text-red-600">
-													Description cannot be empty and must be less than 100
+													Description cannot be empty and must be less than
+													{" " + descCharCount + " "}
 													characters long!
 												</span>
 											) : (
@@ -406,7 +415,10 @@ function ScheduleItem({ handleEdit, handleDelete, scheduleDetails }) {
 							Cancel
 						</Button>
 						<Button
-							onClick={() => handleDelete(scheduleDetails)}
+							onClick={() => {
+								handleDelete(scheduleDetails);
+								setIsDeleteMdlActive(false);
+							}}
 							color="failure"
 						>
 							Delete

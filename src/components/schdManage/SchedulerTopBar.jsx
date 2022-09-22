@@ -19,7 +19,14 @@ const months = [
 	"December",
 ];
 
-function SchedulerTopBar({ handleMonthChange, handleYearChange, year, month }) {
+function SchedulerTopBar({
+	handleMonthChange,
+	handleYearChange,
+	year,
+	month,
+	isDataUpdated,
+	setIsDataUpdated,
+}) {
 	const navigate = useNavigate();
 	const [years, setYears] = useState([]);
 
@@ -66,7 +73,10 @@ function SchedulerTopBar({ handleMonthChange, handleYearChange, year, month }) {
 				</div>
 			</div>
 			<div className="basis-1/5 border-x flex flex-row items-center justify-center">
-				<AddScheduleInterface />
+				<AddScheduleInterface
+					isDataUpdated={isDataUpdated}
+					setIsDataUpdated={setIsDataUpdated}
+				/>
 			</div>
 			<div className="grow flex flex-row items-center gap-4 justify-center">
 				<Button

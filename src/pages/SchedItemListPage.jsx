@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -5,29 +6,40 @@ import { Fragment } from "react";
 import { Container, ScheduleItem } from "../components";
 import { ScheduleDetails } from "../components";
 
-function SchedItemListPage() {
-	const [scheduleList, setScheduleList] = useState([]);
-	useEffect(() => {
-		initializeTestingData();
-	}, []);
+const SCHEDULE_URL = process.env.REACT_APP_SCHEDULE_API_URL;
 
-	function initializeTestingData() {
-		let tempScheduleList = [];
-		let scheduleDetails = new ScheduleDetails(
-			"ObjectId('507f1f77bcf86cd799439011')",
-			"Restock Inventory",
-			"2022-09-21",
-			"15:23",
-			"12:54",
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-			true
-		);
-		tempScheduleList.push(scheduleDetails);
-		setScheduleList(tempScheduleList);
-	}
+function SchedItemListPage({ isDataUpdated, setIsDataUpdated }) {
+	const [scheduleList, setScheduleList] = useState([]);
+
+	useEffect(() => {
+		if (!isDataUpdated) {
+			console.log(SCHEDULE_URL);
+			axios
+				.get(SCHEDULE_URL)
+				.then((response) => {
+					console.log("Axios get succesful!", response.data);
+					let data = response.data;
+					data.forEach((s) => {
+						s.startTime = s.startTime?.slice(0, 5);
+						s.endTime = s.endTime?.slice(0, 5);
+					});
+					setScheduleList(data);
+					setIsDataUpdated(true);
+				})
+				.catch((error) => console.log(error));
+		}
+	}, [isDataUpdated]);
 
 	function handleEdit(scheduleDetails) {
 		console.log("Schedule Edited! making axios put request!", scheduleDetails);
+		axios
+			.put(SCHEDULE_URL, scheduleDetails, {
+				params: { id: scheduleDetails.id },
+			})
+			.then((response) => {
+				console.log(response);
+				setIsDataUpdated(false);
+			});
 	}
 
 	function handleDelete(scheduleDetails) {
@@ -35,6 +47,12 @@ function SchedItemListPage() {
 			"Schedule Deleted! making axios delete request!",
 			scheduleDetails
 		);
+		axios
+			.delete(SCHEDULE_URL, { params: { id: scheduleDetails.id } })
+			.then((response) => {
+				console.log(response);
+				setIsDataUpdated(false);
+			});
 	}
 
 	return (
@@ -44,9 +62,12 @@ function SchedItemListPage() {
 					<div className="flex w-full h-full gap-2 flex-row">
 						<Container
 							title="Search Options"
-							className="flex-grow rounded-md justify-center p-3 w-1/6"
+							className="flex-grow rounded-md justify-center p-3 w-2/6"
 						></Container>
-						<div className="flex-grow flex border p-2 rounded-md">
+						<div
+							className="flex-grow flex flex-col border p-2 gap-2 rounded-md overflow-y-scroll w-4/6"
+							style={{ height: "77vh" }}
+						>
 							{scheduleList.map((s, i) => (
 								<ScheduleItem
 									key={i}
