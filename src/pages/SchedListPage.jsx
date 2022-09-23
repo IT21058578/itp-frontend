@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import { Fragment, useState, useEffect } from "react";
 import { Container, JobTable, JobTableSearch } from "../components";
@@ -6,58 +7,16 @@ import { Container, JobTable, JobTableSearch } from "../components";
 // entries of the table shown will link directly to a the main job page where
 // further information can be seen in detail.
 
-class SearchSortParams {
-	constructor(
-		jobId,
-		lengthSelect,
-		length,
-		crewSelect,
-		crew,
-		revenueSelect,
-		revenue,
-		ratingSelect,
-		rating,
-		sortCol,
-		sortDir
-	) {
-		this.jobId = jobId;
-		this.lengthSelect = lengthSelect;
-		this.length = length;
-		this.crewSelect = crewSelect;
-		this.crew = crew;
-		this.revenueSelect = revenueSelect;
-		this.revenue = revenue;
-		this.ratingSelect = ratingSelect;
-		this.rating = rating;
-		this.sortCol = sortCol;
-		this.sortDir = sortDir;
-	}
-}
+const JOB_URL = process.env.REACT_APP_JOB_API_URL;
 
 function SchedListPage({ auth }) {
-	const [jobList] = useState([]);
-	const [searchSortParams, setSearchSortParams] = useState({});
+	const [jobList, setJobList] = useState([]);
+	const [searchParams, setSearchParams] = useState({});
 	const [sortDir, setSortDir] = useState("");
 	const [sortCol, setSortCol] = useState("");
 
 	function handleSearch(s) {
-		setSearchSortParams(
-			new SearchSortParams(
-				s.jobId,
-				s.lengthSelect,
-				s.length,
-				s.crewSelect,
-				s.crew,
-				s.revenueSelect,
-				s.revenue,
-				s.ratingSelect,
-				s.rating,
-				s.sortCol,
-				s.sortDir,
-				sortCol,
-				sortDir
-			)
-		);
+		setSearchParams(s);
 	}
 
 	function handleSortChange(col) {
@@ -80,11 +39,34 @@ function SchedListPage({ auth }) {
 	useEffect(() => {
 		console.log(
 			"Making axios get request for job list!",
-			searchSortParams,
+			searchParams,
 			sortCol,
 			sortDir
 		);
-	}, [searchSortParams, sortCol, sortDir]);
+		axios
+			.get(JOB_URL, {
+				params: {
+					pgNum: 0,
+					pgSize: 400,
+					jobId: searchParams.jobId,
+					lengthSelect: searchParams.lengthSelect,
+					length: Number(searchParams.length),
+					crewSelect: searchParams.crewSelect,
+					crew: Number(searchParams.crew),
+					revenueSelect: searchParams.revenueSelect,
+					revenue: Number(searchParams.revenue),
+					ratingSelect: searchParams.ratingSelect,
+					rating: Number(searchParams.rating),
+					sortCol: sortCol,
+					sortDir: sortDir,
+				},
+			})
+			.then((response) => {
+				setJobList(response.data.content);
+				console.log(response.data.content);
+			})
+			.catch((err) => console.log(err));
+	}, [searchParams, sortCol, sortDir]);
 
 	return (
 		<Fragment>
@@ -97,7 +79,10 @@ function SchedListPage({ auth }) {
 						>
 							<JobTableSearch handleSearch={handleSearch} />
 						</Container>
-						<div className="flex-grow flex border p-2 rounded-md w-3/4">
+						<div
+							className="flex-grow flex border p-2 rounded-md w-3/4 overflow-y-scroll"
+							style={{ height: "78vh" }}
+						>
 							<JobTable
 								handleSortChange={handleSortChange}
 								sortCol={sortCol}

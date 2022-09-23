@@ -10,7 +10,8 @@ function JobTable({ jobList, handleSortChange, sortDir, sortCol }) {
 				<Table.Head>
 					<Table.HeadCell>
 						<JobTableHeader
-							colName="Job Id"
+							dataName="id"
+							title="Job Id"
 							sortCol={sortCol}
 							sortDir={sortDir}
 							handleSortChange={handleSortChange}
@@ -18,7 +19,8 @@ function JobTable({ jobList, handleSortChange, sortDir, sortCol }) {
 					</Table.HeadCell>
 					<Table.HeadCell>
 						<JobTableHeader
-							colName="Date"
+							dataName="date"
+							title="Date"
 							sortCol={sortCol}
 							sortDir={sortDir}
 							handleSortChange={handleSortChange}
@@ -26,7 +28,8 @@ function JobTable({ jobList, handleSortChange, sortDir, sortCol }) {
 					</Table.HeadCell>
 					<Table.HeadCell>
 						<JobTableHeader
-							colName="Length"
+							dataName="hoursWorked"
+							title="Length"
 							sortCol={sortCol}
 							sortDir={sortDir}
 							handleSortChange={handleSortChange}
@@ -34,7 +37,8 @@ function JobTable({ jobList, handleSortChange, sortDir, sortCol }) {
 					</Table.HeadCell>
 					<Table.HeadCell>
 						<JobTableHeader
-							colName="Crew"
+							dataName="crewDeployed"
+							title="Crew"
 							sortCol={sortCol}
 							sortDir={sortDir}
 							handleSortChange={handleSortChange}
@@ -42,7 +46,8 @@ function JobTable({ jobList, handleSortChange, sortDir, sortCol }) {
 					</Table.HeadCell>
 					<Table.HeadCell>
 						<JobTableHeader
-							colName="Revenue"
+							dataName="earnings"
+							title="Revenue"
 							sortCol={sortCol}
 							sortDir={sortDir}
 							handleSortChange={handleSortChange}
@@ -50,7 +55,8 @@ function JobTable({ jobList, handleSortChange, sortDir, sortCol }) {
 					</Table.HeadCell>
 					<Table.HeadCell>
 						<JobTableHeader
-							colName="Rating"
+							dataName="rating"
+							title="Rating"
 							sortCol={sortCol}
 							sortDir={sortDir}
 							handleSortChange={handleSortChange}
@@ -58,7 +64,7 @@ function JobTable({ jobList, handleSortChange, sortDir, sortCol }) {
 					</Table.HeadCell>
 					<Table.HeadCell></Table.HeadCell>
 				</Table.Head>
-				<Table.Body className="divide-y">
+				<Table.Body className="divide-y h-100">
 					{jobList?.map((job, i) => (
 						<JobTableRow job={job} key={i} />
 					))}
