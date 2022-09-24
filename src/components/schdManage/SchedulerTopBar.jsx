@@ -1,5 +1,4 @@
 import { Button, Label, Select } from "flowbite-react";
-import ButtonGroup from "flowbite-react/lib/esm/components/Button/ButtonGroup";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddScheduleInterface from "./AddScheduleInterface";
@@ -20,7 +19,14 @@ const months = [
 	"December",
 ];
 
-function SchedulerTopBar({ handleMonthChange, handleYearChange, year, month }) {
+function SchedulerTopBar({
+	handleMonthChange,
+	handleYearChange,
+	year,
+	month,
+	isDataUpdated,
+	setIsDataUpdated,
+}) {
 	const navigate = useNavigate();
 	const [years, setYears] = useState([]);
 
@@ -67,7 +73,10 @@ function SchedulerTopBar({ handleMonthChange, handleYearChange, year, month }) {
 				</div>
 			</div>
 			<div className="basis-1/5 border-x flex flex-row items-center justify-center">
-				<AddScheduleInterface />
+				<AddScheduleInterface
+					isDataUpdated={isDataUpdated}
+					setIsDataUpdated={setIsDataUpdated}
+				/>
 			</div>
 			<div className="grow flex flex-row items-center gap-4 justify-center">
 				<Button
@@ -79,17 +88,17 @@ function SchedulerTopBar({ handleMonthChange, handleYearChange, year, month }) {
 				</Button>
 				<Button
 					onClick={() => {
-						navigate("/admin/jobs/stat");
+						navigate("/admin/jobs/sched");
 					}}
 				>
-					To Statistics
+					To Schedules
 				</Button>
 				<Button
 					onClick={() => {
 						navigate("/admin/jobs/list");
 					}}
 				>
-					To List
+					To Jobs
 				</Button>
 			</div>
 		</div>

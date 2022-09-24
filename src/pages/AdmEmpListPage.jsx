@@ -13,4 +13,4 @@ function AdmEmpListPage({ auth }) {
 	);
 }
 
-export default AdmEmpListPage
+export default AdmEmpListPage;

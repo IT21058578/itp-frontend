@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useContext, useState, useEffect, Fragment } from "react";
+import React, { Fragment } from "react";
 import { Container } from "../components";
 
 /* Employee Landing Page. This page will show the stats and etc for an
@@ -7,8 +6,6 @@ import { Container } from "../components";
    details will be extracte from the context API then a get request will be
    made for further details which will be shown. */
 function EmpLandPage({ auth }) {
-	const { employee, setEmployee } = useState({});
-
 	return (
 		<Fragment>
 			<div className="grid grid-rows-6 gap-2 mb-4 h-full mx-auto">
