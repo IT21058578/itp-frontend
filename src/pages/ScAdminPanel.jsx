@@ -2,6 +2,7 @@ import React,{Component} from "react";
 import ScAdminContent from "../components/ScAdminContent";
 import axios from 'axios';
 import ScCreateButton from "../components/ScCreateButton";
+import Loader from '../components/Loader';
 
 //import '../App.css';
 
@@ -58,7 +59,7 @@ class ScAdminPanel extends Component{
                         </div>
                     ): (
                         <div className="empty">
-                            <h2>No services found</h2>
+                            <Loader/>
                             
                         </div>
                         
