@@ -1,7 +1,11 @@
 import axios from "axios";
 import React from "react";
+import { useCallback } from "react";
+import { useMemo } from "react";
+import { useRef } from "react";
 import { Fragment, useState, useEffect } from "react";
 import { Container, JobTable, JobTableSearch } from "../components";
+import { useInfiniteScroll } from "../hooks";
 
 // This page will have a searchable and sortable list of all schedules. The
 // entries of the table shown will link directly to a the main job page where
@@ -10,10 +14,47 @@ import { Container, JobTable, JobTableSearch } from "../components";
 const JOB_URL = process.env.REACT_APP_JOB_API_URL;
 
 function SchedListPage({ auth }) {
-	const [jobList, setJobList] = useState([]);
+	//const [jobList, setJobList] = useState([]);
 	const [searchParams, setSearchParams] = useState({});
+	const [searchSortParams, setSearchSortParams] = useState({}); //The params passed into the infinite scroll must be a sate variable.
 	const [sortDir, setSortDir] = useState("");
 	const [sortCol, setSortCol] = useState("");
+	const [pgNum, setPgNum] = useState(0);
+	const pgSize = 20;
+
+	useEffect(() => {
+		setSearchSortParams({ ...searchParams, sortDir, sortCol });
+		setPgNum(0);
+		console.log("searchSortParams updated!");
+	}, [JSON.stringify(searchParams), sortDir, sortCol]);
+
+	const { dataList, hasMore, isLoading, isError } = useInfiniteScroll(
+		JOB_URL,
+		searchSortParams,
+		pgNum,
+		pgSize
+	);
+
+	const observer = useRef();
+	const lastTableRowRef = useCallback(
+		(node) => {
+			if (isLoading) {
+				return;
+			}
+			if (observer.current) {
+				observer.current.disconnect();
+			}
+			observer.current = new IntersectionObserver((entries) => {
+				if (entries[0].isIntersecting && hasMore) {
+					setPgNum((prevPgNum) => prevPgNum + 1);
+				}
+			});
+			if (node) {
+				observer.current.observe(node);
+			}
+		},
+		[isLoading, hasMore]
+	);
 
 	function handleSearch(s) {
 		setSearchParams(s);
@@ -36,38 +77,6 @@ function SchedListPage({ auth }) {
 		}
 	}
 
-	useEffect(() => {
-		console.log(
-			"Making axios get request for job list!",
-			searchParams,
-			sortCol,
-			sortDir
-		);
-		axios
-			.get(JOB_URL, {
-				params: {
-					pgNum: 0,
-					pgSize: 400,
-					jobId: searchParams.jobId,
-					lengthSelect: searchParams.lengthSelect,
-					length: Number(searchParams.length),
-					crewSelect: searchParams.crewSelect,
-					crew: Number(searchParams.crew),
-					revenueSelect: searchParams.revenueSelect,
-					revenue: Number(searchParams.revenue),
-					ratingSelect: searchParams.ratingSelect,
-					rating: Number(searchParams.rating),
-					sortCol: sortCol,
-					sortDir: sortDir,
-				},
-			})
-			.then((response) => {
-				setJobList(response.data.content);
-				console.log(response.data.content);
-			})
-			.catch((err) => console.log(err));
-	}, [searchParams, sortCol, sortDir]);
-
 	return (
 		<Fragment>
 			<div className="flex flex-col gap-2">
@@ -87,7 +96,8 @@ function SchedListPage({ auth }) {
 								handleSortChange={handleSortChange}
 								sortCol={sortCol}
 								sortDir={sortDir}
-								jobList={jobList}
+								jobList={dataList}
+								lastTableRowRef={lastTableRowRef}
 							/>
 						</div>
 					</div>

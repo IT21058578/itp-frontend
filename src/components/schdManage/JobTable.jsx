@@ -3,7 +3,13 @@ import { Table } from "flowbite-react";
 import JobTableHeader from "./JobTableHeader";
 import JobTableRow from "./JobTableRow";
 
-function JobTable({ jobList, handleSortChange, sortDir, sortCol }) {
+function JobTable({
+	jobList,
+	handleSortChange,
+	sortDir,
+	sortCol,
+	lastTableRowRef,
+}) {
 	return (
 		<div className="w-full h-full">
 			<Table hoverable={true}>
@@ -65,9 +71,13 @@ function JobTable({ jobList, handleSortChange, sortDir, sortCol }) {
 					<Table.HeadCell></Table.HeadCell>
 				</Table.Head>
 				<Table.Body className="divide-y h-100">
-					{jobList?.map((job, i) => (
-						<JobTableRow job={job} key={i} />
-					))}
+					{jobList?.map((job, i) =>
+						jobList.length === i + 1 ? (
+							<JobTableRow rowRef={lastTableRowRef} job={job} key={i} />
+						) : (
+							<JobTableRow job={job} key={i} />
+						)
+					)}
 				</Table.Body>
 			</Table>
 		</div>

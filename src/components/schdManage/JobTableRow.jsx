@@ -4,13 +4,14 @@ import { useNavigate } from "react-router-dom";
 
 const JOB_INFO_URL = "#";
 
-function JobTableRow({ job }) {
+function JobTableRow({ job, rowRef }) {
 	const navigate = useNavigate();
 
 	return (
 		<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 			<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
 				{job.id.slice(0, 10) + "..."}
+				<div ref={rowRef}></div>
 			</Table.Cell>
 			<Table.Cell>{job.date}</Table.Cell>
 			<Table.Cell>{job.hoursWorked}</Table.Cell>

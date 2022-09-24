@@ -23,7 +23,7 @@ export class ScheduleDetails {
 
 const descCharCount = 200;
 
-function ScheduleItem({ handleEdit, handleDelete, scheduleDetails }) {
+function ScheduleItem({ handleEdit, handleDelete, scheduleDetails, itemRef }) {
 	const [bgClasses, setBgClasses] = useState("");
 
 	//For modal toggling.
@@ -200,7 +200,7 @@ function ScheduleItem({ handleEdit, handleDelete, scheduleDetails }) {
 
 	return (
 		<Fragment>
-			<div className={bgClasses}>
+			<div className={bgClasses} ref={itemRef}>
 				<div className="flex flex-row">
 					<div className="w-4/6">
 						<div className="flex flex-row justify-between">
@@ -217,11 +217,11 @@ function ScheduleItem({ handleEdit, handleDelete, scheduleDetails }) {
 						<div className="text-slate-500 text-sm">{scheduleDetails.date}</div>
 						<div className="flex flex-row gap-2">
 							<div className="text-slate-500 text-sm">
-								{scheduleDetails.startTime}
+								{scheduleDetails.startTime?.toString().slice(0, 5)}
 							</div>
 							<div className="text-slate-400 text-sm">To</div>
 							<div className="text-slate-500 text-sm">
-								{scheduleDetails.endTime}
+								{scheduleDetails.endTime?.toString().slice(0, 5)}
 							</div>
 						</div>
 					</div>

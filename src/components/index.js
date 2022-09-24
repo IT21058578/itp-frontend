@@ -11,10 +11,11 @@ import JobTableRow from "./schdManage/JobTableRow";
 import ScheduleItem from "./schdManage/ScheduleItem";
 import { ScheduleDetails } from "./schdManage/ScheduleItem";
 import JobTableHeader from "./schdManage/JobTableHeader";
+import ScheduleSearch from "./schdManage/ScheduleSearch";
 
 export {
     Container,
     EmpSidebar, AdminSidebar,
-    AddScheduleInterface, Calender, CalenderDay, SchedulerTopBar, ScheduleItem, ScheduleDetails,
+    AddScheduleInterface, Calender, CalenderDay, SchedulerTopBar, ScheduleItem, ScheduleDetails, ScheduleSearch,
     JobTable, JobTableRow, JobTableSearch, JobTableHeader
 };
