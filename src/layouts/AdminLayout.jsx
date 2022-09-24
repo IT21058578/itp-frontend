@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { AdminSidebar } from "../components";
 import { Route, Routes } from "react-router-dom";
-import { SchedCalenderPage, AdmEmpPage } from "../pages";
+import { AdmEmpPage } from "../pages";
 import { Fragment } from "react";
 import { AuthContext } from "../context";
 import AdminSchedLayout from "./AdminSchedLayout";
