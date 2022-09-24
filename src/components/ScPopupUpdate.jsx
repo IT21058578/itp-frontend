@@ -12,7 +12,11 @@ const PopupUpdate = (props) => {
   const navigate=useNavigate();
 
   function navigateToAdminPanel() {
+
     navigate('/admin');
+
+    
+
   }
   //console.log("popupUpdate : ",props.id);
   //console.log("working ? "+ props.id);
@@ -36,7 +40,8 @@ const PopupUpdate = (props) => {
 	}, [location]);
     //test
     const[sname,setSname] =useState();
-    const[sdescription,setSdescription] =useState()
+    const[sdescription,setSdescription] =useState();
+    const[simage,setSimage] =useState();
  
     
   //update
@@ -51,9 +56,49 @@ const PopupUpdate = (props) => {
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
 
+
+
       
     }
+    function UpdateAlert(){
+      
+      alert("The service sccessfully Updated!");
+      window.location.reload(false);
+
+      
+      
+      
+  }
+  function reload(){
+    window.location.reload(false);
+  }
     //console.log(" :",sname);
+
+    //image convert to base64
+
+    const [baseImage, setBaseImage]=useState(null);
+
+    const uploadImage= async (e) => {
+      console.log(e.target.files);
+      const file=e.target.files[0];
+      const base64 = await convertBase64(file);
+      console.log(base64);
+      setBaseImage(base64);
+    };
+  
+    const convertBase64 =( file) => {
+      return new Promise((resolve,reject)=>{
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+  
+        fileReader.onload=(()=>{
+          resolve(fileReader.result);
+        });
+        fileReader.onerror=((error)=>{
+          reject(error);
+        });
+      });
+    };
     
     
 
@@ -71,12 +116,11 @@ const PopupUpdate = (props) => {
               </label>
               <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="updatedName" type="text" placeholder={locationState.name} onChange={(e)=>setSname(e.target.value)}/><br/>
               <br/>
-              
               <label class="block text-sm font-medium text-gray-500 dark:text-gray-400" for="inline-full-name">
-                 Service Name  
+                 Service Image  
               </label>
-              <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" /><br/>
-              <br/>
+              <img src={baseImage !== null? baseImage : setBaseImage('https://via.placeholder.com/400')}  className=" mx-auto m-5 w-56 h-80" alt="userInput"></img>
+              <input type="file" className="bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="updatedName"  onChange={(e)=>{uploadImage(e)}}/><br/>
               
               <label for="inline-full-name" className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400" >
                  Description  
@@ -85,8 +129,8 @@ const PopupUpdate = (props) => {
 
                 <button className="absolute top-4 right-4 box-border" onClick={() => {navigateToAdminPanel();}}>X</button>
                 <br/>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=>update()}>SUBMIT</button>
-                {props.children}
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=>{update();navigateToAdminPanel();UpdateAlert();}}>SUBMIT</button>
+   
             </div>
             </form>
             
