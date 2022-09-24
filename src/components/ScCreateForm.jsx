@@ -27,19 +27,40 @@ function CreatForm() {
     .then(response => response.data)
     .then(alert("The service created Successfully!"));
   }
+  //image convertion
+  const [baseImage, setBaseImage]=useState(null);
+
+    const uploadImage= async (e) => {
+      console.log(e.target.files);
+      const file=e.target.files[0];
+      const base64 = await convertBase64(file);
+      console.log(base64);
+      setBaseImage(base64);
+    };
+  
+    const convertBase64 =( file) => {
+      return new Promise((resolve,reject)=>{
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+  
+        fileReader.onload=(()=>{
+          resolve(fileReader.result);
+        });
+        fileReader.onerror=((error)=>{
+          reject(error);
+        });
+      });
+    };
 
   return (
     <div className="text-center  transition-all top-56 w-full h-full">
       <div className="p-8  bg-white align-center relative">
         <div className="transition-all ">
             <form>
-            <p className="text-3xl ">Update form</p><br/>
+            <p className="text-3xl ">Create form</p><br/>
             <div className="">
 
-            <label class="block text-sm font-medium text-gray-500 dark:text-gray-400" for="inline-full-name">
-                 Service Name  
-              </label>
-              <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="updatedName" type="text" placeholder="name" onChange={2}/><br/>
+            
               <br/>
 
               <label class="block text-sm font-medium text-gray-500 dark:text-gray-400" for="inline-full-name">
@@ -49,10 +70,10 @@ function CreatForm() {
               <br/>
               
               <label class="block text-sm font-medium text-gray-500 dark:text-gray-400" for="inline-full-name">
-                 Service Name  
+                 Service Image  
               </label>
-              <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" /><br/>
-              <br/>
+              <img src={baseImage !== null? baseImage : setBaseImage('https://via.placeholder.com/400')} className=" mx-auto m-5 w-56 h-80" alt="userInput"></img>
+              <input type="file" className="bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="updatedName"  onChange={(e)=>{uploadImage(e)}}/><br/>
               
               <label for="inline-full-name" className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400" >
                  Description  
