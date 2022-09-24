@@ -2,6 +2,8 @@ import React,{Component} from "react";
 import ServiceCard from '../components/ServiceCard';
 import axios from 'axios';
 import { useState , useEffect} from 'react';
+import Loader from '../components/Loader';
+import Request from '../components/ServiceRequestButton';
 //import '../App.css';
 
 
@@ -31,14 +33,17 @@ class Service extends Component{
       //.then((res) => console.log(res))
       //.catch((err) => console.log(err));
     }
+
+
     render(){
         
         return(
             <div className="">
-                <p className="text-3xl">Services</p>
+                <p className="text-3xl"></p>
                 {
                     this.state.service?.length>0
                     ?(
+                        <div>
                         <div className=" flex justify-center items-center flex-wrap">
                             
                                 {this.state.service.map((service)=>(
@@ -46,14 +51,17 @@ class Service extends Component{
                                 ))}
                             
                         </div>
+                        <Request/>
+                        </div>
                     ): (
                         <div className="empty">
-                            <h2>No services found</h2>
+                            <Loader/>
                             
                         </div>
                         
                     )
                 }
+
                
             </div>
             
