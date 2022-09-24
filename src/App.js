@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { AdminLayout, EmpLayout } from "./layouts"
-import Invoice from './pages/payment/InvoicePage';
+import Invoice from './pages/invoice/InvoicePage';
 
 //Place Main routes here.
 function App() {
