@@ -1,5 +1,5 @@
 import { Card, Button } from "flowbite-react";
-
+import React from "react";
 function InvoiceFooter({id}){
   return(<Card><p>This has button to CRUD</p>
   <div className="flex flex-wrap gap-2">

@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react"
+import {React, useState, useEffect} from "react"
 import InvoiceCustomer from "./invoiceCustomer";
 import { Card } from "flowbite-react";
 import InvoiceBody from "./InvoiceBody";
@@ -28,7 +28,7 @@ function Invoice(){
       <h1 className="object-right-top text-2xl font-bold tracking-tight text-gray-900 dark:text-white">INVOICE</h1>
       <img
         className="mb-3 h-24 w-24 rounded-full shadow-lg"
-        src={require('/Users/gayan/Developer/ITP-Project/itp-frontend/src/pages/invoice/quick_clean_logo.png')}
+        src={require('../../images/new_logo.jpg')}
         alt=""
       />
         <h1>Quick Clean(Pvt)Ltd</h1>
