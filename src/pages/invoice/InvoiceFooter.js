@@ -1,6 +1,6 @@
 import { Card, Button } from "flowbite-react";
 
-function InvoiceFooter({paymentStatus}){
+function InvoiceFooter({id}){
   return(<Card><p>This has button to CRUD</p>
   <div className="flex flex-wrap gap-2">
   <Button color="purple">

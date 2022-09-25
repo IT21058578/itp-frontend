@@ -12,10 +12,12 @@ function Invoice(){
     .then(data => setData(data));
   }, []);
 
+  //:TODO function to select the customer based on the login
+  let selectedCustomer = 1;
 
   if(data){
     console.log(data)
-    console.log(data[0].id)
+    console.log(data[selectedCustomer].id)
     return(
    
       <div className="max-w-4xl">
@@ -34,21 +36,22 @@ function Invoice(){
        
       </Card>
       <InvoiceCustomer
-        id={data[0].id}
-        firstName={data[0].customer.firstName}
-        lastName={data[0].customer.lastName}
-        address={data[0].customer.address}
-        email={data[0].customer.email}
-        invoiceDate={data[0].invoiceDate}
-        expireDate={data[0].invoiceExpireDate}
+        id={data[selectedCustomer].id}
+        firstName={data[selectedCustomer].customer.firstName}
+        lastName={data[selectedCustomer].customer.lastName}
+        address={data[selectedCustomer].customer.address}
+        email={data[selectedCustomer].customer.email}
+        invoiceDate={data[selectedCustomer].invoiceDate}
+        expireDate={data[selectedCustomer].invoiceExpireDate}
+        paymentStatus={data[selectedCustomer].paymentStatus}
       />
       <InvoiceBody 
-        services={data[0].services}
-        totalPrice={data[0].invoiceTotal}
+        services={data[selectedCustomer].services}
+        totalPrice={data[selectedCustomer].invoiceTotal}
       
       />
       <InvoiceFooter 
-        paymentStatus={data[0].paymentStatus}
+        id={data[selectedCustomer].id}
        />
         
       </Card>
