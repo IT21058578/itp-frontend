@@ -12,10 +12,15 @@ import ScheduleItem from "./schdManage/ScheduleItem";
 import { ScheduleDetails } from "./schdManage/ScheduleItem";
 import JobTableHeader from "./schdManage/JobTableHeader";
 import ScheduleSearch from "./schdManage/ScheduleSearch";
+import LoginModal from "./loginRegister/LoginModal";
+import RegisterForm from "./loginRegister/RegisterForm";
+import CustomerFooter from "./CustomerFooter";
+import CustomerNavBar from "./CustomerNavBar";
 
 export {
     Container,
     EmpSidebar, AdminSidebar,
     AddScheduleInterface, Calender, CalenderDay, SchedulerTopBar, ScheduleItem, ScheduleDetails, ScheduleSearch,
-    JobTable, JobTableRow, JobTableSearch, JobTableHeader
+    JobTable, JobTableRow, JobTableSearch, JobTableHeader,
+    LoginModal, RegisterForm, CustomerFooter, CustomerNavBar
 };
