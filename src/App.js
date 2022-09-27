@@ -23,14 +23,14 @@ function App() {
         Userlayout is for customers. 
         AdminLayout is for admins and vice versa*/}
         <Route path="/*" element={<UserLayout />} />
-        <Route path="employee/*" element={<EmpLayout />}></Route>
-        <Route path="admin/*" element={<AdminLayout />} ></Route>
+        <Route path="/employee/*" element={<EmpLayout />}></Route>
+        <Route path="/admin/*" element={<AdminLayout />} ></Route>
 
 
         {/*Distribute these routes into the above layouts accordingly*/}
         <Route path="invoice/*" element={<Invoice />} ></Route>
         <Route exact path='/service' element={<Service />} />
-        <Route path='/admin' element={<ScAdminPanel />} />
+        <Route path='/adminService' element={<ScAdminPanel />} />
         <Route path='/update' element={<ScPopupUpdate />} />
         <Route path='/create' element={<CreatForm />} />
         <Route path='/homeClean' element={<ScHcBooking />} />

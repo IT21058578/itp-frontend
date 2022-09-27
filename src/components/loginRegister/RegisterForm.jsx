@@ -18,8 +18,8 @@ function RegisterForm() {
 	const navigate = useNavigate();
 	const crntDate = 0; //Date.now().toISOString().split("T").toString();
 
-	const [firstName, setFirstName] = useState("");
-	const [lastName, setLastName] = useState("");
+	const [firstName, setFirstName] = useState(""); //cannot be empty
+	const [lastName, setLastName] = useState(""); //cannot be empty
 
 	const [dateOfBirth, setDateOfBirth] = useState("");
 	const [dateOfBirthHasErr, setDateOfBirthHasErr] = useState(false);

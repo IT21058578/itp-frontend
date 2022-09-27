@@ -1,12 +1,12 @@
 import axios from "axios";
 import { Label, Modal, TextInput, Spinner, Button } from "flowbite-react";
-import React from "react";
+import React, { Fragment } from "react";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context";
 
 const LOGIN_URL = process.env.REACT_APP_LOGIN_API_URL;
 
-function LoginModal() {
+function LoginModal({ isLoginMdlActive, setIsLoginMdlActive }) {
 	const { auth, setAuth } = useContext(AuthContext);
 	const [password, setPassword] = useState("");
 	const [passwordHasErr, setPasswordHasErr] = useState(false);
@@ -19,8 +19,6 @@ function LoginModal() {
 	const [loginHasErr, setLoginHasErr] = useState(false);
 	const [loginErrMsg, setLoginErrMsg] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
-
-	const [isLoginMdlActive, setIsLoginMdlActive] = useState(false);
 
 	function validateLogin(e) {
 		e.preventDefault();
@@ -50,10 +48,10 @@ function LoginModal() {
 		>
 			<Modal.Header>User Login</Modal.Header>
 			<Modal.Body>
-				<div className="flex flex-row gap-2 w-full h-full">
+				<div className="flex flex-col gap-2">
 					<div>
-						<div>
-							<Label title="Email" />
+						<div className="mb-2 block">
+							<Label value="Email" />
 						</div>
 						<div>
 							<TextInput
@@ -71,8 +69,8 @@ function LoginModal() {
 						</div>
 					</div>
 					<div>
-						<div>
-							<Label title="Password" />
+						<div className="mb-2 block">
+							<Label value="Password" />
 						</div>
 						<div>
 							<TextInput
@@ -92,7 +90,7 @@ function LoginModal() {
 					{loginHasErr ? (
 						<span className="text-red-600">{loginErrMsg}</span>
 					) : (
-						{}
+						""
 					)}
 				</div>
 			</Modal.Body>
@@ -110,9 +108,8 @@ function LoginModal() {
 					</Button>
 					<Button onClick={validateLogin} disabled={isLoading}>
 						{isLoading ? (
-							<div>
-								<Spinner />
-								Logging in...
+							<div className="flex items-center gap-2">
+								<Spinner size="sm" /> Logging in...
 							</div>
 						) : (
 							<div>Login</div>
