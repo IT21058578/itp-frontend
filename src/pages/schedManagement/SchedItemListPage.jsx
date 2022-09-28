@@ -2,8 +2,8 @@ import axios from "axios";
 import React from "react";
 import { useState, useRef, useCallback, useEffect } from "react";
 import { Fragment } from "react";
-import { Container, ScheduleItem, ScheduleSearch } from "../components";
-import { useInfiniteScroll } from "../hooks";
+import { Container, ScheduleItem, ScheduleSearch } from "../../components";
+import { useInfiniteScroll } from "../../hooks";
 
 const SCHEDULE_URL = process.env.REACT_APP_SCHEDULE_API_URL;
 

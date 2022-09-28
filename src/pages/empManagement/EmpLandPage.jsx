@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Container } from "../components";
+import { Container } from "../../components";
 
 /* Employee Landing Page. This page will show the stats and etc for an
    employee. Its the first page they see when they login. The employee

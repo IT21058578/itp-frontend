@@ -1,6 +1,6 @@
 import React from "react";
 import { Fragment } from "react";
-import { Container } from "../components";
+import { Container } from "../../components";
 
 // SchedStatPage. This page will contain methods to get statistical
 // information about certain days to help admins gain indepth data about jobs

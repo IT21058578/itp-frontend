@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Calender, Container } from "../components";
+import { Calender, Container } from "../../components";
 
 // SchedCalenderPage. This page will hold the main calender that will display
 // minimal information for each day. on its interface and when a admin
