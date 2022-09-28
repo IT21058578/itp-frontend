@@ -29,14 +29,14 @@ function App() {
 
         {/*Distribute these routes into the above layouts accordingly*/}
         <Route path="invoice/*" element={<Invoice />} ></Route>
-        <Route exact path='/service' element={<Service />} />
-        <Route path='/adminService' element={<ScAdminPanel />} />
-        <Route path='/update' element={<ScPopupUpdate />} />
-        <Route path='/create' element={<CreatForm />} />
-        <Route path='/homeClean' element={<ScHcBooking />} />
-        <Route path='/booking' element={<ScBookingHook />} />
-        <Route path='/laundryClean' element={<ScLcBooking />} />
-        <Route path='/req' element={<ServiceRequestForm />} />
+        <Route path='/service' element={<Service />} />
+         <Route path='/admin' element={<ScAdminPanel />} />
+         <Route path='/update' element={<ScPopupUpdate />} />
+         <Route path='/create' element={<CreatForm />} />
+         <Route path='/homeClean' element={<ScHcBooking />} />
+         <Route path='/booking' element={<ScBookingHook />} />
+         <Route path='/laundryClean' element={<ScLcBooking />} />
+         <Route path='/req' element={<ServiceRequestForm />} />
       </Routes>
     </Router>
   );
