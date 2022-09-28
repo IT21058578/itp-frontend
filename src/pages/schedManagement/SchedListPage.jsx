@@ -4,8 +4,8 @@ import { useCallback } from "react";
 import { useMemo } from "react";
 import { useRef } from "react";
 import { Fragment, useState, useEffect } from "react";
-import { Container, JobTable, JobTableSearch } from "../components";
-import { useInfiniteScroll } from "../hooks";
+import { Container, JobTable, JobTableSearch } from "../../components";
+import { useInfiniteScroll } from "../../hooks";
 
 // This page will have a searchable and sortable list of all schedules. The
 // entries of the table shown will link directly to a the main job page where
