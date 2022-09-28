@@ -19,7 +19,12 @@ function RegisterForm() {
 	const crntDate = 0; //Date.now().toISOString().split("T").toString();
 
 	const [firstName, setFirstName] = useState(""); //cannot be empty
+	const [firstNameHasErr, setFirstNameHasErr] = useState(false);
+	const [firstNameErrMsg, setFirstNameErrMsg] = useState("");
+
 	const [lastName, setLastName] = useState(""); //cannot be empty
+	const [lastNameHasErr, setLastNameHasErr] = useState(false);
+	const [lastNameErrMsg, setLastNameErrMsg] = useState("");
 
 	const [dateOfBirth, setDateOfBirth] = useState("");
 	const [dateOfBirthHasErr, setDateOfBirthHasErr] = useState(false);
@@ -31,6 +36,8 @@ function RegisterForm() {
 	const [isMobileFocus, setIsMobileFocus] = useState(false);
 
 	const [address, setAddress] = useState("");
+	const [addressHasErr, setAddressHasErr] = useState(false);
+	const [addressErrMsg, setAddressErrMsg] = useState("");
 
 	const [email, setEmail] = useState("");
 	const [emailHasErr, setEmailHasErr] = useState(false);
@@ -52,9 +59,40 @@ function RegisterForm() {
 	const [emailsAccepted, setEmailsAccepted] = useState(false);
 
 	const [isLoading, setIsLoading] = useState(false);
+	const [registerHasErr, setRegisterHasErr] = useState(false);
+	const [registerErrMsg, setRegisterErrMsg] = useState("");
 
 	function validateRegistration() {
 		let hasAnyErr = false;
+		setRegisterHasErr(false);
+
+		setFirstNameHasErr(false);
+		if (lastName.length <= 0) {
+			setFirstNameHasErr(true);
+			setFirstNameErrMsg("Last name cannot be empty!");
+			hasAnyErr = true;
+		}
+
+		setLastNameHasErr(false);
+		if (lastName.length <= 0) {
+			setLastNameHasErr(true);
+			setLastNameErrMsg("Last name cannot be empty!");
+			hasAnyErr = true;
+		}
+
+		setLastNameHasErr(false);
+		if (lastName.length <= 0) {
+			setLastNameHasErr(true);
+			setLastNameErrMsg("Last name cannot be empty!");
+			hasAnyErr = true;
+		}
+
+		setAddressHasErr(false);
+		if (address.length <= 0) {
+			setAddressHasErr(true);
+			setAddressErrMsg("Address cannot be empty!");
+			hasAnyErr = true;
+		}
 
 		//Check date of birth.
 		setDateOfBirthHasErr(false);
@@ -62,7 +100,7 @@ function RegisterForm() {
 		const age = Math.abs(
 			new Date(Date.now() - dateOfBirthAsDate).getUTCFullYear - 1970
 		);
-		if (age < 18) {
+		if (age < 18 || dateOfBirth.length !== 10) {
 			setDateOfBirthHasErr(true);
 			setDateOfBirthErrMsg("You must be 18 or older to create an account.");
 			hasAnyErr = true;
@@ -116,7 +154,9 @@ function RegisterForm() {
 			hasAnyErr = true;
 		}
 
-		sendRegistrationRequest();
+		if (hasAnyErr) {
+			sendRegistrationRequest();
+		}
 	}
 
 	function sendRegistrationRequest() {
@@ -134,7 +174,19 @@ function RegisterForm() {
 			.then((response) => {
 				navigate(REGISTER_SUCCESS_URL, { state: { firstName, email } });
 			})
-			.catch((err) => {})
+			.catch((err) => {
+				setRegisterHasErr(true);
+				if (err.response !== undefined) {
+					//For errors with response
+					if (err.response.status === 0) {
+						setRegisterErrMsg("Failed to connect to server. Please try again.");
+					} else {
+						setRegisterErrMsg("An error occured. Please try again.");
+					}
+				} else {
+					setRegisterErrMsg("Request couldn't be made. Please try again.");
+				}
+			})
 			.then(() => setIsLoading(false));
 	}
 
@@ -152,6 +204,14 @@ function RegisterForm() {
 							type="text"
 							placeholder="First Name"
 							disabled={isLoading}
+							color={firstNameHasErr ? "failure" : "gray"}
+							helperText={
+								firstNameHasErr ? (
+									<span className="text-red-600">{firstNameErrMsg}</span>
+								) : (
+									""
+								)
+							}
 						/>
 					</div>
 				</div>
@@ -166,6 +226,14 @@ function RegisterForm() {
 							type="text"
 							placeholder="Last Name"
 							disabled={isLoading}
+							color={lastNameHasErr ? "failure" : "gray"}
+							helperText={
+								lastNameHasErr ? (
+									<span className="text-red-600">{lastNameErrMsg}</span>
+								) : (
+									""
+								)
+							}
 						/>
 					</div>
 				</div>
@@ -229,6 +297,14 @@ function RegisterForm() {
 							placeholder="Type your address here..."
 							style={{ resize: "none", fontSize: "0.90em" }}
 							disabled={isLoading}
+							color={addressHasErr ? "failure" : "gray"}
+							helperText={
+								addressHasErr ? (
+									<span className="text-red-600">{addressErrMsg}</span>
+								) : (
+									""
+								)
+							}
 						/>
 					</div>
 				</div>
@@ -344,7 +420,12 @@ function RegisterForm() {
 					</div>
 				</div>
 			</div>
-			<div className="flex flex-row gap-2 w-full h-full border-t py-2">
+			<div className="flex flex-col gap-4 w-full h-full border-t py-2 items-center">
+				{registerHasErr ? (
+					<span className="text-red-600 text-sm">{registerErrMsg}</span>
+				) : (
+					""
+				)}
 				<Button
 					style={{ width: "100%" }}
 					onClick={validateRegistration}
