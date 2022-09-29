@@ -7,8 +7,10 @@ import AdmEmpListPage from "./empManagement/AdmEmpListPage";
 import EmpJobPage from "./empManagement/EmpJobPage";
 import EmpLandPage from "./empManagement/EmpLandPage";
 import EmpStatPage from "./empManagement/EmpStatPage";
-import RegisterPage from "./RegisterPage";
-import RegisterSuccessPage from "./RegisterSuccessPage";
+import RegisterPage from "./loginRegister/RegisterPage";
+import RegisterSuccessPage from "./loginRegister/RegisterSuccessPage";
+import RegisterAuthenticationPage from "./loginRegister/RegisterAuthenticationPage";
+import ForgotPasswordPage from "./loginRegister/ForgotPasswordPage";
 import ErrorPage from "./ErrorPage";
 
 
@@ -18,5 +20,6 @@ export {
     SchedCalenderPage, SchedListPage, SchedStatPage, SchedItemListPage,
     AdmEmpPage, AdmEmpListPage,
     EmpJobPage, EmpLandPage, EmpStatPage,
-    RegisterPage, RegisterSuccessPage, ErrorPage
+    RegisterPage, RegisterSuccessPage, ForgotPasswordPage, RegisterAuthenticationPage,
+    ErrorPage,
 };

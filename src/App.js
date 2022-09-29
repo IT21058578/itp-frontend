@@ -11,8 +11,9 @@ import ScHcBooking from './pages/ScHcBooking';
 import ScBookingHook from './hooks/ScBookingHook';
 import ScLcBooking from './pages/ScLcBooking';
 import ServiceRequestForm from './components/ServiceRequestForm';
-import RegisterPage from "./pages/RegisterPage";
+import { ReactSession } from 'react-client-session';
 
+ReactSession.setStoreType("sessionStorage");
 
 //Place Main routes here.
 function App() {
@@ -30,13 +31,13 @@ function App() {
         {/*Distribute these routes into the above layouts accordingly*/}
         <Route path="invoice/*" element={<Invoice />} ></Route>
         <Route path='/service' element={<Service />} />
-         <Route path='/admin' element={<ScAdminPanel />} />
-         <Route path='/update' element={<ScPopupUpdate />} />
-         <Route path='/create' element={<CreatForm />} />
-         <Route path='/homeClean' element={<ScHcBooking />} />
-         <Route path='/booking' element={<ScBookingHook />} />
-         <Route path='/laundryClean' element={<ScLcBooking />} />
-         <Route path='/req' element={<ServiceRequestForm />} />
+        <Route path='/admieern' element={<ScAdminPanel />} />
+        <Route path='/update' element={<ScPopupUpdate />} />
+        <Route path='/create' element={<CreatForm />} />
+        <Route path='/homeClean' element={<ScHcBooking />} />
+        <Route path='/booking' element={<ScBookingHook />} />
+        <Route path='/laundryClean' element={<ScLcBooking />} />
+        <Route path='/req' element={<ServiceRequestForm />} />
       </Routes>
     </Router>
   );

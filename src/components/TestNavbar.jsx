@@ -1,7 +1,10 @@
-import { Button, Navbar } from "flowbite-react";
+import { Button, Avatar, Dropdown } from "flowbite-react";
 import React, { Fragment, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginModal from "./loginRegister/LoginModal";
+import { ReactSession } from "react-client-session";
+
 //THIS MUST BE UPDATED WITH LINKS.
 const navbarLinks = [
 	{ displayText: "Home", link: "/" },
@@ -12,14 +15,12 @@ const navbarLinks = [
 
 function TestNavbar() {
 	const navigate = useNavigate();
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [isLoginMdlActive, setIsLoginMdlActive] = useState(false);
 
-	function getNavbarLinkItemClasses() {}
-
-	function createLoginDisplay() {
-		return <div />;
-	}
+	const firstName = ReactSession.get("firstName");
+	const lastName = ReactSession.get("lastName");
+	const email = ReactSession.get("email");
+	const avatarUrl = "";
 
 	return (
 		<Fragment>
@@ -52,9 +53,18 @@ function TestNavbar() {
 								</div>
 							))}
 						</div>
-						<div className="border-l px-8">
-							{isLoggedIn ? (
-								<div>Logged</div>
+						<div className="border-l px-4">
+							{email.length > 0 ? (
+								<Avatar size="md" img={avatarUrl}>
+									<div className="flex flex-row items-center">
+										<div className="mr-1">
+											<div className="text-sm">
+												{firstName + " " + lastName}
+											</div>
+											<div className="text-xs">{email}</div>
+										</div>
+									</div>
+								</Avatar>
 							) : (
 								<Button size="sm" onClick={() => setIsLoginMdlActive(true)}>
 									Login
@@ -62,6 +72,7 @@ function TestNavbar() {
 							)}
 						</div>
 					</div>
+					<div></div>
 				</nav>
 			</div>
 			<LoginModal

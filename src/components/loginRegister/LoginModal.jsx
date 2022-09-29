@@ -1,13 +1,16 @@
 import axios from "axios";
 import { Label, Modal, TextInput, Spinner, Button } from "flowbite-react";
-import React, { Fragment } from "react";
-import { useContext, useState } from "react";
-import { AuthContext } from "../../context";
+import React from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ReactSession } from "react-client-session";
 
 const LOGIN_URL = process.env.REACT_APP_LOGIN_API_URL;
+const DASHBOARD_URL = "/user/dashboard";
+const FORGOT_PASSWORD_URL = "/register/forgot";
 
 function LoginModal({ isLoginMdlActive, setIsLoginMdlActive }) {
-	const { auth, setAuth } = useContext(AuthContext);
+	const navigate = useNavigate();
 	const [password, setPassword] = useState("");
 	const [passwordHasErr, setPasswordHasErr] = useState(false);
 	const [passwordErrMsg, setPasswordErrMsg] = useState("");
@@ -19,6 +22,15 @@ function LoginModal({ isLoginMdlActive, setIsLoginMdlActive }) {
 	const [loginHasErr, setLoginHasErr] = useState(false);
 	const [loginErrMsg, setLoginErrMsg] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
+
+	function closeModal() {
+		setPassword("");
+		setEmail("");
+		setPasswordHasErr(false);
+		setEmailHasErr(false);
+		setLoginHasErr(false);
+		setIsLoginMdlActive(false);
+	}
 
 	function validateLogin(e) {
 		e.preventDefault();
@@ -45,7 +57,7 @@ function LoginModal({ isLoginMdlActive, setIsLoginMdlActive }) {
 			hasAnyErr = true;
 		}
 
-		if (hasAnyErr) {
+		if (!hasAnyErr) {
 			sendLoginRequest();
 		}
 	}
@@ -53,10 +65,14 @@ function LoginModal({ isLoginMdlActive, setIsLoginMdlActive }) {
 	function sendLoginRequest() {
 		setIsLoading(true);
 		axios
-			.get(LOGIN_URL, { params: { email, password } })
+			.post(LOGIN_URL, null, { params: { email, password } })
 			.then((response) => {
-				let { email, accessToken, role } = response.data;
-				setAuth({ email, accessToken, role });
+				Object.keys(response.data).forEach((key) => {
+					ReactSession.set(key, response.data[key]);
+				});
+				closeModal();
+				navigate(DASHBOARD_URL);
+				window.location.reload();
 			})
 			.catch((err) => {
 				setLoginHasErr(true);
@@ -64,6 +80,10 @@ function LoginModal({ isLoginMdlActive, setIsLoginMdlActive }) {
 					//For errors with response
 					if (err.response.status === 0) {
 						setLoginErrMsg("Failed to connect to server. Please try again.");
+					} else if (err.response.status === 403) {
+						setLoginErrMsg(
+							"Email has not been authorized. We just resent the email!"
+						);
 					} else {
 						setLoginErrMsg("An error occured. Please try again.");
 					}
@@ -78,9 +98,7 @@ function LoginModal({ isLoginMdlActive, setIsLoginMdlActive }) {
 		<Modal
 			show={isLoginMdlActive}
 			onClose={() => {
-				setPassword("");
-				setEmail("");
-				setIsLoginMdlActive(false);
+				closeModal();
 			}}
 		>
 			<Modal.Header>User Login</Modal.Header>
@@ -129,6 +147,15 @@ function LoginModal({ isLoginMdlActive, setIsLoginMdlActive }) {
 								placeholder="Password"
 							/>
 						</div>
+					</div>
+					<div
+						className="text-blue-500 underline hover:cursor-pointer active:text-blue-800 hover:text-blue-400 text-sm text-right "
+						onClick={() => {
+							closeModal();
+							navigate(FORGOT_PASSWORD_URL);
+						}}
+					>
+						Forgot your password?
 					</div>
 				</div>
 			</Modal.Body>
