@@ -2,7 +2,7 @@ import { Button, Avatar, Dropdown } from "flowbite-react";
 import React, { Fragment, useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import LoginModal from "./loginRegister/LoginModal";
+import LoginModal from "../loginRegister/LoginModal";
 import { ReactSession } from "react-client-session";
 
 //THIS MUST BE UPDATED WITH LINKS.
@@ -13,7 +13,7 @@ const navbarLinks = [
 	{ displayText: "Contact", link: "/contact" },
 ];
 
-function TestNavbar() {
+function CustomerNavbar() {
 	const navigate = useNavigate();
 	const [isLoginMdlActive, setIsLoginMdlActive] = useState(false);
 
@@ -31,7 +31,7 @@ function TestNavbar() {
 						onClick={() => navigate("/")}
 					>
 						<img
-							src={require("../images/new_logo.jpg")}
+							src={require("../../images/new_logo.jpg")}
 							className="mr-3 h-6 sm:h-9"
 							alt="Flowbite Logo"
 						/>
@@ -54,7 +54,7 @@ function TestNavbar() {
 							))}
 						</div>
 						<div className="border-l px-4">
-							{email.length > 0 ? (
+							{email?.length > 0 ? (
 								<Avatar size="md" img={avatarUrl}>
 									<div className="flex flex-row items-center">
 										<div className="mr-1">
@@ -83,4 +83,4 @@ function TestNavbar() {
 	);
 }
 
-export default TestNavbar;
+export default CustomerNavbar;

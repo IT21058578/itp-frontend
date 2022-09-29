@@ -5,7 +5,7 @@ import React, { Fragment } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 
-const FORGOT_PASSWORD_URL = process.env.REACT_APP_SEND_PASSWORD_REQUEST_API_URL;
+const FORGOT_PASSWORD_URL = process.env.REACT_APP_FORGOT_PASSWORD_API_URL;
 
 function ForgotPasswordPage() {
 	const [email, setEmail] = useState("");
@@ -41,13 +41,21 @@ function ForgotPasswordPage() {
 	function sendPasswordResetEmailRequest() {
 		setIsLoading(true);
 		setRequestIsSuccess(false);
+		let cancelToken;
 		axios
-			.post(FORGOT_PASSWORD_URL, { email })
+			.put(
+				FORGOT_PASSWORD_URL,
+				{ email },
+				{ cancelToken: axios.CancelToken((c) => (cancelToken = c)) }
+			)
 			.then((response) => {
 				setRequestIsSuccess(true);
 			})
 			.catch((err) => {
 				setEmailHasErr(true);
+				if (axios.isCancel(err)) {
+					return;
+				}
 				if (err.response !== undefined) {
 					if (err.response.status === 0) {
 						setEmailErrMsg("Failed to connect to server. Please try again.");
@@ -62,6 +70,7 @@ function ForgotPasswordPage() {
 					}
 				} else {
 					setEmailErrMsg("Request couldn't be made. Please try again.");
+					console.log(err);
 				}
 			})
 			.then(() => setIsLoading(false));

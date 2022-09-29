@@ -8,17 +8,14 @@ const AUTHORIZATION_URL = process.env.REACT_APP_AUTHORIZATION_API_URL;
 
 function RegisterAuthenticationPage() {
 	const navigate = useNavigate();
-	const { search } = useLocation();
-	const query = useMemo(() => new URLSearchParams(search), [search]);
-
-	let email;
-	let authorizationToken;
-
 	const [isLoading, setIsLoading] = useState(true);
 	const [authHasErr, setAuthHasErr] = useState(false);
-	const [errStatusCode, setErrStatusCode] = useState(403);
+	const [errStatusCode, setErrStatusCode] = useState(0);
 
-	let errorDisplay;
+	const { search } = useLocation();
+	const query = useMemo(() => new URLSearchParams(search), [search]);
+	let email;
+	let authorizationToken;
 
 	useEffect(() => {
 		email = query.get("email");
@@ -27,35 +24,25 @@ function RegisterAuthenticationPage() {
 	}, []);
 
 	function authorizeUser() {
+		let cancelToken;
 		setIsLoading(true);
 		axios
-			.post(AUTHORIZATION_URL, null, { params: { email, authorizationToken } })
+			.post(AUTHORIZATION_URL, null, {
+				params: { email, authorizationToken },
+				cancelToken: new axios.CancelToken((c) => (cancelToken = c)),
+			})
 			.then((response) => {
 				setAuthHasErr(false);
 				setErrStatusCode(0);
 			})
 			.catch((err) => {
+				if (axios.isCancel === err) {
+					return;
+				}
 				setAuthHasErr(true);
 				setErrStatusCode(err.response.status);
-				configureErrorDisplay();
 			})
 			.then(() => setIsLoading(false));
-	}
-
-	function configureErrorDisplay() {
-		if (errStatusCode === 403) {
-			errorDisplay = (
-				<Fragment>
-					<div className="text-4xl font-light mb-2">
-						This email has already been authorized!
-					</div>
-					<div className="text-gray-600 font-light mb-4">
-						You can sign in using the email and password you have provided at
-						registration.
-					</div>
-				</Fragment>
-			);
-		}
 	}
 
 	return (

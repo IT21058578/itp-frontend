@@ -13,7 +13,7 @@ import { CheckBadgeIcon } from "@heroicons/react/24/solid";
 import { useEffect } from "react";
 
 const REGISTER_URL = process.env.REACT_APP_REGISTER_API_URL;
-const REGISTER_SUCCESS_URL = "/register/success";
+const REGISTER_SUCCESS_URL = "/auth/register/success";
 
 function RegisterForm() {
 	const navigate = useNavigate();
@@ -143,7 +143,7 @@ function RegisterForm() {
 		setPasswordHasErr(false);
 		if (
 			!password.match(
-				/^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}$/
+				/^(?=.*\d)(?=.*[a-zA-Z])(?=.*[A-Z])(?=.*[-\#\$\.\%\&\*])(?=.*[a-zA-Z]).{8,16}$/
 			)
 		) {
 			setPasswordHasErr(true);
@@ -366,19 +366,27 @@ function RegisterForm() {
 							</div>
 							<ul className="list-disc ml-4">
 								<li className="text-xs text-gray-600 font-medium">
-									Minimum 8 characters in length
+									8 to 16 characters in length
 								</li>
 								<li className="text-xs text-gray-600 font-medium">
-									2 characters in upper-case
+									Atleast 1 upper-case letter
 								</li>
 								<li className="text-xs text-gray-600 font-medium">
-									3 characters in lower-case
+									Atleast 1 lower-case letter
 								</li>
 								<li className="text-xs text-gray-600 font-medium">
-									1 special character
+									Atleast 1 number
 								</li>
 								<li className="text-xs text-gray-600 font-medium">
-									2 numeric characters
+									Atleast 1 of these special characters
+									<ul className="list-disc bg-gray-100 p-0.5 rounded-md">
+										<li className="inline-block mx-2">#</li>
+										<li className="inline-block mx-2">$</li>
+										<li className="inline-block mx-2">.</li>
+										<li className="inline-block mx-2">%</li>
+										<li className="inline-block mx-2">&</li>
+										<li className="inline-block mx-2">*</li>
+									</ul>
 								</li>
 							</ul>
 						</div>

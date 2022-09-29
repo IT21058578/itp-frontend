@@ -7,7 +7,7 @@ import { ReactSession } from "react-client-session";
 
 const LOGIN_URL = process.env.REACT_APP_LOGIN_API_URL;
 const DASHBOARD_URL = "/user/dashboard";
-const FORGOT_PASSWORD_URL = "/register/forgot";
+const FORGOT_PASSWORD_URL = "/auth/forgotpassword";
 
 function LoginModal({ isLoginMdlActive, setIsLoginMdlActive }) {
 	const navigate = useNavigate();
