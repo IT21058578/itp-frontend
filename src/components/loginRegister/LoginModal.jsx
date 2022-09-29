@@ -67,9 +67,11 @@ function LoginModal({ isLoginMdlActive, setIsLoginMdlActive }) {
 		axios
 			.post(LOGIN_URL, null, { params: { email, password } })
 			.then((response) => {
-				Object.keys(response.data).forEach((key) => {
-					ReactSession.set(key, response.data[key]);
-				});
+				ReactSession.set("email", response.data.email);
+				ReactSession.set("firstName", response.data.firstName);
+				ReactSession.set("lastName", response.data.lastName);
+				ReactSession.set("permissions", response.data.permissions);
+				ReactSession.set("userKind", response.data.userKind);
 				closeModal();
 				navigate(DASHBOARD_URL);
 				window.location.reload();

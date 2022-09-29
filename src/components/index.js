@@ -14,6 +14,7 @@ import JobTableHeader from "./schdManage/JobTableHeader";
 import ScheduleSearch from "./schdManage/ScheduleSearch";
 
 import LoginModal from "./loginRegister/LoginModal";
+import LogoutModal from "./loginRegister/LogoutModal";
 import RegisterForm from "./loginRegister/RegisterForm";
 
 import CustomerFooter from "./layoutHelpers/CustomerFooter";
@@ -26,5 +27,5 @@ export {
     EmpSidebar, AdminSidebar,
     AddScheduleInterface, Calender, CalenderDay, SchedulerTopBar, ScheduleItem, ScheduleDetails, ScheduleSearch,
     JobTable, JobTableRow, JobTableSearch, JobTableHeader,
-    LoginModal, RegisterForm, CustomerFooter, CustomerNavbar
+    LoginModal, RegisterForm, LogoutModal, CustomerFooter, CustomerNavbar
 };

@@ -1,9 +1,10 @@
-import { Button, Avatar, Dropdown } from "flowbite-react";
+import { Button, Avatar } from "flowbite-react";
 import React, { Fragment, useState } from "react";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginModal from "../loginRegister/LoginModal";
 import { ReactSession } from "react-client-session";
+import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/solid";
+import LogoutModal from "../loginRegister/LogoutModal";
 
 //THIS MUST BE UPDATED WITH LINKS.
 const navbarLinks = [
@@ -16,6 +17,7 @@ const navbarLinks = [
 function CustomerNavbar() {
 	const navigate = useNavigate();
 	const [isLoginMdlActive, setIsLoginMdlActive] = useState(false);
+	const [isLogoutMdlActive, setIsLogoutMdlActive] = useState(false);
 
 	const firstName = ReactSession.get("firstName");
 	const lastName = ReactSession.get("lastName");
@@ -55,16 +57,22 @@ function CustomerNavbar() {
 						</div>
 						<div className="border-l px-4">
 							{email?.length > 0 ? (
-								<Avatar size="md" img={avatarUrl}>
-									<div className="flex flex-row items-center">
-										<div className="mr-1">
-											<div className="text-sm">
-												{firstName + " " + lastName}
+								<div className="flex flex-row items-center gap-4">
+									<Avatar size="md" img={avatarUrl}>
+										<div className="flex flex-row items-center hover:bg-gray-100 active:bg-gray-200 hover:cursor-pointer rounded-md px-3">
+											<div className="mr-1">
+												<div className="text-sm">
+													{firstName + " " + lastName}
+												</div>
+												<div className="text-xs">{email}</div>
 											</div>
-											<div className="text-xs">{email}</div>
 										</div>
-									</div>
-								</Avatar>
+									</Avatar>
+									<ArrowRightOnRectangleIcon
+										onClick={() => setIsLogoutMdlActive(true)}
+										className="w-10 h-10 rounded-md border p-2 hover:bg-gray-100 active:bg-gray-200 hover:cursor-pointer"
+									/>
+								</div>
 							) : (
 								<Button size="sm" onClick={() => setIsLoginMdlActive(true)}>
 									Login
@@ -78,6 +86,10 @@ function CustomerNavbar() {
 			<LoginModal
 				isLoginMdlActive={isLoginMdlActive}
 				setIsLoginMdlActive={setIsLoginMdlActive}
+			/>
+			<LogoutModal
+				isLogoutMdlActive={isLogoutMdlActive}
+				setIsLogoutMdlActive={setIsLogoutMdlActive}
 			/>
 		</Fragment>
 	);
