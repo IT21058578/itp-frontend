@@ -1,13 +1,19 @@
 import React, { useState, Fragment } from "react";
-import { Button, Label, Modal, Textarea, TextInput } from "flowbite-react";
-import { ScheduleDetails } from "./ScheduleItem";
+import {
+	Alert,
+	Button,
+	Label,
+	Modal,
+	Spinner,
+	Textarea,
+	TextInput,
+} from "flowbite-react";
 import axios from "axios";
+import { CheckCircleIcon, PaperAirplaneIcon } from "@heroicons/react/24/solid";
 
 const SCHEDULE_URL = process.env.REACT_APP_SCHEDULE_API_URL;
 
-function AddScheduleInterface({ isDataUpdated, setIsDataUpdated }) {
-	const [showModal, setShowModal] = useState(false);
-
+function ScheduleCreateModal({ isActive, setIsActive }) {
 	//For the modals data.
 	const [tempTitle, setTempTitle] = useState("");
 	const [tempDate, setTempDate] = useState("");
@@ -20,6 +26,14 @@ function AddScheduleInterface({ isDataUpdated, setIsDataUpdated }) {
 	const [tempDateHasErr, setTempDateHasErr] = useState(false);
 	const [tempTimeHasErr, setTempTimeHasErr] = useState(false);
 	const [tempDescriptionHasErr, setTempDescriptionHasErr] = useState(false);
+
+	const [isLoading, setIsLoading] = useState(false);
+	const [isSubmitErr, setIsSubmitErr] = useState(false);
+	const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
+
+	const [successAlertClasses, setSuccessAlertClasses] = useState(
+		"absolute border-2 border-green-600 rounded-lg z-50 transition-all hidden"
+	);
 
 	function validateSubmission() {
 		let hasAnyErr = false;
@@ -64,37 +78,67 @@ function AddScheduleInterface({ isDataUpdated, setIsDataUpdated }) {
 
 		//Call handleFunction. Takes in a ScheduleDetails object.
 		if (!hasAnyErr) {
-			const editedScheduleDetails = new ScheduleDetails(
-				null,
-				tempTitle,
-				tempDate,
-				tempStartTime,
-				tempEndTime,
-				tempDescription,
-				true
-			);
-			handleSubmit(editedScheduleDetails);
-			setShowModal(false);
-			setTempTitle("");
-			setTempDate("");
-			setTempStartTime("");
-			setTempEndTime("");
-			setTempDescription("");
+			handleSubmit({
+				title: tempTitle,
+				date: tempDate,
+				startTime: tempStartTime,
+				endTime: tempEndTime,
+				description: tempDescription,
+				isActive: true,
+			});
 		}
 	}
 
 	function handleSubmit(scheduleDetails) {
-		console.log("Schedule created! Making axios post request", scheduleDetails);
-		axios.post(SCHEDULE_URL, scheduleDetails).then((response) => {
-			console.log(response);
-			setIsDataUpdated(false);
-		});
+		setIsLoading(true);
+		axios
+			.post(SCHEDULE_URL, scheduleDetails)
+			.then(() => {
+				setTempTitle("");
+				setTempDate("");
+				setTempStartTime("");
+				setTempEndTime("");
+				setTempDescription("");
+				setIsActive(false);
+				toggleAlert();
+			})
+			.then()
+			.catch()
+			.then(() => {
+				setIsLoading(false);
+			});
+	}
+
+	function toggleAlert() {
+		setSuccessAlertClasses(
+			"absolute border-2 border-green-600 rounded-lg z-50 transition-all visible opacity-100"
+		);
+		setTimeout(() => {
+			setSuccessAlertClasses(
+				"absolute border-2 border-green-600 rounded-lg z-50 transition-all visible opacity-0"
+			);
+		}, 2000);
+		setTimeout(() => {
+			setSuccessAlertClasses(
+				"absolute border-2 border-green-600 rounded-lg z-50 transition-all invisible opacity-0"
+			);
+		}, 2200);
 	}
 
 	return (
-		<div>
-			<Button onClick={() => setShowModal(true)}>Add Schedule</Button>
-			<Modal show={showModal} onClose={() => setShowModal(false)}>
+		<Fragment>
+			<div
+				className={successAlertClasses}
+				style={{ top: "88vh", left: "66.5vw" }}
+			>
+				<Alert icon={CheckCircleIcon} color="success" className="p-0 m-0">
+					<span>
+						<span className="font-medium">Submitted Schedule! </span>
+						You can now view it in the schedules tab
+					</span>
+				</Alert>
+			</div>
+			<Modal show={isActive} onClose={() => setIsActive(false)}>
 				<Modal.Header>Edit Schedule</Modal.Header>
 				<Modal.Body>
 					<div className="flex flex-col gap-4">
@@ -225,16 +269,30 @@ function AddScheduleInterface({ isDataUpdated, setIsDataUpdated }) {
 				</Modal.Body>
 				<Modal.Footer>
 					<div className="flex gap-2 justify-end w-full">
-						<Button color="gray" onClick={() => setShowModal(false)}>
+						<Button
+							color="gray"
+							onClick={() => setIsActive(false)}
+							disabled={isLoading}
+						>
 							Cancel
 						</Button>
 
-						<Button onClick={validateSubmission}>Submit</Button>
+						<Button onClick={validateSubmission} disabled={isLoading}>
+							<PaperAirplaneIcon className="h-5 w-5 mr-2" />
+							{isLoading ? (
+								<div>
+									Submitting...
+									<Spinner size="sm" />
+								</div>
+							) : (
+								"Submit"
+							)}
+						</Button>
 					</div>
 				</Modal.Footer>
 			</Modal>
-		</div>
+		</Fragment>
 	);
 }
 
-export default AddScheduleInterface;
+export default ScheduleCreateModal;

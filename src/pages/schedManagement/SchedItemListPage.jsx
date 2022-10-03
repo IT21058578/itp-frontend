@@ -1,22 +1,40 @@
 import axios from "axios";
+import { Spinner } from "flowbite-react";
 import React from "react";
 import { useState, useRef, useCallback, useEffect } from "react";
 import { Fragment } from "react";
-import { Container, ScheduleItem, ScheduleSearch } from "../../components";
+import {
+	Container,
+	ScheduleCompleteModal,
+	ScheduleDeleteModal,
+	ScheduleEditModal,
+	ScheduleItem,
+	ScheduleRenewModal,
+	ScheduleSearch,
+} from "../../components";
 import { useInfiniteScroll } from "../../hooks";
 
 const SCHEDULE_URL = process.env.REACT_APP_SCHEDULE_API_URL;
+const SCHEDULE_SEARCH_URL = process.env.REACT_APP_SCHEDULE_SEARCH_API_URL;
 
 function SchedItemListPage({ isDataUpdated, setIsDataUpdated }) {
-	const [pgNum, setPgNum] = useState(0);
+	const [pgNum, setPgNum] = useState(1);
 	const [searchSortParams, setSearchSortParams] = useState({});
-	const pgSize = 20;
+	
+	//For modal toggling.
+	const [isEditMdlActive, setIsEditMdlActive] = useState(false);
+	const [isDeleteMdlActive, setIsDeleteMdlActive] = useState(false);
+	const [isRenewMdlActive, setIsRenewMdlActive] = useState(false);
+	const [isCompleteMdlActive, setIsCompleteMdlActive] = useState(false);
+
+	const pgSize = 10;
 
 	const { dataList, hasMore, isLoading, isError } = useInfiniteScroll(
-		SCHEDULE_URL,
+		SCHEDULE_SEARCH_URL,
 		searchSortParams,
 		pgNum,
-		pgSize
+		pgSize,
+		setIsDataUpdated
 	);
 	const observer = useRef();
 	const lastScheduleRef = useCallback(
@@ -45,6 +63,7 @@ function SchedItemListPage({ isDataUpdated, setIsDataUpdated }) {
 			temp.isDataUpdated = true;
 			setSearchSortParams(temp);
 			setIsDataUpdated(true);
+			setPgNum(1);
 		}
 	}, [isDataUpdated]);
 
@@ -110,10 +129,28 @@ function SchedItemListPage({ isDataUpdated, setIsDataUpdated }) {
 									/>
 								)
 							)}
+							{isLoading || hasMore ? (
+								<div className="border shadow-lg rounded-md p-4 py-10 flex w-full flex-col gap-2 h-fit items-center bg-gray-50">
+									<Spinner size="xl" />
+								</div>
+							) : (
+								""
+							)}
+							{!hasMore && !isLoading ? (
+								<div className="border shadow-lg rounded-md p-4 py-10 flex w-full flex-col gap-2 h-fit items-center bg-gray-50 font-medium text-gray-600">
+									End of content...
+								</div>
+							) : (
+								""
+							)}
 						</div>
 					</div>
 				</Container>
 			</div>
+			<ScheduleCompleteModal />
+			<ScheduleDeleteModal />
+			<ScheduleEditModal />
+			<ScheduleRenewModal />
 		</Fragment>
 	);
 }

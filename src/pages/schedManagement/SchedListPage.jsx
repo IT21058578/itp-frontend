@@ -12,27 +12,29 @@ import { useInfiniteScroll } from "../../hooks";
 // further information can be seen in detail.
 
 const JOB_URL = process.env.REACT_APP_JOB_API_URL;
+const JOB_SEARCH_URL = process.env.REACT_APP_JOB_SEARCH_API_URL;
 
 function SchedListPage({ auth }) {
-	//const [jobList, setJobList] = useState([]);
 	const [searchParams, setSearchParams] = useState({});
 	const [searchSortParams, setSearchSortParams] = useState({}); //The params passed into the infinite scroll must be a sate variable.
+	const [isParamsChanged, setIsParamsChanged] = useState(false);
 	const [sortDir, setSortDir] = useState("");
 	const [sortCol, setSortCol] = useState("");
-	const [pgNum, setPgNum] = useState(0);
+	const [pgNum, setPgNum] = useState(1);
 	const pgSize = 20;
 
 	useEffect(() => {
 		setSearchSortParams({ ...searchParams, sortDir, sortCol });
-		setPgNum(0);
-		console.log("searchSortParams updated!");
+		setIsParamsChanged(true);
+		setPgNum(1);
 	}, [JSON.stringify(searchParams), sortDir, sortCol]);
 
 	const { dataList, hasMore, isLoading, isError } = useInfiniteScroll(
-		JOB_URL,
+		JOB_SEARCH_URL,
 		searchSortParams,
 		pgNum,
-		pgSize
+		pgSize,
+		setIsParamsChanged
 	);
 
 	const observer = useRef();
@@ -98,6 +100,9 @@ function SchedListPage({ auth }) {
 								sortDir={sortDir}
 								jobList={dataList}
 								lastTableRowRef={lastTableRowRef}
+								isLoading={isLoading}
+								hasMore={hasMore}
+								isParamsChanged={isParamsChanged}
 							/>
 						</div>
 					</div>

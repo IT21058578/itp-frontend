@@ -1,32 +1,8 @@
-import { Button, Label, Select, TextInput } from "flowbite-react";
+import { Button, Label, Select, Spinner, TextInput } from "flowbite-react";
 import React from "react";
 import { useState } from "react";
 
-class SearchParams {
-	constructor(
-		jobId,
-		lengthSelect,
-		length,
-		crewSelect,
-		crew,
-		revenueSelect,
-		revenue,
-		ratingSelect,
-		rating
-	) {
-		this.jobId = jobId;
-		this.lengthSelect = lengthSelect;
-		this.length = length;
-		this.crewSelect = crewSelect;
-		this.crew = crew;
-		this.revenueSelect = revenueSelect;
-		this.revenue = revenue;
-		this.ratingSelect = ratingSelect;
-		this.rating = rating;
-	}
-}
-
-function JobTableSearch({ handleSearch }) {
+function JobTableSearch({ handleSearch, isLoading }) {
 	const [jobId, setJobId] = useState("");
 
 	const [lengthSelect, setLengthSelect] = useState("ignore");
@@ -74,7 +50,7 @@ function JobTableSearch({ handleSearch }) {
 
 		//Create and send SearchParams object to SchedListPage
 		if (!hasAnyErr) {
-			const newSearchParams = new SearchParams(
+			handleSearch({
 				jobId,
 				lengthSelect,
 				length,
@@ -83,9 +59,8 @@ function JobTableSearch({ handleSearch }) {
 				revenueSelect,
 				revenue,
 				ratingSelect,
-				rating
-			);
-			handleSearch(newSearchParams);
+				rating,
+			});
 		}
 	}
 
@@ -122,7 +97,7 @@ function JobTableSearch({ handleSearch }) {
 									sizing="sm"
 									onChange={(e) => setLengthSelect(e.target.value)}
 								>
-									<option value="ignore">Ignore</option>
+									<option value="">Ignore</option>
 									<option value="lessThan">Less Than</option>
 									<option value="greaterThan">Greater Than</option>
 									<option value="equal">Equal</option>
@@ -138,7 +113,7 @@ function JobTableSearch({ handleSearch }) {
 									<TextInput
 										type="number"
 										sizing="sm"
-										disabled={lengthSelect === "ignore" ? true : false}
+										disabled={lengthSelect === "" || isLoading}
 										value={length}
 										onChange={(e) => setLength(e.target.value)}
 										color={lengthHasErr ? "failure" : "gray"}
@@ -160,7 +135,7 @@ function JobTableSearch({ handleSearch }) {
 									sizing="sm"
 									onChange={(e) => setCrewSelect(e.target.value)}
 								>
-									<option value="ignore">Ignore</option>
+									<option value="">Ignore</option>
 									<option value="lessThan">Less Than</option>
 									<option value="greaterThan">Greater Than</option>
 									<option value="equal">Equal</option>
@@ -176,7 +151,7 @@ function JobTableSearch({ handleSearch }) {
 									<TextInput
 										type="number"
 										sizing="sm"
-										disabled={crewSelect === "ignore" ? true : false}
+										disabled={crewSelect === "" || isLoading}
 										value={crew}
 										onChange={(e) => setCrew(e.target.value)}
 										color={crewHasErr ? "failure" : "gray"}
@@ -198,7 +173,7 @@ function JobTableSearch({ handleSearch }) {
 									sizing="sm"
 									onChange={(e) => setRevenueSelect(e.target.value)}
 								>
-									<option value="ignore">Ignore</option>
+									<option value="">Ignore</option>
 									<option value="lessThan">Less Than</option>
 									<option value="greaterThan">Greater Than</option>
 									<option value="equal">Equal</option>
@@ -214,7 +189,7 @@ function JobTableSearch({ handleSearch }) {
 									<TextInput
 										type="number"
 										sizing="sm"
-										disabled={revenueSelect === "ignore" ? true : false}
+										disabled={revenueSelect === "" || isLoading}
 										value={revenue}
 										onChange={(e) => setRevenue(e.target.value)}
 										color={revenueHasErr ? "failure" : "gray"}
@@ -236,7 +211,7 @@ function JobTableSearch({ handleSearch }) {
 									sizing="sm"
 									onChange={(e) => setRatingSelect(e.target.value)}
 								>
-									<option value="ignore">Ignore</option>
+									<option value="">Ignore</option>
 									<option value="lessThan">Less Than</option>
 									<option value="greaterThan">Greater Than</option>
 									<option value="equal">Equal</option>
@@ -253,7 +228,7 @@ function JobTableSearch({ handleSearch }) {
 										type="number"
 										max={5}
 										sizing="sm"
-										disabled={ratingSelect === "ignore" ? true : false}
+										disabled={ratingSelect === "" || isLoading}
 										value={rating}
 										onChange={(e) => setRating(e.target.value)}
 										color={ratingHasErr ? "failure" : "gray"}
@@ -265,8 +240,20 @@ function JobTableSearch({ handleSearch }) {
 				</div>
 			</div>
 			<div className="flex gap-2 flex-col py-2 border-t">
-				<Button size="sm" style={{ width: "100%" }} onClick={handleSubmit}>
-					Search
+				<Button
+					size="sm"
+					style={{ width: "100%" }}
+					onClick={handleSubmit}
+					disabled={isLoading}
+				>
+					{isLoading ? (
+						<div className="flex flex-row gap-2">
+							Searching...
+							<Spinner size="sm" />
+						</div>
+					) : (
+						"Search"
+					)}
 				</Button>
 			</div>
 		</div>
