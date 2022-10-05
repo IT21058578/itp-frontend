@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Spinner } from "flowbite-react";
 import React from "react";
+import { useContext } from "react";
 import { useState, useRef, useCallback, useEffect } from "react";
 import { Fragment } from "react";
 import {
@@ -12,20 +13,22 @@ import {
 	ScheduleRenewModal,
 	ScheduleSearch,
 } from "../../components";
+import { ScheduleUpdateContext } from "../../context";
 import { useInfiniteScroll } from "../../hooks";
 
-const SCHEDULE_URL = process.env.REACT_APP_SCHEDULE_API_URL;
 const SCHEDULE_SEARCH_URL = process.env.REACT_APP_SCHEDULE_SEARCH_API_URL;
 
-function SchedItemListPage({ isDataUpdated, setIsDataUpdated }) {
+function SchedItemListPage() {
 	const [pgNum, setPgNum] = useState(1);
 	const [searchSortParams, setSearchSortParams] = useState({});
-	
+	const { isUpdated, setIsUpdated } = useContext(ScheduleUpdateContext);
+
 	//For modal toggling.
 	const [isEditMdlActive, setIsEditMdlActive] = useState(false);
 	const [isDeleteMdlActive, setIsDeleteMdlActive] = useState(false);
 	const [isRenewMdlActive, setIsRenewMdlActive] = useState(false);
 	const [isCompleteMdlActive, setIsCompleteMdlActive] = useState(false);
+	const [focusScheduleDetails, setFocusScheduleDetails] = useState({});
 
 	const pgSize = 10;
 
@@ -34,7 +37,7 @@ function SchedItemListPage({ isDataUpdated, setIsDataUpdated }) {
 		searchSortParams,
 		pgNum,
 		pgSize,
-		setIsDataUpdated
+		setIsUpdated
 	);
 	const observer = useRef();
 	const lastScheduleRef = useCallback(
@@ -58,42 +61,17 @@ function SchedItemListPage({ isDataUpdated, setIsDataUpdated }) {
 	);
 
 	useEffect(() => {
-		if (!isDataUpdated) {
+		if (!isUpdated) {
 			let temp = searchSortParams;
 			temp.isDataUpdated = true;
 			setSearchSortParams(temp);
-			setIsDataUpdated(true);
+			setIsUpdated(true);
 			setPgNum(1);
 		}
-	}, [isDataUpdated]);
-
-	function handleEdit(scheduleDetails) {
-		console.log("Schedule Edited! making axios put request!", scheduleDetails);
-		axios
-			.put(SCHEDULE_URL, scheduleDetails, {
-				params: { id: scheduleDetails.id },
-			})
-			.then((response) => {
-				console.log(response);
-				setIsDataUpdated(false);
-			});
-	}
-
-	function handleDelete(scheduleDetails) {
-		console.log(
-			"Schedule Deleted! making axios delete request!",
-			scheduleDetails
-		);
-		axios
-			.delete(SCHEDULE_URL, { params: { id: scheduleDetails.id } })
-			.then((response) => {
-				console.log(response);
-				setIsDataUpdated(false);
-			});
-	}
+	}, [isUpdated]);
 
 	function handleSearch(s) {
-		setSearchSortParams({ ...s, isDataUpdated });
+		setSearchSortParams({ ...s, isUpdated });
 	}
 
 	return (
@@ -115,17 +93,23 @@ function SchedItemListPage({ isDataUpdated, setIsDataUpdated }) {
 								dataList.length - 1 === i ? (
 									<ScheduleItem
 										key={i}
-										itemRef={lastScheduleRef}
-										handleEdit={handleEdit}
-										handleDelete={handleDelete}
 										scheduleDetails={s}
+										setFocus={setFocusScheduleDetails}
+										setIsCompleteMdlActive={setIsCompleteMdlActive}
+										setIsDeleteMdlActive={setIsDeleteMdlActive}
+										setIsRenewMdlActive={setIsRenewMdlActive}
+										setIsEditMdlActive={setIsEditMdlActive}
+										itemRef={lastScheduleRef}
 									/>
 								) : (
 									<ScheduleItem
 										key={i}
-										handleEdit={handleEdit}
-										handleDelete={handleDelete}
 										scheduleDetails={s}
+										setFocus={setFocusScheduleDetails}
+										setIsCompleteMdlActive={setIsCompleteMdlActive}
+										setIsDeleteMdlActive={setIsDeleteMdlActive}
+										setIsRenewMdlActive={setIsRenewMdlActive}
+										setIsEditMdlActive={setIsEditMdlActive}
 									/>
 								)
 							)}
@@ -137,7 +121,7 @@ function SchedItemListPage({ isDataUpdated, setIsDataUpdated }) {
 								""
 							)}
 							{!hasMore && !isLoading ? (
-								<div className="border shadow-lg rounded-md p-4 py-10 flex w-full flex-col gap-2 h-fit items-center bg-gray-50 font-medium text-gray-600">
+								<div className="border shadow-lg rounded-md p-4 py-10 flex w-full flex-col gap-2 h-fit items-center bg-gray-50 font-medium text-gray-500">
 									End of content...
 								</div>
 							) : (
@@ -147,10 +131,26 @@ function SchedItemListPage({ isDataUpdated, setIsDataUpdated }) {
 					</div>
 				</Container>
 			</div>
-			<ScheduleCompleteModal />
-			<ScheduleDeleteModal />
-			<ScheduleEditModal />
-			<ScheduleRenewModal />
+			<ScheduleCompleteModal
+				isActive={isCompleteMdlActive}
+				setIsActive={setIsCompleteMdlActive}
+				scheduleDetails={focusScheduleDetails}
+			/>
+			<ScheduleDeleteModal
+				isActive={isDeleteMdlActive}
+				setIsActive={setIsDeleteMdlActive}
+				scheduleDetails={focusScheduleDetails}
+			/>
+			<ScheduleEditModal
+				isActive={isEditMdlActive}
+				setIsActive={setIsEditMdlActive}
+				scheduleDetails={focusScheduleDetails}
+			/>
+			<ScheduleRenewModal
+				isActive={isRenewMdlActive}
+				setIsActive={setIsRenewMdlActive}
+				scheduleDetails={focusScheduleDetails}
+			/>
 		</Fragment>
 	);
 }

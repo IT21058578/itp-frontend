@@ -8,12 +8,17 @@ import {
 	Textarea,
 	TextInput,
 } from "flowbite-react";
-import axios from "axios";
+import axios, { Axios } from "axios";
 import { CheckCircleIcon, PaperAirplaneIcon } from "@heroicons/react/24/solid";
+import { useContext } from "react";
+import { ScheduleUpdateContext } from "../../context";
+import { useEffect } from "react";
 
 const SCHEDULE_URL = process.env.REACT_APP_SCHEDULE_API_URL;
 
 function ScheduleCreateModal({ isActive, setIsActive }) {
+	const { setIsUpdated } = useContext(ScheduleUpdateContext);
+
 	//For the modals data.
 	const [tempTitle, setTempTitle] = useState("");
 	const [tempDate, setTempDate] = useState("");
@@ -29,11 +34,15 @@ function ScheduleCreateModal({ isActive, setIsActive }) {
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [isSubmitErr, setIsSubmitErr] = useState(false);
-	const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
+	const [submitErrMsg, setSubmitErrMsg] = useState("");
 
 	const [successAlertClasses, setSuccessAlertClasses] = useState(
-		"absolute border-2 border-green-600 rounded-lg z-50 transition-all hidden"
+		"absolute border-2 border-green-600 rounded-lg z-50 transition-all invisible"
 	);
+
+	useEffect(() => {
+		resetErrors();
+	}, [tempTitle, tempDate, tempStartTime, tempEndTime, tempDescription]);
 
 	function validateSubmission() {
 		let hasAnyErr = false;
@@ -91,22 +100,45 @@ function ScheduleCreateModal({ isActive, setIsActive }) {
 
 	function handleSubmit(scheduleDetails) {
 		setIsLoading(true);
+		resetErrors();
+		let cancelToken;
 		axios
-			.post(SCHEDULE_URL, scheduleDetails)
+			.post(SCHEDULE_URL, scheduleDetails, {
+				cancelToken: new axios.CancelToken((c) => (cancelToken = c)),
+			})
 			.then(() => {
-				setTempTitle("");
-				setTempDate("");
-				setTempStartTime("");
-				setTempEndTime("");
-				setTempDescription("");
-				setIsActive(false);
+				resetModal();
 				toggleAlert();
 			})
 			.then()
-			.catch()
+			.catch((err) => {
+				if (axios.isCancel(err)) {
+					return;
+				} else {
+					setIsSubmitErr(true);
+					setSubmitErrMsg("An error occurred, Please try again.");
+				}
+			})
 			.then(() => {
 				setIsLoading(false);
 			});
+	}
+
+	function resetErrors() {
+		setTempTitleHasErr(false);
+		setTempDateHasErr(false);
+		setTempDescriptionHasErr(false);
+		setTempTimeHasErr(false);
+		setIsSubmitErr(false);
+	}
+
+	function resetModal() {
+		setTempTitle("");
+		setTempDate("");
+		setTempStartTime("");
+		setTempEndTime("");
+		setTempDescription("");
+		setIsActive(false);
 	}
 
 	function toggleAlert() {
@@ -268,7 +300,14 @@ function ScheduleCreateModal({ isActive, setIsActive }) {
 					</div>
 				</Modal.Body>
 				<Modal.Footer>
-					<div className="flex gap-2 justify-end w-full">
+					<div className="flex gap-2 justify-end w-full items-center">
+						{isSubmitErr ? (
+							<div className="text-red-600 text-sm flex-1 text-center">
+								{submitErrMsg}
+							</div>
+						) : (
+							""
+						)}
 						<Button
 							color="gray"
 							onClick={() => setIsActive(false)}
@@ -276,12 +315,15 @@ function ScheduleCreateModal({ isActive, setIsActive }) {
 						>
 							Cancel
 						</Button>
-
-						<Button onClick={validateSubmission} disabled={isLoading}>
+						<Button
+							onClick={validateSubmission}
+							disabled={isLoading}
+							className="transition-all"
+						>
 							<PaperAirplaneIcon className="h-5 w-5 mr-2" />
 							{isLoading ? (
-								<div>
-									Submitting...
+								<div className="flex flex-row">
+									<div className="mr-2">Submitting...</div>
 									<Spinner size="sm" />
 								</div>
 							) : (

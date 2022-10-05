@@ -7,14 +7,20 @@ import {
 	TextInput,
 	Textarea,
 	Alert,
+	Spinner,
 } from "flowbite-react";
-import { CheckCircleIcon } from "@heroicons/react/24/solid";
+import { CheckCircleIcon, PaperAirplaneIcon } from "@heroicons/react/24/solid";
+import { useContext } from "react";
+import { ScheduleUpdateContext } from "../../context";
+import { useEffect } from "react";
 
 const descCharCount = 200;
 const titleCharCount = 50;
 const SCHEDULE_URL = process.env.REACT_APP_SCHEDULE_API_URL;
 
-function ScheduleEditModal({ isActive, setIsActive, scheduleData }) {
+function ScheduleEditModal({ isActive, setIsActive, scheduleDetails }) {
+	const { setIsUpdated } = useContext(ScheduleUpdateContext);
+
 	const [title, setTitle] = useState("");
 	const [titleHasErr, setTitleHasErr] = useState(false);
 	const [titleErrMsg, setTitleErrMsg] = useState("");
@@ -38,8 +44,23 @@ function ScheduleEditModal({ isActive, setIsActive, scheduleData }) {
 
 	const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
 	const [successAlertClasses, setSuccessAlertClasses] = useState(
-		"absolute border-2 border-green-600 rounded-lg z-50 transition-all hidden"
+		"absolute border-2 border-green-600 rounded-lg z-50 transition-all invisible"
 	);
+
+	useEffect(() => {
+		if (isActive === true) {
+			console.log("Opened! ", scheduleDetails);
+			setTitle(scheduleDetails?.title);
+			setDate(scheduleDetails?.date);
+			setStartTime(scheduleDetails?.startTime.slice(0, 5).toString());
+			setEndTime(scheduleDetails?.endTime.slice(0, 5).toString());
+			setDescription(scheduleDetails?.description);
+		}
+	}, [isActive, scheduleDetails]);
+
+	useEffect(() => {
+		resetErrors();
+	}, [title, date, startTime, endTime, description]);
 
 	function validateSubmission() {
 		let hasAnyErr = false;
@@ -87,12 +108,13 @@ function ScheduleEditModal({ isActive, setIsActive, scheduleData }) {
 
 	function sendSchedulePutRequest() {
 		let cancelToken;
-		setIsLoading(false);
+		setIsLoading(true);
+		resetErrors();
 		axios
 			.put(
 				SCHEDULE_URL,
 				{
-					id: scheduleData.id,
+					id: scheduleDetails.id,
 					title,
 					description,
 					isActive: true,
@@ -100,12 +122,26 @@ function ScheduleEditModal({ isActive, setIsActive, scheduleData }) {
 					startTime,
 					endTime,
 				},
-				{ cancelToken: new axios.CancelToken((c) => (cancelToken = c)) }
+				{
+					params: { id: scheduleDetails.id },
+					cancelToken: new axios.CancelToken((c) => (cancelToken = c)),
+				}
 			)
-			.then()
+			.then(() => {
+				togglealert();
+				resetModal();
+			})
 			.catch((err) => {
 				if (axios.isCancel(err)) {
 					return;
+				}
+				setResponseHasErr(true);
+				if (err.response.status === 404) {
+					setResponseErrMsg("Schedule was not found. It no longer exists.");
+				} else if (err.response.status >= 500) {
+					setResponseErrMsg(
+						"A miscellaneous server error occured. Please try again."
+					);
 				}
 			})
 			.then(() => {
@@ -113,7 +149,23 @@ function ScheduleEditModal({ isActive, setIsActive, scheduleData }) {
 			});
 	}
 
-	function resetModal() {}
+	function resetModal() {
+		setDate("");
+		setTitle("");
+		setStartTime("");
+		setEndTime("");
+		setDescription("");
+		setIsActive((prev) => !prev);
+	}
+
+	function resetErrors() {
+		setIsLoading(false);
+		setDateHasErr(false);
+		setTimeHasErr(false);
+		setTitleHasErr(false);
+		setDescriptionHasErr(false);
+		setResponseHasErr(false);
+	}
 
 	function togglealert() {
 		setSuccessAlertClasses(
@@ -135,11 +187,11 @@ function ScheduleEditModal({ isActive, setIsActive, scheduleData }) {
 		<Fragment>
 			<div
 				className={successAlertClasses}
-				style={{ top: "88vh", left: "66.5vw" }}
+				style={{ top: "88vh", left: "68.2vw" }}
 			>
 				<Alert icon={CheckCircleIcon} color="success" className="p-0 m-0">
 					<span>
-						<span className="font-medium">Submitted Schedule! </span>
+						<span className="font-medium">Edited Schedule! </span>
 						You can now view it in the schedules tab
 					</span>
 				</Alert>
@@ -159,6 +211,7 @@ function ScheduleEditModal({ isActive, setIsActive, scheduleData }) {
 									value={title}
 									onChange={(e) => setTitle(e.target.value)}
 									color={titleHasErr ? "failure" : "gray"}
+									disabled={isLoading}
 									helperText={
 										<Fragment>
 											{titleHasErr ? (
@@ -186,6 +239,7 @@ function ScheduleEditModal({ isActive, setIsActive, scheduleData }) {
 										value={date}
 										onChange={(e) => setDate(e.target.value)}
 										color={dateHasErr ? "failure" : "gray"}
+										disabled={isLoading}
 										helperText={
 											<Fragment>
 												{dateHasErr ? (
@@ -212,6 +266,7 @@ function ScheduleEditModal({ isActive, setIsActive, scheduleData }) {
 												type="time"
 												placeholder="Title here..."
 												value={startTime}
+												disabled={isLoading}
 												onChange={(e) => setStartTime(e.target.value)}
 												color={timeHasErr ? "failure" : "gray"}
 											/>
@@ -226,6 +281,7 @@ function ScheduleEditModal({ isActive, setIsActive, scheduleData }) {
 												type="time"
 												placeholder="Title here..."
 												value={endTime}
+												disabled={isLoading}
 												onChange={(e) => setEndTime(e.target.value)}
 												color={timeHasErr ? "failure" : "gray"}
 											/>
@@ -254,6 +310,7 @@ function ScheduleEditModal({ isActive, setIsActive, scheduleData }) {
 									rows={5}
 									style={{ resize: "none", fontSize: "0.90em" }}
 									value={description}
+									disabled={isLoading}
 									onChange={(e) => setDescription(e.target.value)}
 									color={descriptionHasErr ? "failure" : "gray"}
 									helperText={
@@ -275,12 +332,35 @@ function ScheduleEditModal({ isActive, setIsActive, scheduleData }) {
 					</div>
 				</Modal.Body>
 				<Modal.Footer>
-					<div className="flex gap-2 justify-end w-full">
-						<Button color="gray" onClick={() => setIsActive(false)}>
+					<div className="flex gap-2 justify-end w-full items-center">
+						{responseHasErr ? (
+							<div className="text-red-600 text-sm flex-1 text-center">
+								{responseErrMsg}
+							</div>
+						) : (
+							""
+						)}
+						<Button
+							color="gray"
+							onClick={() => setIsActive(false)}
+							disabled={isLoading}
+						>
 							Cancel
 						</Button>
 
-						<Button onClick={validateSubmission}>Submit</Button>
+						<Button onClick={validateSubmission} disabled={isLoading}>
+							<PaperAirplaneIcon className="h-5 w-5 mr-2" />
+							{isLoading ? (
+								<Fragment>
+									<div className="flex flex-row">
+										<div className="mr-2">Editing...</div>
+										<Spinner size="sm" />
+									</div>
+								</Fragment>
+							) : (
+								"Edit"
+							)}
+						</Button>
 					</div>
 				</Modal.Footer>
 			</Modal>

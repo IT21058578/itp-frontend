@@ -1,11 +1,23 @@
 import axios from "axios";
 import React, { useState, Fragment } from "react";
-import { Button, Modal, Label, TextInput, Alert } from "flowbite-react";
-import { CheckCircleIcon } from "@heroicons/react/24/solid";
+import {
+	Button,
+	Modal,
+	Label,
+	TextInput,
+	Alert,
+	Spinner,
+} from "flowbite-react";
+import { ArrowPathIcon, CheckCircleIcon } from "@heroicons/react/24/solid";
+import { useContext } from "react";
+import { ScheduleUpdateContext } from "../../context";
+import { useEffect } from "react";
 
 const SCHEDULE_URL = process.env.REACT_APP_SCHEDULE_API_URL;
 
-function ScheduleRenewModal({ isActive, setIsActive, scheduleData }) {
+function ScheduleRenewModal({ isActive, setIsActive, scheduleDetails }) {
+	const { setIsUpdated } = useContext(ScheduleUpdateContext);
+
 	const [date, setDate] = useState("");
 	const [dateHasErr, setDateHasErr] = useState(false);
 	const [dateErrMsg, setDateErrMsg] = useState("");
@@ -21,8 +33,21 @@ function ScheduleRenewModal({ isActive, setIsActive, scheduleData }) {
 
 	const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
 	const [successAlertClasses, setSuccessAlertClasses] = useState(
-		"absolute border-2 border-green-600 rounded-lg z-50 transition-all hidden"
+		"absolute border-2 border-green-600 rounded-lg z-50 transition-all invisible"
 	);
+
+	useEffect(() => {
+		if (isActive === true) {
+			console.log("Opened! ", scheduleDetails);
+			setDate(scheduleDetails?.date);
+			setStartTime(scheduleDetails?.startTime.slice(0, 5).toString());
+			setEndTime(scheduleDetails?.endTime.slice(0, 5).toString());
+		}
+	}, [isActive, scheduleDetails]);
+
+	useEffect(() => {
+		resetErrors();
+	}, [date, startTime, endTime]);
 
 	function validateSubmission() {
 		console.log("validateRenewSubmission");
@@ -56,25 +81,40 @@ function ScheduleRenewModal({ isActive, setIsActive, scheduleData }) {
 
 	function sendSchedulePutRequest() {
 		let cancelToken;
-		setIsLoading(false);
+		resetErrors();
+		setIsLoading(true);
 		axios
 			.put(
-				"",
+				SCHEDULE_URL,
 				{
-					id: scheduleData.id,
-					title: scheduleData.title,
-					description: scheduleData.description,
-					isActive: scheduleData.isActive,
+					id: scheduleDetails.id,
+					title: scheduleDetails.title,
+					description: scheduleDetails.description,
+					isActive: scheduleDetails.isActive,
 					date,
 					startTime,
 					endTime,
 				},
-				{ cancelToken: new axios.CancelToken((c) => (cancelToken = c)) }
+				{
+					params: { id: scheduleDetails.id },
+					cancelToken: new axios.CancelToken((c) => (cancelToken = c)),
+				}
 			)
-			.then()
+			.then(() => {
+				togglealert();
+				resetModal();
+			})
 			.catch((err) => {
 				if (axios.isCancel(err)) {
 					return;
+				}
+				setResponseHasErr(true);
+				if (err.response.status === 404) {
+					setResponseErrMsg("Schedule was not found. It no longer exists.");
+				} else if (err.response.status >= 500) {
+					setResponseErrMsg(
+						"A miscellaneous server error occured. Please try again."
+					);
 				}
 			})
 			.then(() => {
@@ -82,7 +122,19 @@ function ScheduleRenewModal({ isActive, setIsActive, scheduleData }) {
 			});
 	}
 
-	function resetModal() {}
+	function resetModal() {
+		setDate("");
+		setStartTime("");
+		setEndTime("");
+		setIsActive((prev) => !prev);
+	}
+
+	function resetErrors() {
+		setIsLoading(false);
+		setDateHasErr(false);
+		setTimeHasErr(false);
+		setResponseHasErr(false);
+	}
 
 	function togglealert() {
 		setSuccessAlertClasses(
@@ -104,12 +156,12 @@ function ScheduleRenewModal({ isActive, setIsActive, scheduleData }) {
 		<Fragment>
 			<div
 				className={successAlertClasses}
-				style={{ top: "88vh", left: "66.5vw" }}
+				style={{ top: "88vh", left: "77.3vw" }}
 			>
 				<Alert icon={CheckCircleIcon} color="success" className="p-0 m-0">
 					<span>
-						<span className="font-medium">Submitted Schedule! </span>
-						You can now view it in the schedules tab
+						<span className="font-medium">Renewed Schedule! </span>
+						It is active again.
 					</span>
 				</Alert>
 			</div>
@@ -128,6 +180,7 @@ function ScheduleRenewModal({ isActive, setIsActive, scheduleData }) {
 									value={date}
 									onChange={(e) => setDate(e.target.value)}
 									color={dateHasErr ? "failure" : "gray"}
+									disabled={isLoading}
 									helperText={
 										<Fragment>
 											{dateHasErr ? (
@@ -156,6 +209,7 @@ function ScheduleRenewModal({ isActive, setIsActive, scheduleData }) {
 											value={startTime}
 											onChange={(e) => setStartTime(e.target.value)}
 											color={timeHasErr ? "failure" : "gray"}
+											disabled={isLoading}
 										/>
 									</div>
 								</div>
@@ -170,6 +224,7 @@ function ScheduleRenewModal({ isActive, setIsActive, scheduleData }) {
 											value={endTime}
 											onChange={(e) => setEndTime(e.target.value)}
 											color={timeHasErr ? "failure" : "gray"}
+											disabled={isLoading}
 										/>
 									</div>
 								</div>
@@ -187,12 +242,35 @@ function ScheduleRenewModal({ isActive, setIsActive, scheduleData }) {
 					</div>
 				</Modal.Body>
 				<Modal.Footer>
-					<div className="flex gap-2 justify-end w-full">
-						<Button color="gray" onClick={() => setIsActive(false)}>
+					<div className="flex gap-2 justify-end w-full items-center">
+						{responseHasErr ? (
+							<div className="text-red-600 text-sm flex-1 text-center">
+								{responseErrMsg}
+							</div>
+						) : (
+							""
+						)}
+						<Button
+							color="gray"
+							onClick={() => setIsActive(false)}
+							disabled={isLoading}
+						>
 							Cancel
 						</Button>
 
-						<Button onClick={validateSubmission}>Renew</Button>
+						<Button onClick={validateSubmission} disabled={isLoading}>
+							<ArrowPathIcon className="w-5 h-5 mr-2" />
+							{isLoading ? (
+								<Fragment>
+									<div className="flex flex-row">
+										<div className="mr-2">Renewing...</div>
+										<Spinner size="sm" />
+									</div>
+								</Fragment>
+							) : (
+								"Renew"
+							)}
+						</Button>
 					</div>
 				</Modal.Footer>
 			</Modal>

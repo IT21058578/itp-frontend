@@ -6,20 +6,25 @@ import {
 	TextInput,
 	Textarea,
 	Alert,
+	Spinner,
 } from "flowbite-react";
 import axios from "axios";
-import { CheckCircleIcon } from "@heroicons/react/24/solid";
+import { CheckCircleIcon, CheckIcon } from "@heroicons/react/24/solid";
+import { ScheduleUpdateContext } from "../../context";
+import { useContext } from "react";
 
 const SCHEDULE_URL = process.env.REACT_APP_SCHEDULE_API_URL;
 
-function ScheduleCompleteModal({ isActive, setIsActive, scheduleData }) {
+function ScheduleCompleteModal({ isActive, setIsActive, scheduleDetails }) {
+	const { setIsUpdated } = useContext(ScheduleUpdateContext);
+
 	const [isLoading, setIsLoading] = useState(false);
 	const [responseHasErr, setResponseHasErr] = useState(false);
 	const [responseErrMsg, setResponseErrMsg] = useState(false);
 
 	const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
 	const [successAlertClasses, setSuccessAlertClasses] = useState(
-		"absolute border-2 border-green-600 rounded-lg z-50 transition-all hidden"
+		"absolute border-2 border-green-600 rounded-lg z-50 transition-all invisible"
 	);
 
 	function validateSubmission() {
@@ -28,25 +33,39 @@ function ScheduleCompleteModal({ isActive, setIsActive, scheduleData }) {
 
 	function sendSchedulePutRequest() {
 		let cancelToken;
-		setIsLoading(false);
+		setIsLoading(true);
 		axios
 			.put(
-				"",
+				SCHEDULE_URL,
 				{
-					id: scheduleData.id,
-					title: scheduleData.title,
-					description: scheduleData.description,
+					id: scheduleDetails.id,
+					title: scheduleDetails.title,
+					description: scheduleDetails.description,
 					isActive: false,
-					date: scheduleData.date,
-					startTime: scheduleData.startTime,
-					endTime: scheduleData.endTime,
+					date: scheduleDetails.date,
+					startTime: scheduleDetails.startTime,
+					endTime: scheduleDetails.endTime,
 				},
-				{ cancelToken: new axios.CancelToken((c) => (cancelToken = c)) }
+				{
+					params: { id: scheduleDetails.id },
+					cancelToken: new axios.CancelToken((c) => (cancelToken = c)),
+				}
 			)
-			.then()
+			.then(() => {
+				togglealert();
+				resetModal();
+			})
 			.catch((err) => {
 				if (axios.isCancel(err)) {
 					return;
+				}
+				setResponseHasErr(true);
+				if (err.response.status === 404) {
+					setResponseErrMsg("Schedule was not found. It no longer exists.");
+				} else if (err.response.status >= 500) {
+					setResponseErrMsg(
+						"A miscellaneous server error occured. Please try again."
+					);
 				}
 			})
 			.then(() => {
@@ -54,7 +73,11 @@ function ScheduleCompleteModal({ isActive, setIsActive, scheduleData }) {
 			});
 	}
 
-	function resetModal() {}
+	function resetModal() {
+		setIsActive((prev) => !prev);
+		setIsLoading(false);
+		setResponseHasErr(false);
+	}
 
 	function togglealert() {
 		setSuccessAlertClasses(
@@ -76,12 +99,12 @@ function ScheduleCompleteModal({ isActive, setIsActive, scheduleData }) {
 		<Fragment>
 			<div
 				className={successAlertClasses}
-				style={{ top: "88vh", left: "66.5vw" }}
+				style={{ top: "88vh", left: "74.8vw" }}
 			>
 				<Alert icon={CheckCircleIcon} color="success" className="p-0 m-0">
 					<span>
-						<span className="font-medium">Submitted Schedule! </span>
-						You can now view it in the schedules tab
+						<span className="font-medium">Schedule Completed! </span>
+						It is no longer active.
 					</span>
 				</Alert>
 			</div>
@@ -93,12 +116,34 @@ function ScheduleCompleteModal({ isActive, setIsActive, scheduleData }) {
 					cannot be edited!{" "}
 				</Modal.Body>
 				<Modal.Footer>
-					<div className="flex gap-2 justify-end w-full">
-						<Button color="gray" onClick={() => setIsActive(false)}>
+					<div className="flex gap-2 justify-end w-full items-center">
+						{responseHasErr ? (
+							<div className="text-red-600 text-sm flex-1 text-center">
+								{responseErrMsg}
+							</div>
+						) : (
+							""
+						)}
+						<Button
+							color="gray"
+							onClick={() => setIsActive(false)}
+							disabled={isLoading}
+						>
 							Cancel
 						</Button>
-
-						<Button onClick={validateSubmission}>Complete</Button>
+						<Button onClick={validateSubmission} disabled={isLoading}>
+							<CheckIcon className="h-5 w-5 mr-2" />
+							{isLoading ? (
+								<Fragment>
+									<div className="flex flex-row">
+										<div className="mr-2">Completing...</div>
+										<Spinner size="sm" />
+									</div>
+								</Fragment>
+							) : (
+								"Complete"
+							)}
+						</Button>
 					</div>
 				</Modal.Footer>
 			</Modal>

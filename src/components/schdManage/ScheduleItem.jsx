@@ -13,9 +13,10 @@ function ScheduleItem({
 	scheduleDetails,
 	itemRef,
 	setIsEditMdlActive,
-	setIsCompletedMdlActive,
+	setIsCompleteMdlActive,
 	setIsRenewMdlActive,
 	setIsDeleteMdlActive,
+	setFocus,
 }) {
 	const [bgClasses, setBgClasses] = useState("");
 
@@ -63,11 +64,22 @@ function ScheduleItem({
 						</div>
 					</div>
 					<div className="w-2/6 flex flex-row justify-end gap-2">
-						<Button color="failure" onClick={() => setIsDeleteMdlActive(true)}>
+						<Button
+							color="failure"
+							onClick={() => {
+								setFocus(scheduleDetails);
+								setIsDeleteMdlActive(true);
+							}}
+						>
 							<TrashIcon className="h-6 w-6" />
 						</Button>
 						{scheduleDetails.active ? (
-							<Button onClick={() => setIsEditMdlActive(true)}>
+							<Button
+								onClick={() => {
+									setFocus(scheduleDetails);
+									setIsEditMdlActive(true);
+								}}
+							>
 								<PencilIcon className="h-6 w-6" />
 							</Button>
 						) : (
@@ -78,12 +90,21 @@ function ScheduleItem({
 						{scheduleDetails.active ? (
 							<Button
 								color="success"
-								onClick={() => setIsCompletedMdlActive(true)}
+								onClick={() => {
+									setFocus(scheduleDetails);
+									setIsCompleteMdlActive(true);
+								}}
 							>
 								<CheckCircleIcon className="h-6 w-6" />
 							</Button>
 						) : (
-							<Button color="success" onClick={() => setIsRenewMdlActive(true)}>
+							<Button
+								color="success"
+								onClick={() => {
+									setFocus(scheduleDetails);
+									setIsRenewMdlActive(true);
+								}}
+							>
 								<ArrowPathIcon className="h-6 w-6" />
 							</Button>
 						)}
