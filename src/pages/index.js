@@ -1,5 +1,5 @@
 import SchedCalenderPage from "./schedManagement/SchedCalenderPage";
-import SchedListPage from "./schedManagement/SchedListPage";
+import SchedJobListPage from "./schedManagement/SchedJobListPage";
 import SchedStatPage from "./schedManagement/SchedStatPage";
 import SchedItemListPage from "./schedManagement/SchedItemListPage";
 import AdmEmpPage from "./empManagement/AdmEmpPage";
@@ -17,7 +17,7 @@ import ErrorPage from "./ErrorPage";
 //Classes
 
 export {
-    SchedCalenderPage, SchedListPage, SchedStatPage, SchedItemListPage,
+    SchedCalenderPage, SchedJobListPage, SchedStatPage, SchedItemListPage,
     AdmEmpPage, AdmEmpListPage,
     EmpJobPage, EmpLandPage, EmpStatPage,
     RegisterPage, RegisterSuccessPage, ForgotPasswordPage, RegisterAuthenticationPage,

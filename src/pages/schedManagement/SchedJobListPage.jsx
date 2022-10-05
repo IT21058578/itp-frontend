@@ -14,7 +14,7 @@ import { useInfiniteScroll } from "../../hooks";
 const JOB_URL = process.env.REACT_APP_JOB_API_URL;
 const JOB_SEARCH_URL = process.env.REACT_APP_JOB_SEARCH_API_URL;
 
-function SchedListPage({ auth }) {
+function SchedJobListPage({ auth }) {
 	const [searchParams, setSearchParams] = useState({});
 	const [searchSortParams, setSearchSortParams] = useState({}); //The params passed into the infinite scroll must be a sate variable.
 	const [isParamsChanged, setIsParamsChanged] = useState(false);
@@ -112,4 +112,4 @@ function SchedListPage({ auth }) {
 	);
 }
 
-export default SchedListPage;
+export default SchedJobListPage;
