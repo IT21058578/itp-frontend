@@ -22,16 +22,6 @@ function App() {
         <Route path="admin/*" element={<AdminLayout />} ></Route>
 
         <Route path="invoice/*" element={<Invoice />} ></Route>
-        
-         <Route exact path='/service' element={<Service />} />
-           
-         <Route path='/admin' element={<ScAdminPanel />} />//admin
-         <Route path='/update' element={<ScPopupUpdate />} />//admin
-         <Route path='/create' element={<CreatForm />} />//admin
-         <Route path='/homeClean' element={<ScHcBooking />} />
-         <Route path='/booking' element={<ScBookingHook />} />
-         <Route path='/laundryClean' element={<ScLcBooking />} />
-         <Route path='/req' element={<ServiceRequestForm />} />
       </Routes>
     </Router>
   );
