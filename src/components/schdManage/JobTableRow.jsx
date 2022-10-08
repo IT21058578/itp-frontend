@@ -6,17 +6,11 @@ import { useNavigate } from "react-router-dom";
 
 const JOB_INFO_URL = "#";
 
-function JobTableRow({ job, rowRef, isParamsChanged }) {
+function JobTableRow({ job, rowRef }) {
 	const navigate = useNavigate();
-	const [rowClasses, setRowClasses] = useState();
-
-	useEffect(() => {
-		if (isParamsChanged) {
-			setRowClasses("bg-gray-100 dark:border-gray-700 dark:bg-gray-800");
-		} else {
-			setRowClasses("bg-white dark:border-gray-700 dark:bg-gray-800");
-		}
-	}, [isParamsChanged]);
+	const [rowClasses, setRowClasses] = useState(
+		"bg-white dark:border-gray-700 dark:bg-gray-800"
+	);
 
 	return (
 		<Table.Row className={rowClasses}>

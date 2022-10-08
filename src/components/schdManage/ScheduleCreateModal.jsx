@@ -109,8 +109,8 @@ function ScheduleCreateModal({ isActive, setIsActive }) {
 			.then(() => {
 				resetModal();
 				toggleAlert();
+				setIsUpdated(true);
 			})
-			.then()
 			.catch((err) => {
 				if (axios.isCancel(err)) {
 					return;

@@ -11,15 +11,13 @@ import RegisterPage from "./loginRegister/RegisterPage";
 import RegisterSuccessPage from "./loginRegister/RegisterSuccessPage";
 import RegisterAuthenticationPage from "./loginRegister/RegisterAuthenticationPage";
 import ForgotPasswordPage from "./loginRegister/ForgotPasswordPage";
+import LoginPage from "./loginRegister/LoginPage";
 import ErrorPage from "./ErrorPage";
-
-
-//Classes
 
 export {
     SchedCalenderPage, SchedJobListPage, SchedStatPage, SchedItemListPage,
     AdmEmpPage, AdmEmpListPage,
     EmpJobPage, EmpLandPage, EmpStatPage,
     RegisterPage, RegisterSuccessPage, ForgotPasswordPage, RegisterAuthenticationPage,
-    ErrorPage,
+    ErrorPage, LoginPage
 };

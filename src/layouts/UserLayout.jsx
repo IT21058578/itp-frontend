@@ -4,6 +4,7 @@ import { CustomerFooter, CustomerNavbar } from "../components";
 import {
 	ErrorPage,
 	ForgotPasswordPage,
+	LoginPage,
 	RegisterAuthenticationPage,
 	RegisterPage,
 	RegisterSuccessPage,
@@ -27,6 +28,7 @@ function UserLayout() {
 						path="auth/register/authorize"
 						element={<RegisterAuthenticationPage />}
 					/>
+					<Route path="auth/login" element={<LoginPage />} />
 					<Route path="auth/forgotpassword" element={<ForgotPasswordPage />} />
 					<Route path="auth/resetpassword" element={<ResetPasswordPage />} />
 					<Route path="auth/register" element={<RegisterPage />} />

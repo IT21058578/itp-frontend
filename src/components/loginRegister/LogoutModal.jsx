@@ -5,6 +5,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 
 function LogoutModal({ isLogoutMdlActive, setIsLogoutMdlActive }) {
 	const navigate = useNavigate();
+	
 	function validateLogout() {
 		ReactSession.remove("email");
 		ReactSession.remove("firstName");
@@ -16,7 +17,7 @@ function LogoutModal({ isLogoutMdlActive, setIsLogoutMdlActive }) {
 		ReactSession.remove("resetToken");
 		ReactSession.remove("password");
 		window.location.reload();
-		navigate("/");
+		navigate("/auth/login");
 	}
 
 	return (
@@ -38,7 +39,7 @@ function LogoutModal({ isLogoutMdlActive, setIsLogoutMdlActive }) {
 					>
 						Cancel
 					</Button>
-					<Button onClick={validateLogout}>Logout</Button>
+					<Button onClick={() => validateLogout()}>Logout</Button>
 				</div>
 			</Modal.Footer>
 		</Modal>

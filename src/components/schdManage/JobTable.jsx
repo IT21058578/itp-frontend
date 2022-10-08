@@ -12,7 +12,6 @@ function JobTable({
 	lastTableRowRef,
 	hasMore,
 	isLoading,
-	isParamsChanged,
 }) {
 	return (
 		<div className="w-full h-full">
@@ -77,12 +76,7 @@ function JobTable({
 				<Table.Body className="divide-y h-100">
 					{jobList?.map((job, i) =>
 						jobList.length === i + 1 ? (
-							<JobTableRow
-								rowRef={lastTableRowRef}
-								job={job}
-								key={i}
-								isParamsChanged={isParamsChanged}
-							/>
+							<JobTableRow rowRef={lastTableRowRef} job={job} key={i} />
 						) : (
 							<JobTableRow job={job} key={i} />
 						)

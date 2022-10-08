@@ -74,19 +74,19 @@ function CustomerNavbar() {
 									/>
 								</div>
 							) : (
-								<Button size="sm" onClick={() => setIsLoginMdlActive(true)}>
+								<div
+									onClick={() => navigate("auth/login")}
+									style={{ fontSize: "0.9em" }}
+									className="font-medium hover:cursor-pointer hover:text-blue-700 ml-4"
+								>
 									Login
-								</Button>
+								</div>
 							)}
 						</div>
 					</div>
 					<div></div>
 				</nav>
 			</div>
-			<LoginModal
-				isLoginMdlActive={isLoginMdlActive}
-				setIsLoginMdlActive={setIsLoginMdlActive}
-			/>
 			<LogoutModal
 				isLogoutMdlActive={isLogoutMdlActive}
 				setIsLogoutMdlActive={setIsLogoutMdlActive}

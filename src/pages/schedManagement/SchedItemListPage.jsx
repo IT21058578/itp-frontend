@@ -36,7 +36,9 @@ function SchedItemListPage() {
 		SCHEDULE_SEARCH_URL,
 		searchSortParams,
 		pgNum,
+		setPgNum,
 		pgSize,
+		isUpdated,
 		setIsUpdated
 	);
 	const observer = useRef();
@@ -59,16 +61,6 @@ function SchedItemListPage() {
 		},
 		[isLoading, hasMore]
 	);
-
-	useEffect(() => {
-		if (!isUpdated) {
-			let temp = searchSortParams;
-			temp.isDataUpdated = true;
-			setSearchSortParams(temp);
-			setIsUpdated(true);
-			setPgNum(1);
-		}
-	}, [isUpdated]);
 
 	function handleSearch(s) {
 		setSearchSortParams({ ...s, isUpdated });
