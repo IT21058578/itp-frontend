@@ -10,11 +10,13 @@ import {
 	BriefcaseIcon,
 	ArrowRightOnRectangleIcon,
 	UserGroupIcon,
+	PencilSquareIcon,
 } from "@heroicons/react/24/solid";
 
 const ADM_LAND_URL = "/admin";
 const ADM_EMPS_URL = "/admin/employees";
 const ADM_JOBS_URL = "/admin/jobs";
+const CATEGORY_PANEL_URL = "/admin/SCAdmin";
 
 function AdminSidebar({ auth }) {
 	const { setAuth } = useContext(AuthContext);
@@ -98,8 +100,17 @@ function AdminSidebar({ auth }) {
 						>
 							<div className="inline-block align-middle">Jobs</div>
 						</Sidebar.Item>
+						<Sidebar.Item
+							href=""
+							onClick={(e) => gotoPage(e, CATEGORY_PANEL_URL)}
+							icon={PencilSquareIcon}
+							style={{ height: "2.5rem" }}
+						>
+							<div className="inline-block align-middle">Categories Panel</div>
+						</Sidebar.Item>
 					</Sidebar.ItemGroup>
 					<Sidebar.ItemGroup>
+						
 						<Sidebar.Item
 							href=""
 							onClick={(e) => userLogout(e)}

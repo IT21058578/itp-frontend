@@ -11,7 +11,7 @@
     "flowbite": "^1.5.2",
     "flowbite-datepicker": "^1.2.2",
     "flowbite-react": "^0.1.9",
-    "framer-motion": "^7.3.6",
+    "framer-motion": "^7.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
@@ -43,8 +43,9 @@
     ]
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.8",
+    "autoprefixer": "^10.4.12",
     "postcss": "^8.4.16",
+    "prettier": "2.7.1",
     "tailwindcss": "^3.1.8"
   }
 }

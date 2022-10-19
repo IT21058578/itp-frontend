@@ -6,6 +6,11 @@ import React from "react";
 import RegisterPage from "./pages/RegisterPage";
 
 
+
+
+
+
+
 //Place Main routes here.
 function App() {
   return (
@@ -21,6 +26,17 @@ function App() {
 
         {/*Distribute these routes into the above layouts accordingly*/}
         <Route path="invoice/*" element={<Invoice />} ></Route>
+
+
+        {/*Service Creation System*/}
+        {/*Customers */}
+        
+
+        {/*Admins     "SC" meaning is Service Creation*/}
+        
+        
+
+
         
       </Routes>
     </Router>
