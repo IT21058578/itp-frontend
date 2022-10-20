@@ -22,6 +22,7 @@ function SchedItemListPage() {
 	const [pgNum, setPgNum] = useState(1);
 	const [searchSortParams, setSearchSortParams] = useState({});
 	const { isUpdated, setIsUpdated } = useContext(ScheduleUpdateContext);
+	const [isDataUpdated, setIsDataUpdated] = useState(false);
 
 	//For modal toggling.
 	const [isEditMdlActive, setIsEditMdlActive] = useState(false);
@@ -68,7 +69,7 @@ function SchedItemListPage() {
 
 	return (
 		<Fragment>
-			<div className="flex flex-col gap-2">
+			<div className="flex flex-col gap-2 h-full w-full">
 				<Container className="grow flex h-full w-full">
 					<div className="flex w-full h-full gap-2 flex-row">
 						<Container
@@ -78,8 +79,7 @@ function SchedItemListPage() {
 							<ScheduleSearch handleSearch={handleSearch} />
 						</Container>
 						<div
-							className="flex-grow flex flex-col border p-2 gap-2 rounded-md overflow-y-scroll w-3/4"
-							style={{ height: "78vh" }}
+							className="flex-grow h-full flex flex-col border p-2 gap-2 rounded-md overflow-y-scroll w-3/4"
 						>
 							{dataList.map((s, i) =>
 								dataList.length - 1 === i ? (

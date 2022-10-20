@@ -80,7 +80,7 @@ function SchedJobListPage() {
 
 	return (
 		<Fragment>
-			<div className="flex flex-col gap-2">
+			<div className="flex flex-col gap-2 h-full w-full">
 				<Container className="grow flex h-full w-full">
 					<div className="flex w-full h-full gap-2">
 						<Container
@@ -90,8 +90,8 @@ function SchedJobListPage() {
 							<JobTableSearch handleSearch={handleSearch} />
 						</Container>
 						<div
-							className="flex-grow flex border p-2 rounded-md w-3/4 overflow-y-scroll"
-							style={{ height: "78vh" }}
+							className="flex-grow flex border p-2 rounded-md w-3/4 overflow-y-scroll h-full"
+							
 						>
 							<JobTable
 								handleSortChange={handleSortChange}

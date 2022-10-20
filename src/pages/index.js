@@ -2,6 +2,8 @@ import SchedCalenderPage from "./schedManagement/SchedCalenderPage";
 import SchedJobListPage from "./schedManagement/SchedJobListPage";
 import SchedStatPage from "./schedManagement/SchedStatPage";
 import SchedItemListPage from "./schedManagement/SchedItemListPage";
+import AdminJobPage from "./schedManagement/AdminJobPage";
+
 import AdmEmpPage from "./empManagement/AdmEmpPage";
 import AdmEmpListPage from "./empManagement/AdmEmpListPage";
 import EmpJobPage from "./empManagement/EmpJobPage";
@@ -24,7 +26,7 @@ import UserJobsFuturePage from "./userManagement/UserJobsFuturePage";
 import UserJobPage from "./userManagement/UserJobPage";
 
 export {
-    SchedCalenderPage, SchedJobListPage, SchedStatPage, SchedItemListPage,
+    SchedCalenderPage, SchedJobListPage, SchedStatPage, SchedItemListPage, AdminJobPage,
     AdmEmpPage, AdmEmpListPage,
     EmpJobPage, EmpLandPage, EmpStatPage,
     UserChangePasswordPage, UserDashboardPage, UserEditDetailsPage, UserJobPage, UserJobsCompletedPage, UserJobsFuturePage,

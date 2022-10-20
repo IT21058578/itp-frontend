@@ -10,12 +10,16 @@ import {
 	BriefcaseIcon,
 	ArrowRightOnRectangleIcon,
 	UserGroupIcon,
+	CalendarIcon,
+	BookmarkIcon,
 } from "@heroicons/react/24/solid";
 import LogoutModal from "../loginRegister/LogoutModal";
 
 const ADM_LAND_URL = "/admin";
 const ADM_EMPS_URL = "/admin/employees";
 const ADM_JOBS_URL = "/admin/jobs";
+const ADM_SCHED_URL = "/admin/schedule";
+const ADM_CALENDER_URL = "/admin/calender";
 
 function AdminSidebar({ auth }) {
 	const { setAuth } = useContext(AuthContext);
@@ -50,6 +54,7 @@ function AdminSidebar({ auth }) {
 		setAuth({}); //Revoke authorization.
 		navigate("/login"); //Redirect to login.
 	}
+	
 
 	return (
 		<Fragment>
@@ -63,7 +68,7 @@ function AdminSidebar({ auth }) {
 								icon={
 									!collapsed ? ChevronDoubleLeftIcon : ChevronDoubleRightIcon
 								}
-								style={{ height: "2.5rem" }}
+								style={{ height: "2.5rem", zIndex: "50" }}
 							>
 								<div className="inline-block align-middle">Collapse</div>
 							</Sidebar.Item>
@@ -81,27 +86,27 @@ function AdminSidebar({ auth }) {
 						<Sidebar.ItemGroup>
 							<Sidebar.Item
 								href=""
-								onClick={(e) => gotoPage(e, ADM_LAND_URL)}
-								icon={UserIcon}
-								style={{ height: "2.5rem" }}
+								onClick={(e) => gotoPage(e, ADM_CALENDER_URL)}
+								icon={CalendarIcon}
+								style={{ height: "2.5rem", zIndex: "50" }}
 							>
-								<div className="inline-block align-middle">Landing</div>
-							</Sidebar.Item>
-							<Sidebar.Item
-								href=""
-								onClick={(e) => gotoPage(e, ADM_EMPS_URL)}
-								icon={UserGroupIcon}
-								style={{ height: "2.5rem" }}
-							>
-								<div className="inline-block align-middle">Employees</div>
+								<div className="inline-block align-middle z-50">Calender</div>
 							</Sidebar.Item>
 							<Sidebar.Item
 								href=""
 								onClick={(e) => gotoPage(e, ADM_JOBS_URL)}
 								icon={BriefcaseIcon}
-								style={{ height: "2.5rem" }}
+								style={{ height: "2.5rem", zIndex: "50" }}
 							>
-								<div className="inline-block align-middle">Jobs</div>
+								<div className="inline-block align-middle z-50">Jobs</div>
+							</Sidebar.Item>
+							<Sidebar.Item
+								href=""
+								onClick={(e) => gotoPage(e, ADM_SCHED_URL)}
+								icon={BookmarkIcon}
+								style={{ height: "2.5rem", zIndex: "50" }}
+							>
+								<div className="inline-block align-middle">Schedules</div>
 							</Sidebar.Item>
 						</Sidebar.ItemGroup>
 						<Sidebar.ItemGroup>

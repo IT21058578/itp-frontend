@@ -31,7 +31,7 @@ function UserJobsCompletedPage() {
 					There are a total of {completedJobNum} completed jobs. You have left
 					reviews for {reviewJobNum} them.
 				</div>
-				<div className="flex gap-1 flex-col flex-1 mt-4 border rounded h-full w-full bg-gray-100 overflow-y-scroll p-4">
+				<div className="flex relative gap-1 flex-col flex-1 mt-4 border rounded h-full w-full bg-gray-100 overflow-y-scroll p-4">
 					{dataList.map((j, i) =>
 						dataList.length - 1 === i ? "Test" : "Test 2"
 					)}
@@ -52,6 +52,11 @@ function UserJobsCompletedPage() {
 					) : (
 						""
 					)}
+					{!isLoading && dataList?.length === 0 ? (
+					<div className="font-medium text-gray-500 h-full w-full border border-red-500 flex items-center">
+						<div className="text-center flex-1">Nothing here for now. When a job you bought is completed, it will show up here.</div>
+					</div>
+					):""}
 				</div>
 			</div>
 		</div>

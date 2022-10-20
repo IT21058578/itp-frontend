@@ -1,10 +1,9 @@
 import React, { useContext } from "react";
 import { AdminSidebar } from "../components";
 import { Route, Routes } from "react-router-dom";
-import { AdmEmpPage } from "../pages";
+import { AdmEmpPage, SchedCalenderPage, SchedItemListPage, SchedJobListPage, AdminJobPage } from "../pages";
 import { Fragment } from "react";
 import { AuthContext } from "../context";
-import AdminSchedLayout from "./AdminSchedLayout";
 import AdminCatogrizedServicesHook from "../hooks/ServiceCreation/AdminCategorizedServices";
 import AdminPanel from "../pages/ServiceCreation/Admin/AdminPanel";
 import ServiceUpdate from "../pages/ServiceCreation/Admin/ServiceUpdate";
@@ -24,12 +23,25 @@ function AdminLayout() {
 					<Routes>
 						<Route
 							path="jobs/*"
-							element={<AdminSchedLayout auth={auth} />}
+							element={<SchedJobListPage />}
+						></Route>
+						<Route
+							path="jobs/job"
+							element={<AdminJobPage />}
+						></Route>
+						<Route
+							path="calender/*"
+							element={<SchedCalenderPage />}
+						></Route>
+						<Route
+							path="schedule/*"
+							element={<SchedItemListPage />}
 						></Route>
 						<Route
 							path="employees/*"
 							element={<AdmEmpPage auth={auth} />}
 						></Route>
+						
 						<Route
 							path="/SCAdmin"
 							element={<AdminPanel/>}

@@ -46,7 +46,7 @@ function ScheduleSearch({ handleSearch }) {
 	}
 
 	return (
-		<div className="flex flex-col justify-center" style={{ height: "70vh" }}>
+		<div className="flex flex-col justify-center h-full" >
 			<div
 				className="pr-4 flex flex-col gap-1"
 				style={{
