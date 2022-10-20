@@ -26,6 +26,8 @@ import CustomerNavbar from "./layoutHelpers/CustomerNavbar";
 import AdminSidebar from "./layoutHelpers/AdminSidebar";
 import EmpSidebar from "./layoutHelpers/EmpSidebar";
 
+import UserJobItem from "./userManagement/UserJobItem";
+
 import Loader from "./Loader";
 
 export {
@@ -35,4 +37,5 @@ export {
     JobTable, JobTableRow, JobTableSearch, JobTableHeader,
     LoginModal, RegisterForm, LogoutModal, CustomerFooter, CustomerNavbar,
     Loader, ScheduleDeleteModal, ScheduleEditModal, ScheduleRenewModal, ScheduleCreateModal, ScheduleCompleteModal,
+    UserJobItem,
 };

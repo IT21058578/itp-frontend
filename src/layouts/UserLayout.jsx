@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { CustomerFooter, CustomerNavbar } from "../components";
 import {
@@ -8,8 +8,14 @@ import {
 	RegisterAuthenticationPage,
 	RegisterPage,
 	RegisterSuccessPage,
+	UserChangePasswordPage,
+	UserDashboardPage,
+	UserEditDetailsPage,
+	UserJobListPage,
+	UserJobPage,
+	ResetPasswordPage,
 } from "../pages";
-import ResetPasswordPage from "../pages/loginRegister/ResetPasswordPage";
+import UserProfileLayout from "./UserProfileLayout";
 
 function UserLayout() {
 	return (
@@ -28,6 +34,10 @@ function UserLayout() {
 						path="auth/register/authorize"
 						element={<RegisterAuthenticationPage />}
 					/>
+
+					{/*Layout for user profile when logged */}
+					<Route path="profile/*" element={<UserProfileLayout />} />
+
 					<Route path="auth/login" element={<LoginPage />} />
 					<Route path="auth/forgotpassword" element={<ForgotPasswordPage />} />
 					<Route path="auth/resetpassword" element={<ResetPasswordPage />} />

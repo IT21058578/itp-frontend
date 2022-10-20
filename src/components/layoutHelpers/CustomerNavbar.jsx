@@ -49,7 +49,7 @@ function CustomerNavbar() {
 									onClick={() => navigate(item.link)}
 									key={i}
 									style={{ fontSize: "0.9em" }}
-									className="font-medium hover:cursor-pointer hover:text-blue-700"
+									className="transition-all font-medium hover:cursor-pointer hover:text-blue-700"
 								>
 									{item.displayText}
 								</div>
