@@ -10,9 +10,10 @@ import {
 } from "flowbite-react";
 import axios from "axios";
 import { CheckBadgeIcon } from "@heroicons/react/24/solid";
+import { useEffect } from "react";
 
 const REGISTER_URL = process.env.REACT_APP_REGISTER_API_URL;
-const REGISTER_SUCCESS_URL = "#";
+const REGISTER_SUCCESS_URL = "/auth/register/success";
 
 function RegisterForm() {
 	const navigate = useNavigate();
@@ -47,6 +48,7 @@ function RegisterForm() {
 	const [passwordHasErr, setPasswordHasErr] = useState(false);
 	const [passwordErrMsg, setPasswordErrMsg] = useState("");
 	const [isPasswordFocus, setIsPasswordFocus] = useState(false);
+	const [passwordHintClasses, setPasswordHintClasses] = useState("");
 
 	const [retypePassword, setRetypePassword] = useState("");
 	const [retypePasswordHasErr, setRetypePasswordHasErr] = useState(false);
@@ -61,6 +63,17 @@ function RegisterForm() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [registerHasErr, setRegisterHasErr] = useState(false);
 	const [registerErrMsg, setRegisterErrMsg] = useState("");
+
+	//For showing password hints
+	useEffect(() => {
+		if (isPasswordFocus === false) {
+			setPasswordHintClasses(
+				"absolute bg-white p-4 border rounded-md top-12 invisible"
+			);
+		} else {
+			setPasswordHintClasses("absolute bg-white p-4 border rounded-md top-12");
+		}
+	}, [isPasswordFocus]);
 
 	function validateRegistration() {
 		let hasAnyErr = false;
@@ -130,7 +143,7 @@ function RegisterForm() {
 		setPasswordHasErr(false);
 		if (
 			!password.match(
-				/^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}$/
+				/^(?=.*\d)(?=.*[a-zA-Z])(?=.*[A-Z])(?=.*[-\#\$\.\%\&\*])(?=.*[a-zA-Z]).{8,16}$/
 			)
 		) {
 			setPasswordHasErr(true);
@@ -154,7 +167,7 @@ function RegisterForm() {
 			hasAnyErr = true;
 		}
 
-		if (hasAnyErr) {
+		if (!hasAnyErr) {
 			sendRegistrationRequest();
 		}
 	}
@@ -180,6 +193,14 @@ function RegisterForm() {
 					//For errors with response
 					if (err.response.status === 0) {
 						setRegisterErrMsg("Failed to connect to server. Please try again.");
+					} else if (err.response.status === 409) {
+						setRegisterErrMsg(
+							"Email already exists. Please enter a different email."
+						);
+						setEmailHasErr(true);
+						setEmailErrMsg(
+							"Email already exists. Please enter a different email."
+						);
 					} else {
 						setRegisterErrMsg("An error occured. Please try again.");
 					}
@@ -338,11 +359,43 @@ function RegisterForm() {
 					<div className="mb-2 block">
 						<Label value="Password" />
 					</div>
-					<div>
+					<div className="relative">
+						<div className={passwordHintClasses}>
+							<div className="text-sm font-medium border-b mb-2">
+								Password Strength Rules
+							</div>
+							<ul className="list-disc ml-4">
+								<li className="text-xs text-gray-600 font-medium">
+									8 to 16 characters in length
+								</li>
+								<li className="text-xs text-gray-600 font-medium">
+									Atleast 1 upper-case letter
+								</li>
+								<li className="text-xs text-gray-600 font-medium">
+									Atleast 1 lower-case letter
+								</li>
+								<li className="text-xs text-gray-600 font-medium">
+									Atleast 1 number
+								</li>
+								<li className="text-xs text-gray-600 font-medium">
+									Atleast 1 of these special characters
+									<ul className="list-disc bg-gray-100 p-0.5 rounded-md">
+										<li className="inline-block mx-2">#</li>
+										<li className="inline-block mx-2">$</li>
+										<li className="inline-block mx-2">.</li>
+										<li className="inline-block mx-2">%</li>
+										<li className="inline-block mx-2">&</li>
+										<li className="inline-block mx-2">*</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
 						<TextInput
 							type="password"
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
+							onFocus={() => setIsPasswordFocus(true)}
+							onBlur={() => setIsPasswordFocus(false)}
 							placeholder="Password"
 							disabled={isLoading}
 							color={passwordHasErr ? "failure" : "gray"}

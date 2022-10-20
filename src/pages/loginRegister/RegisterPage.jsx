@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, RegisterForm } from "../components";
+import {RegisterForm } from "../../components";
 
 //Self explanatory
 function RegisterPage() {

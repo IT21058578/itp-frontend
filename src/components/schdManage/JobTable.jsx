@@ -1,7 +1,8 @@
 import React from "react";
-import { Table } from "flowbite-react";
+import { Spinner, Table } from "flowbite-react";
 import JobTableHeader from "./JobTableHeader";
 import JobTableRow from "./JobTableRow";
+import Loader from "../Loader";
 
 function JobTable({
 	jobList,
@@ -9,6 +10,8 @@ function JobTable({
 	sortDir,
 	sortCol,
 	lastTableRowRef,
+	hasMore,
+	isLoading,
 }) {
 	return (
 		<div className="w-full h-full">
@@ -77,6 +80,30 @@ function JobTable({
 						) : (
 							<JobTableRow job={job} key={i} />
 						)
+					)}
+					{isLoading ? (
+						<Table.Row>
+							<Table.Cell
+								className="font-medium text-gray-500 text-center bg-gray-50"
+								colSpan={7}
+							>
+								<Spinner />
+							</Table.Cell>
+						</Table.Row>
+					) : (
+						""
+					)}
+					{!hasMore && !isLoading ? (
+						<Table.Row>
+							<Table.Cell
+								className="font-medium text-gray-500 text-center bg-gray-50"
+								colSpan={7}
+							>
+								End of Content...
+							</Table.Cell>
+						</Table.Row>
+					) : (
+						""
 					)}
 				</Table.Body>
 			</Table>

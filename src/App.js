@@ -4,12 +4,9 @@ import { AdminLayout, EmpLayout, UserLayout } from "./layouts"
 import Invoice from './pages/invoice/InvoicePage';
 import React from "react";
 import RegisterPage from "./pages/RegisterPage";
+import { ReactSession } from 'react-client-session';
 
-
-
-
-
-
+ReactSession.setStoreType("sessionStorage");
 
 //Place Main routes here.
 function App() {
@@ -26,18 +23,6 @@ function App() {
 
         {/*Distribute these routes into the above layouts accordingly*/}
         <Route path="invoice/*" element={<Invoice />} ></Route>
-
-
-        {/*Service Creation System*/}
-        {/*Customers */}
-        
-
-        {/*Admins     "SC" meaning is Service Creation*/}
-        
-        
-
-
-        
       </Routes>
     </Router>
   );
