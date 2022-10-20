@@ -28,14 +28,12 @@ import EmpSidebar from "./layoutHelpers/EmpSidebar";
 
 import UserJobItem from "./userManagement/UserJobItem";
 
-import Loader from "./Loader";
-
 export {
     Container,
     EmpSidebar, AdminSidebar,
     Calender, CalenderDay, SchedulerTopBar, ScheduleItem, ScheduleSearch,
     JobTable, JobTableRow, JobTableSearch, JobTableHeader,
     LoginModal, RegisterForm, LogoutModal, CustomerFooter, CustomerNavbar,
-    Loader, ScheduleDeleteModal, ScheduleEditModal, ScheduleRenewModal, ScheduleCreateModal, ScheduleCompleteModal,
+    ScheduleDeleteModal, ScheduleEditModal, ScheduleRenewModal, ScheduleCreateModal, ScheduleCompleteModal,
     UserJobItem,
 };

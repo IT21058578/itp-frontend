@@ -2,7 +2,6 @@ import React from "react";
 import { Spinner, Table } from "flowbite-react";
 import JobTableHeader from "./JobTableHeader";
 import JobTableRow from "./JobTableRow";
-import Loader from "../Loader";
 
 function JobTable({
 	jobList,

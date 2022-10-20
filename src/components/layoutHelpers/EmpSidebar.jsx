@@ -11,8 +11,12 @@ import {
 	BriefcaseIcon,
 	IdentificationIcon,
 	ArrowRightOnRectangleIcon,
+	PencilSquareIcon,
 } from "@heroicons/react/24/solid";
 
+
+{/* DO NOT USE THIs. WE WILL NOT BE IMPLEMENTING EMPLOYING MANAGEMENT*/}
+const CATEGORY_PANEL_URL = "";
 const EMP_LAND_URL = "/employee";
 const EMP_STAT_URL = "/employee/stat";
 const EMP_JOBS_URL = "/employee/jobs";

@@ -1,8 +1,5 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import { CustomerFooter, CustomerNavBar } from "../components";
-import TestNavbar from "../components/TestNavbar";
-import { ErrorPage, RegisterPage, RegisterSuccessPage } from "../pages";
 import Categories from "../pages/ServiceCreation/Categories";
 import CatogrizedServicesHook from "../hooks/ServiceCreation/CategorizedServices";
 import ServiceDeatails from "../pages/ServiceCreation/ServiceDeatials";
@@ -15,11 +12,6 @@ import {
 	RegisterAuthenticationPage,
 	RegisterPage,
 	RegisterSuccessPage,
-	UserChangePasswordPage,
-	UserDashboardPage,
-	UserEditDetailsPage,
-	UserJobListPage,
-	UserJobPage,
 	ResetPasswordPage,
 } from "../pages";
 import UserProfileLayout from "./UserProfileLayout";
