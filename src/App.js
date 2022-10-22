@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { AdminLayout, EmpLayout, UserLayout } from "./layouts"
-import Invoice from './pages/invoice/InvoicePage';
 import React from "react";
 import { ReactSession } from 'react-client-session';
 

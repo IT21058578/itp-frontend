@@ -1,4 +1,4 @@
-import {React, useState, useEffect} from "react"
+import {React, useState, useEffect} from "react";
 import InvoiceCustomer from "./invoiceCustomer";
 import { Card } from "flowbite-react";
 import InvoiceBody from "./InvoiceBody";

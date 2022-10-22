@@ -3,11 +3,12 @@ import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import {
 	UserChangePasswordPage,
 	UserDashboardPage,
-	UserEditDetailsPage,
 	UserJobPage,
 	UserJobsCompletedPage,
 	UserJobsFuturePage,
 } from "../pages";
+
+import SavedPaymentInstruments from '../pages/invoice/SavedPaymentInstruments';
 
 const profileNavBarItems = [
 	{ name: "Dashboard", link: "/profile" },
@@ -50,6 +51,7 @@ function UserProfileLayout() {
 					<Route path="jobs/completed" element={<UserJobsCompletedPage />} />
 					<Route path="jobs/future" element={<UserJobsFuturePage />} />
 					<Route path="password" element={<UserChangePasswordPage />} />
+					<Route path="profile/paymentinstruments" element={<SavedPaymentInstruments />} />
 				</Routes>
 			</div>
 		</div>

@@ -50,6 +50,7 @@ function UserLayout() {
 
 					{/* Payment Routes in User Layout */}
 					<Route path="/invoice/*" element={<InvoicePage />}></Route>
+					
 
 				</Routes>
 				<div className="bg-gray-100 w-1/12 border-l"></div>
