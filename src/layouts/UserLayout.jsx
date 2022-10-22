@@ -15,6 +15,7 @@ import {
 	ResetPasswordPage,
 } from "../pages";
 import UserProfileLayout from "./UserProfileLayout";
+import InvoicePage from '../pages/invoice/InvoicePage';
 
 function UserLayout() {
 	return (
@@ -46,6 +47,9 @@ function UserLayout() {
         			<Route path="/CatogrizedServices/*" element={<CatogrizedServicesHook/>}></Route>
         			<Route path="/serviceDeatials/*" element={<ServiceDeatails/>}></Route>
 					<Route path="/ServiceRequest/*" element={<ServiceRequest/>}></Route>
+
+					{/* Payment Routes in User Layout */}
+					<Route path="/invoice/*" element={<InvoicePage />}></Route>
 
 				</Routes>
 				<div className="bg-gray-100 w-1/12 border-l"></div>

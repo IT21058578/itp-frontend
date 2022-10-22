@@ -18,10 +18,6 @@ function App() {
         <Route path="/*" element={<UserLayout />} />
         <Route path="/employee/*" element={<EmpLayout />}></Route>
         <Route path="/admin/*" element={<AdminLayout />} ></Route>
-
-
-        {/*Distribute these routes into the above layouts accordingly*/}
-        <Route path="invoice/*" element={<Invoice />} ></Route>
       </Routes>
     </Router>
   );

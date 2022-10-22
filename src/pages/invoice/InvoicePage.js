@@ -4,7 +4,7 @@ import { Card } from "flowbite-react";
 import InvoiceBody from "./InvoiceBody";
 import InvoiceFooter from "./InvoiceFooter";
 
-function Invoice(){
+function InvoicePage(){
   const [data, setData] = useState(null);
   useEffect(() => {
     fetch(`http://localhost:8080/api/invoice`)
@@ -63,4 +63,4 @@ function Invoice(){
   }
 }
 
-export default Invoice;
+export default InvoicePage;
