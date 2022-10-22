@@ -27,6 +27,7 @@ import AdminSidebar from "./layoutHelpers/AdminSidebar";
 import EmpSidebar from "./layoutHelpers/EmpSidebar";
 
 import UserJobItem from "./userManagement/UserJobItem";
+import UserReviewModal from "./userManagement/UserReviewModal";
 
 export {
     Container,
@@ -35,5 +36,5 @@ export {
     JobTable, JobTableRow, JobTableSearch, JobTableHeader,
     LoginModal, RegisterForm, LogoutModal, CustomerFooter, CustomerNavbar,
     ScheduleDeleteModal, ScheduleEditModal, ScheduleRenewModal, ScheduleCreateModal, ScheduleCompleteModal,
-    UserJobItem,
+    UserJobItem, UserReviewModal,
 };

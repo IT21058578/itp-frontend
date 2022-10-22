@@ -70,58 +70,57 @@ function SchedItemListPage() {
 	return (
 		<Fragment>
 			<div className="flex flex-col gap-2 h-full w-full">
-				<Container className="grow flex h-full w-full">
-					<div className="flex w-full h-full gap-2 flex-row">
-						<Container
-							title="Search Options"
-							className="flex-grow rounded-md justify-center p-3 w-2/6"
-						>
-							<ScheduleSearch handleSearch={handleSearch} />
-						</Container>
-						<div
-							className="flex-grow h-full flex flex-col border p-2 gap-2 rounded-md overflow-y-scroll w-3/4"
-						>
-							{dataList.map((s, i) =>
-								dataList.length - 1 === i ? (
-									<ScheduleItem
-										key={i}
-										scheduleDetails={s}
-										setFocus={setFocusScheduleDetails}
-										setIsCompleteMdlActive={setIsCompleteMdlActive}
-										setIsDeleteMdlActive={setIsDeleteMdlActive}
-										setIsRenewMdlActive={setIsRenewMdlActive}
-										setIsEditMdlActive={setIsEditMdlActive}
-										itemRef={lastScheduleRef}
-									/>
-								) : (
-									<ScheduleItem
-										key={i}
-										scheduleDetails={s}
-										setFocus={setFocusScheduleDetails}
-										setIsCompleteMdlActive={setIsCompleteMdlActive}
-										setIsDeleteMdlActive={setIsDeleteMdlActive}
-										setIsRenewMdlActive={setIsRenewMdlActive}
-										setIsEditMdlActive={setIsEditMdlActive}
-									/>
-								)
-							)}
-							{isLoading || hasMore ? (
-								<div className="border shadow-lg rounded-md p-4 py-10 flex w-full flex-col gap-2 h-fit items-center bg-gray-50">
-									<Spinner size="xl" />
-								</div>
+				<div className="flex w-full h-full gap-2 flex-row">
+					<Container
+						title="Search Options"
+						className="flex-grow rounded-md justify-center p-3 w-2/6"
+					>
+						<ScheduleSearch handleSearch={handleSearch} />
+					</Container>
+					<div
+						className="flex-grow h-full flex flex-col border p-2 gap-2 rounded-md overflow-y-scroll w-4/6 bg-white"
+						style={{height: "97.8vh"}}
+					>
+						{dataList.map((s, i) =>
+							dataList.length - 1 === i ? (
+								<ScheduleItem
+									key={i}
+									scheduleDetails={s}
+									setFocus={setFocusScheduleDetails}
+									setIsCompleteMdlActive={setIsCompleteMdlActive}
+									setIsDeleteMdlActive={setIsDeleteMdlActive}
+									setIsRenewMdlActive={setIsRenewMdlActive}
+									setIsEditMdlActive={setIsEditMdlActive}
+									itemRef={lastScheduleRef}
+								/>
 							) : (
-								""
-							)}
-							{!hasMore && !isLoading ? (
-								<div className="border shadow-lg rounded-md p-4 py-10 flex w-full flex-col gap-2 h-fit items-center bg-gray-50 font-medium text-gray-500">
-									End of content...
-								</div>
-							) : (
-								""
-							)}
-						</div>
+								<ScheduleItem
+									key={i}
+									scheduleDetails={s}
+									setFocus={setFocusScheduleDetails}
+									setIsCompleteMdlActive={setIsCompleteMdlActive}
+									setIsDeleteMdlActive={setIsDeleteMdlActive}
+									setIsRenewMdlActive={setIsRenewMdlActive}
+									setIsEditMdlActive={setIsEditMdlActive}
+								/>
+							)
+						)}
+						{isLoading || hasMore ? (
+							<div className="border shadow-lg rounded-md p-4 py-10 flex w-full flex-col gap-2 h-fit items-center bg-gray-50">
+								<Spinner size="xl" />
+							</div>
+						) : (
+							""
+						)}
+						{!hasMore && !isLoading ? (
+							<div className="border shadow-lg rounded-md p-4 py-10 flex w-full flex-col gap-2 h-fit items-center bg-gray-50 font-medium text-gray-500">
+								End of content...
+							</div>
+						) : (
+							""
+						)}
 					</div>
-				</Container>
+				</div>
 			</div>
 			<ScheduleCompleteModal
 				isActive={isCompleteMdlActive}

@@ -1,31 +1,76 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useMemo } from "react";
-import { useLocation } from "react-router-dom";
-import { Button, Rating, Spinner, Table } from "flowbite-react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Button, Modal, Rating, Spinner, Table } from "flowbite-react";
 import { ArrowRightIcon, ChevronLeftIcon } from "@heroicons/react/24/solid";
+import axios from "axios";
+import { UserReviewModal } from "../../components";
+
+const JOB_DATA_URL = `${process.env.REACT_APP_BACKEND_URL}/job`;
+//HOW TO GO BACK?
 
 function UserJobPage() {
-	const [jobId, setJobId] = useState("");
+	const navigate = useNavigate();
+	const [jobId, setJobId] = useState("12342er5t4445");
+	const [job, setJob] = useState({});
 	const [isReviewMdlActive, setIsReviewMdlActive] = useState(false);
 
-	const { search } = useLocation();
+	const search = useLocation();
 	const query = useMemo(() => new URLSearchParams(search), [search]);
 
+	const [isLoading, setIsLoading] = useState(false);
+	const [isRequestSuccess, setIsRequestSuccess] = useState(false);
+	const [requestHasErr, setRequestHasErr] = useState(false);
+	const [requestErrMsg, setRequestErrMsg] = useState("");
+	
 	useEffect(() => {
-		console.log(search);
 		setJobId(query.get("id"));
-	}, []);
+	}, [])
+
+	useEffect(() => {
+		sendJobDataRequest();
+	}, [jobId])
+
+	function sendJobDataRequest() {
+		setIsLoading(true);
+		setRequestHasErr(false);
+		let cancelToken;
+		axios
+			.put(
+				JOB_DATA_URL,
+				{
+					params: { jobId },
+					cancelToken: axios.CancelToken((c) => (cancelToken = c)),
+				}
+			)
+			.then((job) => {
+				setIsRequestSuccess(true);
+				setJob(job);
+			})
+			.catch((err) => {
+				setRequestHasErr(true);
+				if (axios.isCancel(err)) {
+					return;
+				}
+				if (err.response !== undefined) {
+					setRequestErrMsg("An error curred. Could not get job data. Please try again later.")
+				}
+			})
+			.then(() => setIsLoading(false));
+	}
 
 	return (
+		<Fragment>
 		<div className="flex flex-col mr-16 h-full relative">
-			{/* <div className="h-full w-full flex z-50 bg-black  bg-opacity-40 rounded items-center justify-center absolute">
+			{isLoading ?(<div className="h-full w-full flex z-50 bg-black  bg-opacity-10 rounded items-center justify-center absolute">
 				<Spinner size="xl" />
-			</div> */}
+			</div>) : ""}
+			<Fragment >
 			<div className="flex flex-row text-2xl pb-2 border-b items-center justify-between">
 				<span className="flex flex-row items-center gap-4">
-					<span>
+				<span onClick={() => navigate(-1)}>
 						<ChevronLeftIcon className="h-10 w-10 p-2 rounded transition-all hover:cursor-pointer hover:text-blue-600 active:text-blue-700 hover:bg-blue-50 active:bg-blue-200" />
 					</span>
 					<span className="bg-slate-100 text-slate-600 py-1 px-4 rounded ">
@@ -52,13 +97,13 @@ function UserJobPage() {
 									<Table.HeadCell>Total Price</Table.HeadCell>
 								</Table.Head>
 								<Table.Body>
-									<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+								{job?.cart?.map((item) => <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 										<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
 											Room Cleaning
 										</Table.Cell>
 										<Table.Cell>4</Table.Cell>
 										<Table.Cell>400</Table.Cell>
-									</Table.Row>
+									</Table.Row>)}
 								</Table.Body>
 							</Table>
 						</div>
@@ -99,42 +144,42 @@ function UserJobPage() {
 									<Table.HeadCell>Name</Table.HeadCell>
 								</Table.Head>
 								<Table.Body>
-									<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+								{job?.crew?.map((emp) => <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 										<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
 											34314efdsf8df89342
 										</Table.Cell>
 										<Table.Cell>John Doe</Table.Cell>
-									</Table.Row>
+									</Table.Row>)}
 								</Table.Body>
 							</Table>
 						</div>
 						<div className="h-2/4 border rounded flex flex-col pb-2 text-sm font-medium relative">
-							{/* <div className="h-full w-full flex bg-black  bg-opacity-20 items-center justify-center absolute">
-								<Button>Make a Review</Button>
-							</div>  */}
+							{ job.review === undefined ? <div className="h-full w-full flex bg-black  bg-opacity-10 items-center justify-center absolute">
+								<Button onClick={() => setIsReviewMdlActive(true)}>Make a Review</Button>
+							</div> : "" }
 							<div className="h-2/4 flex flex-col gap-1 flex-1 px-6 pt-4">
 								<div className="flex flex-row">
 									<div className="flex-1">Title</div>
 									<div className="flex flex-row gap-2 items-center">
 										<div className="text-xs  px-2 rounded">
 											<Rating>
-												<Rating.Star />
+												<Rating.Star filled={!job?.review === null}/>
 												<p className="ml-2 text-sm font-medium text-gray-900 dark:text-white">
-													4.5
+													0.0
 												</p>
 											</Rating>
 										</div>
 									</div>
 								</div>
-								<div className="font-normal text-gray-500">Great service</div>
+								<div className="font-normal text-gray-500">Title</div>
 								<div className="flex flex-row mt-2">
 									<div className="flex-1">Description</div>
 								</div>
 								<div className="flex-1 font-normal text-gray-500">
-									I was able to receive a great service. Kamal was very nice!
+									Description
 								</div>
 								<div className="flex flex-row justify-end">
-									<Button size="sm" style={{ width: "25%", height: "85%" }}>
+									<Button onClick={() => setIsReviewMdlActive(true)} size="sm" style={{ width: "25%", height: "85%" }}>
 										Edit
 									</Button>
 								</div>
@@ -143,7 +188,10 @@ function UserJobPage() {
 					</div>
 				</div>
 			</div>
+			</Fragment>
 		</div>
+		<UserReviewModal review={job?.review} isActive={isReviewMdlActive} setIsActive={setIsReviewMdlActive}/>
+		</Fragment>
 	);
 }
 

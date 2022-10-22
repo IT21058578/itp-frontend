@@ -95,7 +95,8 @@ function Calender({
 	}
 
 	return (
-		<div className="border rounded-md flex flex-row p-2 m-2 h-full items-center">
+		<div className="border rounded-md flex flex-row p-2 m-2 h-full items-center"
+		style={{height: "87vh"}}>
 			<div className=" basis-1/12 p-2 h-full align-middle flex flex-row items-center">
 				<Button
 					className="bg-blue-50"

@@ -4,12 +4,12 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const JOB_INFO_URL = "#";
+const JOB_INFO_URL = "/admin/jobs/job";
 
 function JobTableRow({ job, rowRef }) {
 	const navigate = useNavigate();
 	const [rowClasses, setRowClasses] = useState(
-		"bg-white dark:border-gray-700 dark:bg-gray-800"
+		"bg-white dark:border-gray-700 dark:bg-gray-800 transition-all"
 	);
 
 	return (
@@ -18,13 +18,13 @@ function JobTableRow({ job, rowRef }) {
 				{job.id.slice(0, 10) + "..."}
 				<div ref={rowRef}></div>
 			</Table.Cell>
-			<Table.Cell>{job.date}</Table.Cell>
-			<Table.Cell>{job.hoursWorked}</Table.Cell>
-			<Table.Cell>{job.crewDeployed}</Table.Cell>
-			<Table.Cell>{job.earnings}</Table.Cell>
-			<Table.Cell>{job.rating.toString().slice(0, 4)}</Table.Cell>
-			<Table.Cell>
-				<Button size="xs" onClick={() => navigate(JOB_INFO_URL + job.jobId)}>
+			<Table.Cell className="font-medium">{job.date}</Table.Cell>
+			<Table.Cell className="font-medium">{job.hoursWorked}</Table.Cell>
+			<Table.Cell className="font-medium">{job.crewDeployed}</Table.Cell>
+			<Table.Cell className="font-medium">{job.earnings}</Table.Cell>
+			<Table.Cell className="font-medium">{job.rating.toString().slice(0, 4)}</Table.Cell>
+			<Table.Cell className="font-medium">
+				<Button size="xs" onClick={() => navigate(`${JOB_INFO_URL}?id=${job.id}`)}>
 					Info
 				</Button>
 			</Table.Cell>

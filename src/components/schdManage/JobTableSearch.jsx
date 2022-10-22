@@ -65,7 +65,7 @@ function JobTableSearch({ handleSearch, isLoading }) {
 	}
 
 	return (
-		<div className="flex flex-col justify-center h-full" >
+		<div className="flex flex-col justify-center h-full px-4" >
 			<div
 				className="pr-4 flex flex-col gap-3"
 				style={{
@@ -73,28 +73,26 @@ function JobTableSearch({ handleSearch, isLoading }) {
 					width: "100%",
 				}}
 			>
-				<div className="flex gap-2 flex-col py-2 border-t">
-					<div className="text-xs mb-0.5">Search by Job Id</div>
+				<div className="flex gap-2 flex-col py-4 border-t">
+					<Label>Search By Job Id</Label>
 					<div>
 						<TextInput
 							type="text"
-							sizing="sm"
 							placeholder="Type Job Id here..."
 							value={jobId}
 							onChange={(e) => setJobId(e.target.value)}
 						/>
 					</div>
 				</div>
-				<div className="flex gap-1 flex-col py-2 border-t">
-					<div className="text-xs mb-0.5">Search by Job Length</div>
+				<div className="flex gap-4 flex-col py-4 border-t">
+					<Label>Search By Job Length</Label>
 					<div className="flex flex-row gap-4 items-center">
 						<div className="flex flex-row w-2/4">
 							<div className="w-1/4 flex items-center">
-								<Label className="" value="Type" />
+								<Label value="Type" />
 							</div>
 							<div className="w-3/4">
 								<Select
-									sizing="sm"
 									onChange={(e) => setLengthSelect(e.target.value)}
 								>
 									<option value="">Ignore</option>
@@ -107,12 +105,11 @@ function JobTableSearch({ handleSearch, isLoading }) {
 						<div className="w-2/4 flex flex-col gap-2 border-l pl-4">
 							<div className="flex flex-row gap-2">
 								<div className="w-2/6 flex items-center">
-									<Label className="" value="Length" />
+									<Label value="Length" />
 								</div>
 								<div className="w-3/4">
 									<TextInput
 										type="number"
-										sizing="sm"
 										disabled={lengthSelect === "" || isLoading}
 										value={length}
 										onChange={(e) => setLength(e.target.value)}
@@ -123,16 +120,15 @@ function JobTableSearch({ handleSearch, isLoading }) {
 						</div>
 					</div>
 				</div>
-				<div className="flex gap-1 flex-col py-2 border-t">
-					<div className="text-xs mb-0.5">Search by Crew Number</div>
+				<div className="flex gap-4 flex-col py-4 border-t">
+					<Label>Search By Job Length</Label>
 					<div className="flex flex-row gap-4 items-center">
 						<div className="flex flex-row w-2/4">
 							<div className="w-1/4 flex items-center">
-								<Label className="" value="Type" />
+								<Label value="Type" />
 							</div>
 							<div className="w-3/4">
 								<Select
-									sizing="sm"
 									onChange={(e) => setCrewSelect(e.target.value)}
 								>
 									<option value="">Ignore</option>
@@ -145,12 +141,11 @@ function JobTableSearch({ handleSearch, isLoading }) {
 						<div className="w-2/4 flex flex-col gap-2 border-l pl-4">
 							<div className="flex flex-row gap-2">
 								<div className="w-2/6 flex items-center">
-									<Label className="" value="Crew" />
+									<Label value="Crew" />
 								</div>
 								<div className="w-3/4">
 									<TextInput
 										type="number"
-										sizing="sm"
 										disabled={crewSelect === "" || isLoading}
 										value={crew}
 										onChange={(e) => setCrew(e.target.value)}
@@ -161,16 +156,15 @@ function JobTableSearch({ handleSearch, isLoading }) {
 						</div>
 					</div>
 				</div>
-				<div className="flex gap-1 flex-col py-2 border-t">
-					<div className="text-xs mb-0.5">Search by Revenue</div>
+				<div className="flex gap-4 flex-col py-4 border-t">
+					<Label>Search By Job Revenue</Label>
 					<div className="flex flex-row gap-4 items-center">
 						<div className="flex flex-row w-2/4">
 							<div className="w-1/4 flex items-center">
-								<Label className="" value="Type" />
+								<Label value="Type" />
 							</div>
 							<div className="w-3/4">
 								<Select
-									sizing="sm"
 									onChange={(e) => setRevenueSelect(e.target.value)}
 								>
 									<option value="">Ignore</option>
@@ -183,12 +177,11 @@ function JobTableSearch({ handleSearch, isLoading }) {
 						<div className="w-2/4 flex flex-col gap-2 border-l pl-4">
 							<div className="flex flex-row gap-2">
 								<div className="w-2/6 flex items-center">
-									<Label className="" value="Rev" />
+									<Label value="Rev" />
 								</div>
 								<div className="w-3/4">
 									<TextInput
 										type="number"
-										sizing="sm"
 										disabled={revenueSelect === "" || isLoading}
 										value={revenue}
 										onChange={(e) => setRevenue(e.target.value)}
@@ -199,8 +192,8 @@ function JobTableSearch({ handleSearch, isLoading }) {
 						</div>
 					</div>
 				</div>
-				<div className="flex gap-1 flex-col py-2 border-t">
-					<div className="text-xs mb-0.5">Search by Rating</div>
+				<div className="flex gap-4 flex-col py-4 border-t">
+					<Label>Search By Rating</Label>
 					<div className="flex flex-row gap-4 items-center">
 						<div className="flex flex-row w-2/4">
 							<div className="w-1/4 flex items-center">
@@ -208,7 +201,6 @@ function JobTableSearch({ handleSearch, isLoading }) {
 							</div>
 							<div className="w-3/4">
 								<Select
-									sizing="sm"
 									onChange={(e) => setRatingSelect(e.target.value)}
 								>
 									<option value="">Ignore</option>
@@ -227,7 +219,6 @@ function JobTableSearch({ handleSearch, isLoading }) {
 									<TextInput
 										type="number"
 										max={5}
-										sizing="sm"
 										disabled={ratingSelect === "" || isLoading}
 										value={rating}
 										onChange={(e) => setRating(e.target.value)}
@@ -241,7 +232,6 @@ function JobTableSearch({ handleSearch, isLoading }) {
 			</div>
 			<div className="flex gap-2 flex-col py-2 border-t">
 				<Button
-					size="sm"
 					style={{ width: "100%" }}
 					onClick={handleSubmit}
 					disabled={isLoading}

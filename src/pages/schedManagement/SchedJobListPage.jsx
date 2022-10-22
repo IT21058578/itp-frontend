@@ -81,17 +81,17 @@ function SchedJobListPage() {
 	return (
 		<Fragment>
 			<div className="flex flex-col gap-2 h-full w-full">
-				<Container className="grow flex h-full w-full">
-					<div className="flex w-full h-full gap-2">
-						<Container
-							title="Search Options"
-							className="flex-grow rounded-md justify-center p-3 w-2/6"
-						>
-							<JobTableSearch handleSearch={handleSearch} />
-						</Container>
+				<div className="flex w-full h-full gap-2">
+					<Container
+						title="Search Options"
+						className="flex-grow rounded-md justify-center p-3 w-2/6"
+					>
+						<JobTableSearch handleSearch={handleSearch} />
+					</Container>
+					<Container className="w-4/6">
 						<div
-							className="flex-grow flex border p-2 rounded-md w-3/4 overflow-y-scroll h-full"
-							
+							className="flex-grow flex border rounded-md overflow-y-scroll h-full"
+							style={{height: "93.25vh"}}
 						>
 							<JobTable
 								handleSortChange={handleSortChange}
@@ -103,8 +103,8 @@ function SchedJobListPage() {
 								hasMore={hasMore}
 							/>
 						</div>
-					</div>
-				</Container>
+					</Container>
+				</div>
 			</div>
 		</Fragment>
 	);
