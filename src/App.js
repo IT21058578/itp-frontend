@@ -16,7 +16,6 @@ function App() {
         Userlayout is for customers. 
         AdminLayout is for admins and vice versa*/}
         <Route path="/*" element={<UserLayout />} />
-        <Route path="/employee/*" element={<EmpLayout />}></Route>
         <Route path="/admin/*" element={<AdminLayout />} ></Route>
 
 

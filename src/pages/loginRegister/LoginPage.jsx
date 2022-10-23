@@ -7,6 +7,7 @@ import { ReactSession } from "react-client-session";
 
 const LOGIN_URL = process.env.REACT_APP_LOGIN_API_URL;
 const USER_DASHBOARD_URL = "/user/dashboard";
+const AUTH_REGISTER_URL = "/auth/register";
 const ADMIN_DASHBOARD_URL = "/admin";
 const FORGOT_PASSWORD_URL = "/auth/forgotpassword";
 
@@ -147,6 +148,12 @@ function LoginPage() {
 				onClick={() => navigate(FORGOT_PASSWORD_URL)}
 			>
 				Forgot your password?
+			</div>
+			<div
+				className=" my-4 text-blue-500 underline hover:cursor-pointer active:text-blue-800 hover:text-blue-400 text-sm text-right "
+				onClick={() => navigate(AUTH_REGISTER_URL)}
+			>
+				Create an account
 			</div>
 			<div className="border-t m-4 w-full"></div>
 			<div className="flex flex-col gap-2 w-full items-center">

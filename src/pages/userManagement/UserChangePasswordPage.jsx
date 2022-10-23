@@ -29,7 +29,6 @@ function UserChangePasswordPage() {
 	const [requestErrMsg, setRequestErrMsg] = useState("");
 
 	const [isLoading, setIsLoading] = useState(false);
-
 	const [email, setEmail] = useState("");
 
 	useEffect(() => {

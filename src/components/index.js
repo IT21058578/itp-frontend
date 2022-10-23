@@ -28,6 +28,9 @@ import EmpSidebar from "./layoutHelpers/EmpSidebar";
 
 import UserJobItem from "./userManagement/UserJobItem";
 import UserReviewModal from "./userManagement/UserReviewModal";
+import UserTable from "./userManagement/UserTable";
+import UserTableSearch from "./userManagement/UserTableSearch";
+import UserRoleChangeModal from "./userManagement/UserRoleChangeModal"
 
 export {
     Container,
@@ -36,5 +39,5 @@ export {
     JobTable, JobTableRow, JobTableSearch, JobTableHeader,
     LoginModal, RegisterForm, LogoutModal, CustomerFooter, CustomerNavbar,
     ScheduleDeleteModal, ScheduleEditModal, ScheduleRenewModal, ScheduleCreateModal, ScheduleCompleteModal,
-    UserJobItem, UserReviewModal,
+    UserJobItem, UserReviewModal, UserTable, UserTableSearch, UserRoleChangeModal
 };

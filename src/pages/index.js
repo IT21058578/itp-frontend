@@ -24,6 +24,9 @@ import UserEditDetailsPage from "./userManagement/UserEditDetailsPage";
 import UserJobsCompletedPage from "./userManagement/UserJobsCompletedPage";
 import UserJobsFuturePage from "./userManagement/UserJobsFuturePage";
 import UserJobPage from "./userManagement/UserJobPage";
+import AdminUserListPage from "./userManagement/AdminUserListPage";
+import AdminUserPage from "./userManagement/AdminUserPage"
+
 
 export {
     SchedCalenderPage, SchedJobListPage, SchedStatPage, SchedItemListPage, AdminJobPage,
@@ -31,5 +34,5 @@ export {
     EmpJobPage, EmpLandPage, EmpStatPage,
     UserChangePasswordPage, UserDashboardPage, UserEditDetailsPage, UserJobPage, UserJobsCompletedPage, UserJobsFuturePage,
     RegisterPage, RegisterSuccessPage, ForgotPasswordPage, RegisterAuthenticationPage, ResetPasswordPage,
-    ErrorPage, LoginPage
+    ErrorPage, LoginPage, AdminUserListPage, AdminUserPage
 };

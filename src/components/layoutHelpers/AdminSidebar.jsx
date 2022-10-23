@@ -14,14 +14,15 @@ import {
 	BookmarkIcon,
 } from "@heroicons/react/24/solid";
 import LogoutModal from "../loginRegister/LogoutModal";
+import { ReactSession } from "react-client-session";
 
 const ADM_LAND_URL = "/admin";
-const ADM_EMPS_URL = "/admin/employees";
+const ADM_USERS_URL = "/admin/users";
 const ADM_JOBS_URL = "/admin/jobs";
 const ADM_SCHED_URL = "/admin/schedule";
 const ADM_CALENDER_URL = "/admin/calender";
 
-function AdminSidebar({ auth }) {
+function AdminSidebar() {
 	const { setAuth } = useContext(AuthContext);
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
@@ -32,11 +33,11 @@ function AdminSidebar({ auth }) {
 	const [isLogoutMdlActive, setIsLogoutMdlActive] = useState(false);
 
 	useEffect(() => {
-		setFirstName(auth?.firstName);
-		setLastName(auth?.lastName);
-		setEmail(auth?.email);
-		setAvatarUrl(auth?.avatarUrl);
-	}, [auth]);
+		setFirstName(ReactSession.get("firstName"));
+		setLastName(ReactSession.get("lastName"));
+		setEmail(ReactSession.get("email"));
+		setAvatarUrl("");
+	}, []);
 
 	function gotoPage(e, url) {
 		e.preventDefault();
@@ -73,17 +74,28 @@ function AdminSidebar({ auth }) {
 								<div className="inline-block align-middle">Collapse</div>
 							</Sidebar.Item>
 						</Sidebar.ItemGroup>
-						<Sidebar.ItemGroup style={{ height: "3.25rem" }}>
-							<Avatar size="md" img={avatarUrl}>
-								{!collapsed ? (
-									<div>
-										<div className="text-sm">{firstName + " " + lastName}</div>
-										<div className="text-xs">{email}</div>
-									</div>
-								) : null}
-							</Avatar>
-						</Sidebar.ItemGroup>
+						{!collapsed ? (
+							<Sidebar.ItemGroup style={{ height: "3.25rem" }}>
+								<div 
+									className="transition-all flex flex-row items-center hover:text-blue-600 active:text-blue-700 hover:bg-blue-50 active:bg-blue-200 hover:cursor-pointer rounded-md px-3">
+										<div className="mr-1">
+											<div className="text-sm">
+												{firstName + " " + lastName}
+											</div>
+											<div className="text-xs">{email}</div>
+										</div>
+								</div>
+							</Sidebar.ItemGroup>
+						) : null}
 						<Sidebar.ItemGroup>
+							<Sidebar.Item
+								href=""
+								onClick={(e) => gotoPage(e, ADM_USERS_URL)}
+								icon={UserGroupIcon}
+								style={{ height: "2.5rem", zIndex: "50" }}
+							>
+								<div className="inline-block align-middle z-50">Users</div>
+							</Sidebar.Item>
 							<Sidebar.Item
 								href=""
 								onClick={(e) => gotoPage(e, ADM_CALENDER_URL)}

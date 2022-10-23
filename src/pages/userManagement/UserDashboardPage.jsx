@@ -1,19 +1,40 @@
 import { Button, Checkbox, Label } from "flowbite-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useInfiniteScroll } from "../../hooks";
+import { ReactSession } from "react-client-session";
+import axios from "axios";
 
-
+const USER_DETAILS_API_URL = process.env.REACT_APP_USER_DETAILS_API_URL;
 
 function UserDashboardPage() {
 	const navigate = useNavigate();
 	const [firstName, setFirstName] = useState("John");
 	const [lastName, setLastName] = useState("Doe");
-	const [email, setEmail] = useState("Email");
+	const [email, setEmail] = useState("");
 	const [address, setAddress] = useState("Address");
 	const [completedJobsNum, setCompletedJobsNum] = useState(0);
 	const [futureJobsNum, setFutureJobsNum] = useState(0);
+
+	const [isLoading, setIsLoading] = useState();
+
+	useEffect(() => {
+		sendUserDetailsRequest();
+	}, []);
+
+	function sendUserDetailsRequest() {
+		setEmail(ReactSession.get("email"));
+		axios
+			.get(USER_DETAILS_API_URL, { params: { email: ReactSession.get("email") } } )
+			.then((response) => {
+				console.log(response.data);
+				setFirstName(response.data.firstName);
+				setLastName(response.data.lastName);
+				setAddress(response.data.address);
+			})
+			.catch((err) => {})
+			.then(() => setIsLoading(false));
+	}
 
 	return (
 		<div className="flex flex-col mr-16 h-full">

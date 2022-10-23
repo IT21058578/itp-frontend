@@ -1,5 +1,5 @@
 import { Button, Avatar } from "flowbite-react";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginModal from "../loginRegister/LoginModal";
 import { ReactSession } from "react-client-session";
@@ -14,15 +14,24 @@ const navbarLinks = [
 	{ displayText: "Contact", link: "/contact" },
 ];
 
+const PROFILE_URL = "/profile";
+
 function CustomerNavbar() {
 	const navigate = useNavigate();
 	const [isLoginMdlActive, setIsLoginMdlActive] = useState(false);
 	const [isLogoutMdlActive, setIsLogoutMdlActive] = useState(false);
 
-	const firstName = ReactSession.get("firstName");
-	const lastName = ReactSession.get("lastName");
-	const email = ReactSession.get("email");
+	//Authorization state
+	const [firstName, setFirstName] = useState("");
+	const [lastName, setLastName] = useState("");
+	const [email, setEmail] = useState("");
 	const avatarUrl = "";
+
+	useEffect(() => {
+		setFirstName(ReactSession.get("firstName"));
+		setLastName(ReactSession.get("lastName"));
+		setEmail(ReactSession.get("email"));
+	}, [])
 
 	return (
 		<Fragment>
@@ -49,7 +58,7 @@ function CustomerNavbar() {
 									onClick={() => navigate(item.link)}
 									key={i}
 									style={{ fontSize: "0.9em" }}
-									className="transition-all font-medium hover:cursor-pointer hover:text-blue-700"
+									className="transition-all font-medium hover:cursor-pointer hover:text-blue-600 active:text-blue-700 hover:bg-blue-50 active:bg-blue-200"
 								>
 									{item.displayText}
 								</div>
@@ -59,13 +68,15 @@ function CustomerNavbar() {
 							{email?.length > 0 ? (
 								<div className="flex flex-row items-center gap-4">
 									<Avatar size="md" img={avatarUrl}>
-										<div className="flex flex-row items-center hover:bg-gray-100 active:bg-gray-200 hover:cursor-pointer rounded-md px-3">
-											<div className="mr-1">
-												<div className="text-sm">
-													{firstName + " " + lastName}
+										<div 
+											onClick={() => {navigate(PROFILE_URL)}}
+											className="transition-all flex flex-row items-center hover:text-blue-600 active:text-blue-700 hover:bg-blue-50 active:bg-blue-200 hover:cursor-pointer rounded-md px-3">
+												<div className="mr-1">
+													<div className="text-sm">
+														{firstName + " " + lastName}
+													</div>
+													<div className="text-xs">{email}</div>
 												</div>
-												<div className="text-xs">{email}</div>
-											</div>
 										</div>
 									</Avatar>
 									<ArrowRightOnRectangleIcon

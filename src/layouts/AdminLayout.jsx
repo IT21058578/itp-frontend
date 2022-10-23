@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { AdminSidebar } from "../components";
 import { Route, Routes } from "react-router-dom";
-import { AdmEmpPage, SchedCalenderPage, SchedItemListPage, SchedJobListPage, AdminJobPage } from "../pages";
+import { AdmEmpPage, SchedCalenderPage, SchedItemListPage, SchedJobListPage, AdminJobPage, AdminUserListPage, AdminUserPage } from "../pages";
 import { Fragment } from "react";
 import { AuthContext } from "../context";
 import AdminCatogrizedServicesHook from "../hooks/ServiceCreation/AdminCategorizedServices";
@@ -41,7 +41,16 @@ function AdminLayout() {
 							path="employees/*"
 							element={<AdmEmpPage auth={auth} />}
 						></Route>
+						<Route 
+							path="users/*"
+							element={<AdminUserListPage />}
+						></Route>
+						<Route 
+							path="users/user"
+							element={<AdminUserPage />}
+						></Route>
 						
+						{/*Fix these routes*/}
 						<Route
 							path="/SCAdmin"
 							element={<AdminPanel/>}

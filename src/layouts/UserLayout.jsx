@@ -34,7 +34,7 @@ function UserLayout() {
 						element={<RegisterAuthenticationPage />}
 					/>
 
-					{/*Layout for user profile when logged */}
+					{/*Layout for user profile when logged. Conditionally rendered based on auth state. */}
 					<Route path="profile/*" element={<UserProfileLayout />} />
 
 					<Route path="auth/login" element={<LoginPage />} />
