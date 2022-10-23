@@ -1,14 +1,19 @@
 import { Button, Table } from "flowbite-react";
 import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const JOB_INFO_URL = "#";
 
 function JobTableRow({ job, rowRef }) {
 	const navigate = useNavigate();
+	const [rowClasses, setRowClasses] = useState(
+		"bg-white dark:border-gray-700 dark:bg-gray-800"
+	);
 
 	return (
-		<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+		<Table.Row className={rowClasses}>
 			<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
 				{job.id.slice(0, 10) + "..."}
 				<div ref={rowRef}></div>

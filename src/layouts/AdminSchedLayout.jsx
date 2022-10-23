@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { SchedulerTopBar, Container } from "../components";
-import { SchedCalenderPage, SchedItemListPage, SchedListPage } from "../pages";
+import { SchedCalenderPage, SchedItemListPage, SchedJobListPage } from "../pages";
 
 /* 
 This layout goes inside the AdminLayout. It contains the Sidebar which is common to all
@@ -81,7 +81,7 @@ function AdminSchedLayout({ auth }) {
 								/>
 							}
 						></Route>
-						<Route path="list" element={<SchedListPage />}></Route>
+						<Route path="list" element={<SchedJobListPage />}></Route>
 					</Routes>
 				</div>
 			</div>
