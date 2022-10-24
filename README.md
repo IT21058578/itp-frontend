@@ -1,70 +1,56 @@
-# Getting Started with Create React App
+# ITP Project Frontend Codebase
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Note that Git does not care about empty directories so I could not include the sub-directories for each person in this repository. Instead take it upon yourself to follow this format when implementing functions.
 
-## Available Scripts
+## Frontend Folder Structure
 
-In the project directory, you can run:
+src  
+├── components  
+│ ├── empManage  
+│ ├── schdManage  
+│ ├── crewAssign  
+│ ├── invManage  
+│ ├── usrManage  
+│ ├── servBook  
+│ ├── servCreate  
+│ └── payManage  
+├── context  
+├── hooks  
+├── layouts  
+├── pages  
+├── test  
+└── utils
 
-### `npm start`
+**_ Please use the index.js in each directory for easy imports. _**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+# Inital Message
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Hey guys so I set up 2 seperate git repositories for out backend. I feel like this will make deployment much easier
+so I opted for this option. Depending on what you guys use you might have to figure out how to pull, push and keep your local files in sync with these remote repositories.
 
-### `npm test`
+- https://github.com/IT21058578/itp-frontend
+- https://github.com/IT21058578/itp-backend
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+In the case you plan on using VSCode you can use this handy tutorial I found to keep both folders open at the same time to work with them. https://www.youtube.com/watch?v=2yOQUtP_GcY
 
-### `npm run build`
+Here are some commands you may find helpful when working with git;
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- git init -> Create a git repository in current directory
+- git add \* -> Add all files in current directory to the git repository
+- git remote add <name> <url> -> Add a remote repository
+- git commit -m "<Message>" -> Commit changes to repository
+- git push <name> -> Push changes to remote repository
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+You may found it more intuitive to use your editors built in git tools if you wish. VSCode by default commits to "master" branch instead of "main" branch. Run this command to fix that;
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+> git config --global init.defaultBranch main
 
-### `npm run eject`
+(Warning: This is a global configuration setting, If you want to do this locally, find a different way)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+For running the frontend you may just do
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+> npm start
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Once you are in the directory. It will open on localhost:3000. The only thing that should be there is the text "Hello ITP!". Note that we are using FlowBite and TailwindCSS for our CSS Styling in the frontend.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+There is a Java Extension Pack aswell as a Spring Extension Pack for VSCode to make life easier when dealing with this. You should be able to run the main application without issues using these extensions. This makes it run on localhost:8080. You should not receive anything here except a "WhiteLabel Error Page"
