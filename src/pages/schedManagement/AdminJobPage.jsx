@@ -2,7 +2,7 @@ import { ChevronLeftIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
 import { Button, Rating, Spinner, Table } from "flowbite-react";
 import React, { Fragment, useEffect, useMemo, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { Container } from "../../components";
 
 const JOB_DATA_URL = `${process.env.REACT_APP_BACKEND_URL}/job`;
@@ -14,6 +14,8 @@ function AdminJobPage() {
 	const [jobId, setJobId] = useState("12342er5t4445");
 	const [job, setJob] = useState({});
 
+	const [searchParams, setSearchParams] = useSearchParams();
+
 	const search = useLocation();
 	const query = useMemo(() => new URLSearchParams(search), [search]);
 
@@ -23,7 +25,7 @@ function AdminJobPage() {
 	const [requestErrMsg, setRequestErrMsg] = useState("");
 	
 	useEffect(() => {
-		setJobId(query.get("id"));
+		setJobId(searchParams.get("id"));
 	}, [])
 
 	useEffect(() => {
@@ -35,7 +37,7 @@ function AdminJobPage() {
 		setRequestHasErr(false);
 		let cancelToken;
 		axios
-			.put(
+			.get(
 				JOB_DATA_URL,
 				{
 					params: { jobId },

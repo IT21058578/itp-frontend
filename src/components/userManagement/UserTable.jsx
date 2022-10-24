@@ -1,6 +1,6 @@
 import { Button, Spinner, Table } from 'flowbite-react'
 import React, { Fragment } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import JobTableHeader from '../schdManage/JobTableHeader';
 
 const ADMIN_USER_PAGE_URL = "user"
@@ -22,7 +22,7 @@ function UserTable({
 				<Table.Head>
 					<Table.HeadCell>
 						<JobTableHeader
-							dataName="id"
+							dataName="tempId"
 							title="User Id"
 							sortCol={sortCol}
 							sortDir={sortDir}
@@ -64,7 +64,8 @@ function UserTable({
 							<Table.Row ref={lastTableRowRef}>
 								<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">{item.id}</Table.Cell>
 								<Table.Cell className="font-medium">{item.email}</Table.Cell>
-								<Table.Cell className="font-medium">{`${item.firstName} ${item.lastName}`}</Table.Cell>
+								<Table.Cell className="font-medium">{item.name}</Table.Cell>
+								<Table.Cell className="font-medium">{item.type === 'USER' ? 'CLIENT' : item.type}</Table.Cell>
 								<Table.Cell className="font-medium">
 									<Button 
 										size="sm" 
@@ -77,8 +78,8 @@ function UserTable({
 							<Table.Row>
 								<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">{item.id}</Table.Cell>
 								<Table.Cell className="font-medium">{item.email}</Table.Cell>
-								<Table.Cell className="font-medium">{`${item.firstName} ${item.lastName}`}</Table.Cell>
-								<Table.Cell className="font-medium">{`${item.userType}`}</Table.Cell>
+								<Table.Cell className="font-medium">{item.name}</Table.Cell>
+								<Table.Cell className="font-medium">{item.type === 'USER' ? 'CLIENT' : item.type}</Table.Cell>
 								<Table.Cell className="font-medium">
 									<Button 
 										size="sm" 

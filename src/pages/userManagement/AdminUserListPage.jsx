@@ -11,7 +11,6 @@ function AdminUserRolesPage() {
 	const [searchSortParams, setSearchSortParams] = useState({});
 	const [sortDir, setSortDir] = useState("");
 	const [sortCol, setSortCol] = useState("");
-
 	const pgSize = 20;
 
 	useEffect(() => {
@@ -20,7 +19,7 @@ function AdminUserRolesPage() {
 	}, [JSON.stringify(searchParams), sortDir, sortCol]);
 
  	function handleSearch(s) {
-		setSearchParams({...s});
+		setSearchParams(s);
   	}
 
 	const { dataList, hasMore, isLoading, isError } = useInfiniteScroll(

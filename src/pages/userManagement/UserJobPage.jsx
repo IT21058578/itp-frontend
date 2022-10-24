@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useMemo } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { Button, Modal, Rating, Spinner, Table } from "flowbite-react";
 import { ArrowRightIcon, ChevronLeftIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
@@ -17,8 +17,7 @@ function UserJobPage() {
 	const [job, setJob] = useState({});
 	const [isReviewMdlActive, setIsReviewMdlActive] = useState(false);
 
-	const search = useLocation();
-	const query = useMemo(() => new URLSearchParams(search), [search]);
+	const [searchParams, setSearchParams] = useSearchParams();
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [isRequestSuccess, setIsRequestSuccess] = useState(false);
@@ -26,7 +25,7 @@ function UserJobPage() {
 	const [requestErrMsg, setRequestErrMsg] = useState("");
 	
 	useEffect(() => {
-		setJobId(query.get("id"));
+		setJobId(searchParams.get("id"));
 	}, [])
 
 	useEffect(() => {

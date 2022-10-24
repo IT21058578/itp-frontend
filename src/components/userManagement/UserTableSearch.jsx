@@ -48,7 +48,8 @@ function UserTableSearch({handleSearch}) {
 							> 
 								<option value="">Ignore</option>
 								<option value="email">Email</option>
-								<option value="id">Id</option>
+								<option value="name">Name</option>
+								<option value="tempId">Id</option>
 							</Select>
 						</div>
 						<div className="flex-1">

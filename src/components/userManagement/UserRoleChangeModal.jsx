@@ -5,7 +5,7 @@ import React, { Fragment, useState } from 'react'
 
 const USER_ROLE_CHANGE_API_URL = process.env.REACT_APP_USER_ROLE_CHANGE_API_URL;
 
-function UserRoleChangeModal({isActive, setIsActive, userEmail, userType}) {
+function UserRoleChangeModal({isActive, setIsActive, userEmail, userType, toRole}) {
 	const [isLoading, setIsLoading] = useState(false);
 	const [responseHasErr, setResponseHasErr] = useState(false);
 	const [responseErrMsg, setResponseErrMsg] = useState(false);
@@ -23,8 +23,8 @@ function UserRoleChangeModal({isActive, setIsActive, userEmail, userType}) {
 		let cancelToken;
 		setIsLoading(true);
 		axios
-			.delete(USER_ROLE_CHANGE_API_URL, {
-				params: { email: userEmail },
+			.put(USER_ROLE_CHANGE_API_URL, {
+				params: { email: userEmail, role: toRole },
 				cancelToken: new axios.CancelToken((c) => (cancelToken = c)),
 			})
 			.then(() => {

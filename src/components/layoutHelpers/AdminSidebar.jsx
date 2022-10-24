@@ -125,7 +125,8 @@ function AdminSidebar() {
 							<Sidebar.Item
 								href=""
 								onClick={(e) => {
-									gotoPage(e, "auth/login");
+									e.preventDefault();
+									setIsLogoutMdlActive(true);
 								}}
 								icon={ArrowRightOnRectangleIcon}
 								style={{ height: "2.5rem" }}

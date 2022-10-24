@@ -1,5 +1,5 @@
-import { Button, Checkbox, Label } from "flowbite-react";
-import React, { useEffect } from "react";
+import { Button, Checkbox, Label, Spinner } from "flowbite-react";
+import React, { Fragment, useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ReactSession } from "react-client-session";
@@ -19,11 +19,12 @@ function UserDashboardPage() {
 	const [isLoading, setIsLoading] = useState();
 
 	useEffect(() => {
+		setEmail(ReactSession.get("email"));
 		sendUserDetailsRequest();
 	}, []);
 
 	function sendUserDetailsRequest() {
-		setEmail(ReactSession.get("email"));
+		setIsLoading(true);
 		axios
 			.get(USER_DETAILS_API_URL, { params: { email: ReactSession.get("email") } } )
 			.then((response) => {
@@ -38,8 +39,11 @@ function UserDashboardPage() {
 
 	return (
 		<div className="flex flex-col mr-16 h-full">
-			<div className="flex text-4xl font-light pb-4 border-b">Dashboard</div>
-			<div className="flex-grow flex flex-col h-full">
+			<div className="flex text-4xl font-light pb-4 border-b">Dashboard</div>			
+			<div className="flex-grow flex flex-col h-full relative">
+			{isLoading ?(<div className="w-full h-full flex z-50 bg-black  bg-opacity-10 rounded items-center justify-center absolute">
+				<Spinner size="xl" />
+			</div>) : <Fragment >
 				<div className="flex-grow flex flex-col pb-4">
 					<div className="flex gap-2 flex-row mt-4">
 						<div className="text-2xl">{firstName}</div>
@@ -75,6 +79,7 @@ function UserDashboardPage() {
 						Edit Details
 					</Button> */}
 				</div>
+				</Fragment>}
 			</div>
 		</div>
 	);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import {
 	UserChangePasswordPage,
@@ -8,6 +8,7 @@ import {
 	UserJobsCompletedPage,
 	UserJobsFuturePage,
 } from "../pages";
+import { ReactSession } from "react-client-session";
 
 const profileNavBarItems = [
 	{ name: "Dashboard", link: "/profile" },
@@ -19,7 +20,20 @@ const profileNavBarItems = [
 function UserProfileLayout() {
 	const navigate = useNavigate();
 	const location = useLocation();
-	console.log(location.pathname);
+
+	//Redirect unlogged in if they try to access.
+	useEffect(() => {
+		async function validatePermissions() {
+			let permissions;
+			permissions = await ReactSession.get("permissions");
+			if (!permissions) {
+				navigate("/auth/login");
+			}
+		}
+		validatePermissions();
+	}, [])
+
+
 	return (
 		<div className="flex flex-grow flex-row my-8 h-auto w-auto">
 			<div className="flex flex-grow flex-col gap-2 w-1/4 mx-8 h-full border-r pr-8">

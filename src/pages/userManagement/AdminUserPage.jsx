@@ -1,7 +1,7 @@
 import { Container, UserRoleChangeModal } from '../../components'
 import React, { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Button, Rating, Spinner, Table } from 'flowbite-react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { ChevronLeftIcon } from '@heroicons/react/24/solid';
 import { useInfiniteScroll } from '../../hooks';
 import axios from 'axios';
@@ -16,14 +16,15 @@ function AdminUserPage() {
 	const navigate = useNavigate();
 	const [isRoleChangeMdlActive, setIsRoleChangeMdlActive] = useState(false);
 
-	const [userEmail, setUserEmail] = useState("johndoe@gmail.com");
+	const [searchSortParams, setSearchSortParams] = useState({});
+	const [userEmail, setUserEmail] = useState("");
 	const [userType, setUserType] = useState("");
+	const [toRole, setToRole] = useState("");
 	const [user, setUser] = useState({});
 
-	const search = useLocation();
-	const query = useMemo(() => new URLSearchParams(search), [search]);
+	const [searchParams, setSearchParams] = useSearchParams();
 
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 	const [isRequestSuccess, setIsRequestSuccess] = useState(false);
 	const [requestHasErr, setRequestHasErr] = useState(false);
 	const [requestErrMsg, setRequestErrMsg] = useState("");
@@ -32,7 +33,7 @@ function AdminUserPage() {
 	const [completedJobsPgNum, setCompletedJobsPgNum] = useState(1);
 	const { completedJobsList, completedJobsHasMore, completedJobsIsLoading } = useInfiniteScroll(
 		USER_COMPLETED_JOBS_URL,
-		{},
+		{...searchSortParams, type: "completed"},
 		completedJobsPgNum,
 		setCompletedJobsPgNum,
 		pgSize,
@@ -63,7 +64,7 @@ function AdminUserPage() {
 	const [pendingJobsPgNum, setPendingJobsPgNum] = useState(1);
 	const { pendingJobsList, pendingJobsHasMore, pendingJobsIsLoading } = useInfiniteScroll(
 		USER_PENDING_JOBS_URL,
-		{},
+		{...searchSortParams, type: "pending"},
 		pendingJobsPgNum,
 		setPendingJobsPgNum,
 		pgSize,
@@ -91,26 +92,32 @@ function AdminUserPage() {
 	);
 		
 	useEffect(() => {
-		setUserEmail(query.get("email"));
-		sendUserDataRequest();
+		setUserEmail(searchParams.get("email"));
+		setSearchSortParams(searchParams.get("email"));
 	}, []);
+
+	useEffect(() => {
+	  sendUserDataRequest();
+	}, [userEmail])
+	
 
 	function sendUserDataRequest() {
 		setIsLoading(true);
 		setRequestHasErr(false);
 		let cancelToken;
 		axios
-			.put(
+			.get(
 				USER_DATA_URL,
 				{
-					params: { email: userEmail },
+					params: { email: searchParams.get("email") },
 					cancelToken: axios.CancelToken((c) => (cancelToken = c)),
 				}
 			)
-			.then((user) => {
+			.then((response) => {
 				setIsRequestSuccess(true);
-				setUser(user);
-				setUserType(user.userKind.type);
+				setUser(response.data);
+				setUserType(response.data.permissions[0]);
+				setToRole(response.data.permissions[0] === 'ADMIN' ? 'USER' : 'ADMIN');
 			})
 			.catch((err) => {
 				setRequestHasErr(true);
@@ -142,24 +149,29 @@ function AdminUserPage() {
 				</span>
 				<span className="py-1 px-4 rounded text-sm border-l text-gray-500 font-medium">
 					<div className="text-black">Last Login</div>
-					{user.lastLoggedAt}
+					On {user?.lastLoggedAt?.split('T')[0]  || 'Unknown'} At {user?.lastLoggedAt?.split('T')[1].slice(0,5)  || 'Unknown'}
 				</span>
 				<span className="py-1 px-4 rounded text-sm border-l text-gray-500 font-medium">
 					<div className="text-black">Created At</div>
-					{user.createdAt} 
+					On {user?.createdAt?.split('T')[0] || 'Unknown'} At {user.createdAt?.split('T')[1].slice(0,5) || 'Unknown'}
 				</span>
 			</div>
 			<div className="flex-grow flex flex-col h-full pt-4 gap-4">
 				<div className=" flex flex-col gap-2 border-b p-2">
 					<div className="flex-1 flex-col gap-1">
-						<div className="text-2xl mb-2">{user.firstName} {user.lastName}</div>
+						<div className="flex flex-row justify-between items-center">
+							<div className="text-2xl mb-2">{user.firstName} {user.lastName}</div>	
+							<span className="bg-slate-100 text-slate-600 py-1 px-4 rounded font-medium h-full">
+								{userType === 'USER' ? 'CLIENT' : userType}
+							</span>
+						</div>
 						<div className="text-black">Email</div>
 						<div className="font-medium text-sm text-gray-500 mb-2">
 							{user.email}
 						</div>
 						<div className="text-black">Address</div>
 						<div className="font-medium text-sm text-gray-500 mb-2">
-							{user.address}
+							{user.address || "User has not specified an address"}
 						</div>
 					</div>
 					<div className="flex flex-row justify-end">
@@ -309,6 +321,7 @@ function AdminUserPage() {
 			setIsActive={setIsRoleChangeMdlActive}
 			userEmail={userEmail}
 			userType={userType}
+			toRole={toRole}
 		/>
 	</Fragment>);
 }

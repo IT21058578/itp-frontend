@@ -1,17 +1,33 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { AdminSidebar } from "../components";
-import { Route, Routes } from "react-router-dom";
-import { AdmEmpPage, SchedCalenderPage, SchedItemListPage, SchedJobListPage, AdminJobPage, AdminUserListPage, AdminUserPage } from "../pages";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import { SchedCalenderPage, SchedItemListPage, SchedJobListPage, AdminJobPage, AdminUserListPage, AdminUserPage } from "../pages";
 import { Fragment } from "react";
-import { AuthContext } from "../context";
 import AdminCatogrizedServicesHook from "../hooks/ServiceCreation/AdminCategorizedServices";
 import AdminPanel from "../pages/ServiceCreation/Admin/AdminPanel";
 import ServiceUpdate from "../pages/ServiceCreation/Admin/ServiceUpdate";
 import ServiceCreate from "../pages/ServiceCreation/Admin/ServiceCreate";
 import RequestedServices from '../pages/ServiceCreation/Admin/RequestedServices';
+import { ReactSession } from "react-client-session";
 
 function AdminLayout() {
-	const { auth } = useContext(AuthContext);
+	const navigate = useNavigate();
+	
+	//Redirect clients if they try to access.
+	useEffect(() => {
+		async function validatePermissions() {
+			let permissions;
+			permissions = await ReactSession.get("permissions");
+			if (permissions) {
+				if (permissions.includes('USER')) {
+					navigate("/error");
+				}
+			} else {
+				navigate("/error");
+			}
+		}
+		validatePermissions();
+	}, [])
 
 	return (
 		<Fragment>
@@ -36,10 +52,6 @@ function AdminLayout() {
 						<Route
 							path="schedule/*"
 							element={<SchedItemListPage />}
-						></Route>
-						<Route
-							path="employees/*"
-							element={<AdmEmpPage auth={auth} />}
 						></Route>
 						<Route 
 							path="users/*"

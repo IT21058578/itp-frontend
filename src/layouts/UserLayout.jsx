@@ -1,5 +1,5 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Categories from "../pages/ServiceCreation/Categories";
 import CatogrizedServicesHook from "../hooks/ServiceCreation/CategorizedServices";
 import ServiceDeatails from "../pages/ServiceCreation/ServiceDeatials";
@@ -15,8 +15,26 @@ import {
 	ResetPasswordPage,
 } from "../pages";
 import UserProfileLayout from "./UserProfileLayout";
+import { ReactSession } from 'react-client-session';
+
 
 function UserLayout() {
+	const navigate = useNavigate();
+
+	//Redirect admins if they try to access.
+	useEffect(() => {
+		async function validatePermissions() {
+			let permissions;
+			permissions = await ReactSession.get("permissions");
+			if (permissions) {
+				if (permissions.includes('ADMIN')) {
+					navigate("/admin");
+				}
+			}
+		}
+		validatePermissions();
+	}, [])
+
 	return (
 		<div className="min-h-screen flex flex-col">
 			<CustomerNavbar />
@@ -41,11 +59,11 @@ function UserLayout() {
 					<Route path="auth/forgotpassword" element={<ForgotPasswordPage />} />
 					<Route path="auth/resetpassword" element={<ResetPasswordPage />} />
 					<Route path="auth/register" element={<RegisterPage />} />
-					<Route path="*" element={<ErrorPage />} />
 					<Route path="/categories/*" element={<Categories/>}></Route>
         			<Route path="/CatogrizedServices/*" element={<CatogrizedServicesHook/>}></Route>
         			<Route path="/serviceDeatials/*" element={<ServiceDeatails/>}></Route>
 					<Route path="/ServiceRequest/*" element={<ServiceRequest/>}></Route>
+					<Route path="*" element={<ErrorPage />} />
 
 				</Routes>
 				<div className="bg-gray-100 w-1/12 border-l"></div>

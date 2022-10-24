@@ -58,7 +58,7 @@ function CustomerNavbar() {
 									onClick={() => navigate(item.link)}
 									key={i}
 									style={{ fontSize: "0.9em" }}
-									className="transition-all font-medium hover:cursor-pointer hover:text-blue-600 active:text-blue-700 hover:bg-blue-50 active:bg-blue-200"
+									className="transition-all font-medium hover:cursor-pointer hover:text-blue-600 active:text-blue-700 hover:bg-blue-50 active:bg-blue-200 px-3 py-1 rounded-full"
 								>
 									{item.displayText}
 								</div>
@@ -67,21 +67,19 @@ function CustomerNavbar() {
 						<div className="border-l px-4">
 							{email?.length > 0 ? (
 								<div className="flex flex-row items-center gap-4">
-									<Avatar size="md" img={avatarUrl}>
-										<div 
-											onClick={() => {navigate(PROFILE_URL)}}
-											className="transition-all flex flex-row items-center hover:text-blue-600 active:text-blue-700 hover:bg-blue-50 active:bg-blue-200 hover:cursor-pointer rounded-md px-3">
-												<div className="mr-1">
-													<div className="text-sm">
-														{firstName + " " + lastName}
-													</div>
-													<div className="text-xs">{email}</div>
+									<div 
+										onClick={() => {navigate(PROFILE_URL)}}
+										className="transition-all flex flex-row items-center hover:text-blue-600 active:text-blue-700 hover:bg-blue-50 active:bg-blue-200 hover:cursor-pointer rounded px-3 py-1">
+											<div className="mr-1">
+												<div className="text-sm">
+													{firstName + " " + lastName}
 												</div>
-										</div>
-									</Avatar>
+												<div className="text-xs">{email}</div>
+											</div>
+									</div>
 									<ArrowRightOnRectangleIcon
 										onClick={() => setIsLogoutMdlActive(true)}
-										className="w-10 h-10 rounded-md border p-2 hover:bg-gray-100 active:bg-gray-200 hover:cursor-pointer"
+										className="transition-all w-10 h-10 rounded-md border p-2 hover:text-blue-600 active:text-blue-700 active:outline active:outline-blue-700 hover:bg-blue-50 active:bg-blue-200 hover:cursor-pointer"
 									/>
 								</div>
 							) : (
