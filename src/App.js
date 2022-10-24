@@ -1,26 +1,37 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import './App.css';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
-
-import { AdminLayout, EmpLayout, UserLayout } from "./layouts"
-import React from "react";
-import { ReactSession } from 'react-client-session';
-
-ReactSession.setStoreType("sessionStorage");
-
-//Place Main routes here.
+import ListZoneComponent from './components/ListZoneComponent';
+import CreateZoneComponent from './components/CreateZoneComponent';
+import ListCrewsComponent from './components/ListCrewsComponent';
+import CreateCrewsComponent from './components/CreateCrewsComponent';
+import ListToBeAssigned from './components/ListToBeAssigned';
+import CreateToBeAssigned from './components/CreateToBeAssigned';
+import ListAssigned from './components/ListAssigned';
+import CreateAssigned from './components/CreateAssigned';
 function App() {
   return (
-    <Router>
-      <Routes>
+    <div>
+      <Router>
 
-        {/*Please put the pages into the appropriate layouts. 
-        Userlayout is for customers. 
-        AdminLayout is for admins and vice versa*/}
-        <Route path="/*" element={<UserLayout />} />
-        <Route path="/employee/*" element={<EmpLayout />}></Route>
-        <Route path="/admin/*" element={<AdminLayout />} ></Route>
-      </Routes>
-    </Router>
+        <div className="container">
+          <Switch>
+
+            <Route exact path="/" component={ListZoneComponent} />
+            <Route exact path="/add-zone/:no" component={CreateZoneComponent} />
+            <Route path="/zones" component={ListZoneComponent}></Route>
+            <Route path="/crews" component={ListCrewsComponent}></Route>
+            <Route exact path="/add-crew/:no" component={CreateCrewsComponent} />
+            <Route path="/toBeAssigns" component={ListToBeAssigned}></Route>
+            <Route path="/add-toBeAssign/:no" component={CreateToBeAssigned}></Route>
+            <Route path="/assigned" component={ListAssigned}></Route>
+            <Route path="/add-assigned/:no" component={CreateAssigned}></Route>
+
+          </Switch>
+        </div>
+
+      </Router>
+    </div>
   );
 }
 

@@ -1,6 +1,6 @@
 {
-  "short_name": "Quick Clean",
-  "name": "Quick Clean",
+  "short_name": "React App",
+  "name": "Create React App Sample",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,13 +8,13 @@
       "type": "image/x-icon"
     },
     {
-      "src": "new_logo.jpg",
-      "type": "image/jpg",
+      "src": "logo192.png",
+      "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "new_logo.jpg",
-      "type": "image/jpg",
+      "src": "logo512.png",
+      "type": "image/png",
       "sizes": "512x512"
     }
   ],
