@@ -1,13 +1,22 @@
 import { Button, Label, Select, Spinner, TextInput } from "flowbite-react";
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 function JobTableSearch({ handleSearch, isLoading }) {
+	const location = useLocation();
+	const [hasLocationState, setHasLocationState] = useState(false);
+
 	const [jobId, setJobId] = useState("");
 
 	const [lengthSelect, setLengthSelect] = useState("ignore");
 	const [length, setLength] = useState("");
 	const [lengthHasErr, setLengthHasErr] = useState(false);
+
+	const [dateSelect, setDateSelect] = useState("");
+	const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+	const [dateErr, setDateErr] = useState(false);
 
 	const [crewSelect, setCrewSelect] = useState("ignore");
 	const [crew, setCrew] = useState("");
@@ -52,6 +61,8 @@ function JobTableSearch({ handleSearch, isLoading }) {
 		if (!hasAnyErr) {
 			handleSearch({
 				jobId,
+				dateSelect,
+				date,
 				lengthSelect,
 				length,
 				crewSelect,
@@ -64,12 +75,43 @@ function JobTableSearch({ handleSearch, isLoading }) {
 		}
 	}
 
+	//If reached page with location state;
+	useEffect(() => {
+		if (hasLocationState) {
+			setTimeout(() => {
+				handleSearch({
+					jobId,
+					dateSelect,
+					date,
+					lengthSelect,
+					length,
+					crewSelect,
+					crew,
+					revenueSelect,
+					revenue,
+					ratingSelect,
+					rating,
+				});
+			}, 500); 
+		}
+	}, [hasLocationState]);
+	
+	//If reach page with state, do a search.
+	useEffect(() => {
+		if (location?.state) {
+			setDate(location?.state?.date || "");
+			setDateSelect("on");
+			setHasLocationState(true);
+		}
+	}, []);
+
+
 	return (
 		<div className="flex flex-col justify-center h-full px-4" >
 			<div
-				className="pr-4 flex flex-col gap-3"
+				className="pr-4 flex flex-col gap-3 overflow-y-scroll"
 				style={{
-					height: "90%",
+					height: "70vh",
 					width: "100%",
 				}}
 			>
@@ -82,6 +124,43 @@ function JobTableSearch({ handleSearch, isLoading }) {
 							value={jobId}
 							onChange={(e) => setJobId(e.target.value)}
 						/>
+					</div>
+				</div>
+				<div className="flex gap-4 flex-col py-4 border-t">
+					<Label>Search by Date</Label>
+					<div className="flex flex-row gap-4 items-center">
+						<div className="flex flex-row w-2/4">
+							<div className="w-1/4 flex items-center">
+								<Label value="Type" />
+							</div>
+							<div className="w-3/4">
+								<Select
+									value={dateSelect}
+									onChange={(e) => setDateSelect(e.target.value)}
+								>
+									<option value="">Ignore</option>
+									<option value="before">Before</option>
+									<option value="after">After</option>
+									<option value="on">On</option>
+								</Select>
+							</div>
+						</div>
+						<div className="w-2/4 flex flex-col gap-2 border-l pl-4">
+							<div className="flex flex-row gap-2">
+								<div className="w-2/6 flex items-center">
+									<Label className="" value="Date" />
+								</div>
+								<div className="w-3/4">
+									<TextInput
+										type="date"
+										value={date}
+										onChange={(e) => setDate(e.target.value)}
+										disabled={dateSelect === "" ? true : false}
+										color={dateErr === true ? "failure" : "gray"}
+									/>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div className="flex gap-4 flex-col py-4 border-t">
@@ -233,7 +312,7 @@ function JobTableSearch({ handleSearch, isLoading }) {
 			<div className="flex gap-2 flex-col py-2 border-t">
 				<Button
 					style={{ width: "100%" }}
-					onClick={handleSubmit}
+					onClick={() => handleSubmit()}
 					disabled={isLoading}
 				>
 					{isLoading ? (

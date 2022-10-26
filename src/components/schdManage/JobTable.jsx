@@ -70,7 +70,6 @@ function JobTable({
 							handleSortChange={handleSortChange}
 						/>
 					</Table.HeadCell>
-					<Table.HeadCell></Table.HeadCell>
 				</Table.Head>
 				<Table.Body className="divide-y h-100">
 					{jobList?.map((job, i) =>

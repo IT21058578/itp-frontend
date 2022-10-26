@@ -59,36 +59,17 @@ function UserTable({
 					<Table.HeadCell></Table.HeadCell>
 				</Table.Head>
 				<Table.Body className="divide-y h-100">
-					{dataList?.map((item, i) =>
-						dataList.length === i + 1 ? (
-							<Table.Row ref={lastTableRowRef}>
-								<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">{item.id}</Table.Cell>
-								<Table.Cell className="font-medium">{item.email}</Table.Cell>
-								<Table.Cell className="font-medium">{item.name}</Table.Cell>
-								<Table.Cell className="font-medium">{item.type === 'USER' ? 'CLIENT' : item.type}</Table.Cell>
-								<Table.Cell className="font-medium">
-									<Button 
-										size="sm" 
-										onClick={() => navigate(`${ADMIN_USER_PAGE_URL}?email=${item.email}`)}>
-											Info
-									</Button>
-								</Table.Cell>
-							</Table.Row>
-						) : (
-							<Table.Row>
-								<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">{item.id}</Table.Cell>
-								<Table.Cell className="font-medium">{item.email}</Table.Cell>
-								<Table.Cell className="font-medium">{item.name}</Table.Cell>
-								<Table.Cell className="font-medium">{item.type === 'USER' ? 'CLIENT' : item.type}</Table.Cell>
-								<Table.Cell className="font-medium">
-									<Button 
-										size="sm" 
-										onClick={() => navigate(`${ADMIN_USER_PAGE_URL}?email=${item.email}`)}>
-											Info
-									</Button>
-								</Table.Cell>
-							</Table.Row>
-						)
+					{dataList?.map((item, i) =>	
+						<Table.Row 
+							className="transition-all font-medium hover:outline hover:rounded hover:outline-blue-500 hover:text-blue-600 hover:cursor-pointer" 
+							ref={dataList.length === i + 1 ? lastTableRowRef : null}
+							onClick={() => navigate(`${ADMIN_USER_PAGE_URL}?email=${item.email}`)}
+							>
+							<Table.Cell className="whitespace-nowrap text-gray-900 dark:text-white">{item.id}</Table.Cell>
+							<Table.Cell>{item.email}</Table.Cell>
+							<Table.Cell>{item.name}</Table.Cell>
+							<Table.Cell>{item.type === 'USER' ? 'CLIENT' : item.type}</Table.Cell>
+						</Table.Row>
 					)}
 					{isLoading ? (
 						<Table.Row>

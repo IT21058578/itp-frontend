@@ -11,7 +11,7 @@ const USER_PAGE_URL = "/admin/users/user";
 
 function AdminJobPage() {
 	const navigate = useNavigate();
-	const [jobId, setJobId] = useState("12342er5t4445");
+	const [jobId, setJobId] = useState("");
 	const [job, setJob] = useState({});
 
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -40,13 +40,14 @@ function AdminJobPage() {
 			.get(
 				JOB_DATA_URL,
 				{
-					params: { jobId },
+					params: { jobId: searchParams.get("id") },
 					cancelToken: axios.CancelToken((c) => (cancelToken = c)),
 				}
 			)
-			.then((job) => {
+			.then((response) => {
 				setIsRequestSuccess(true);
-				setJob(job);
+				setJob(response.data);
+				console.log(response.data);
 			})
 			.catch((err) => {
 				setRequestHasErr(true);
@@ -83,7 +84,7 @@ function AdminJobPage() {
 				</span>
 				<span className="py-1 px-4 rounded text-sm border-l text-gray-500 font-medium">
 					<div className="text-black">Period</div>
-					{job?.startTime?.toString().slice(0,5)} to {job?.endTime?.toString().slice(0,5)} 
+					{job?.startTime?.split('T')[1].slice(0,5)} to {job?.endTime?.split('T')[1].slice(0,5)} 
 				</span>
 			</div>
 			<div className="flex-grow flex flex-col h-full pt-4">
@@ -97,7 +98,7 @@ function AdminJobPage() {
 									<Table.HeadCell>Total Price</Table.HeadCell>
 								</Table.Head>
 								<Table.Body>
-									{job?.cart?.map((item) => <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+									{job?.serviceList?.map((item) => <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 										<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
 											{item?.name}
 										</Table.Cell>
@@ -124,8 +125,10 @@ function AdminJobPage() {
 							</div>
 							<div className="h-2/4 flex flex-row items-center">
 								<div className="flex-1 border-r text-center flex flex-col gap-1">
-									<div>Created At</div>
-									<div className="font-normal text-gray-500">{job?.createdAt}</div>
+									<div>Created</div>
+									<div className="font-normal text-gray-500">
+										On {job?.createdAt?.split('T')[0]} At {job?.createdAt?.split('T')[1].slice(0,5)}
+									</div>
 								</div>
 								<div className="flex-1 text-center flex flex-col gap-1">
 									<div>Amount</div>
@@ -144,7 +147,7 @@ function AdminJobPage() {
 									<Table.HeadCell>Name</Table.HeadCell>
 								</Table.Head>
 								<Table.Body>
-									{job?.crew?.map((emp) => <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+									{job?.crewList?.map((emp) => <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 										<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
 											{emp?.id}
 										</Table.Cell>
@@ -155,31 +158,31 @@ function AdminJobPage() {
 						</div>
 						<div className="h-1/4 border rounded flex flex-col pb-2 text-sm font-medium relative">
 						<div className="flex flex-col gap-1 flex-1 px-6 pt-4">
-								<div className="flex flex-row justify-between">
-									#{job?.userId}
+								<div className="flex flex-row justify-between text-xl">
+									<div className="bg-slate-100 text-slate-600 py-1 px-4 rounded ">#{job?.client?.id}</div>
 									<div className="flex flex-row">
 										<Button 
 											size="sm" 
-											onClick={() => navigate(`${USER_PAGE_URL}?email=${job?.email}`)}>
+											onClick={() => navigate(`${USER_PAGE_URL}?email=${job?.client?.email}`)}>
 												Goto User Page
 										</Button>
 									</div>
 								</div>
-								<div className="flex-1 font-normal text-gray-500">{job?.firstName} {job?.lastName}</div>
+								<div className="flex-1 font-normal text-gray-500">{job?.client?.firstName} {job?.client?.lastName}</div>
 									<div className="flex pb-2 flex-row"><div className="flex-1 flex flex-col mt-2">
 										<div className="flex-1">Email</div>
-										<div className="font-normal text-gray-500">{job?.email}</div>
+										<div className="font-normal text-gray-500">{job?.client?.email}</div>
 									</div>
 									<div className="flex-1 flex flex-col mt-2">
 										<div className="flex-1">Mobile</div>
-										<div className="font-normal text-gray-500">{job?.mobile}</div>
+										<div className="font-normal text-gray-500">{job?.client?.mobile}</div>
 									</div>	
 								</div>
 							</div>
 								
 						</div>
 						<div className="h-1/4 border rounded flex flex-col pb-2 text-sm font-medium relative">
-							{ job?.review === undefined ? (<div className="h-full w-full flex bg-black  bg-opacity-10 items-center justify-center absolute text-gray-500">
+							{ job?.review === null ? (<div className="h-full w-full flex bg-black  bg-opacity-10 items-center justify-center absolute text-gray-500">
 								Client has not left a review.
 							</div>) : (<div className="h-1/4 flex flex-col gap-1 flex-1 px-6 pt-4">
 								<div className="flex flex-row">

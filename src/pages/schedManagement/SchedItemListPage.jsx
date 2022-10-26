@@ -70,16 +70,24 @@ function SchedItemListPage() {
 	return (
 		<Fragment>
 			<div className="flex flex-col gap-2 h-full w-full">
+				<Container>
+					<div className="flex flex-row text-2xl pb-2 border-b items-center justify-between">
+						<span className="flex flex-row items-center gap-4">
+							<span className="py-1 px-4">
+								Schedules
+							</span>
+						</span>
+					</div>
+				</Container>
 				<div className="flex w-full h-full gap-2 flex-row">
 					<Container
-						title="Search Options"
 						className="flex-grow rounded-md justify-center p-3 w-2/6"
 					>
 						<ScheduleSearch handleSearch={handleSearch} />
 					</Container>
 					<div
 						className="flex-grow h-full flex flex-col border p-2 gap-2 rounded-md overflow-y-scroll w-4/6 bg-white"
-						style={{height: "97.8vh"}}
+						style={{height: "85.8vh"}}
 					>
 						{dataList.map((s, i) =>
 							dataList.length - 1 === i ? (

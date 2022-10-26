@@ -31,10 +31,11 @@ import UserReviewModal from "./userManagement/UserReviewModal";
 import UserTable from "./userManagement/UserTable";
 import UserTableSearch from "./userManagement/UserTableSearch";
 import UserRoleChangeModal from "./userManagement/UserRoleChangeModal"
+import AdminUserJobTable from "./userManagement/AdminUserJobTable";
 
 export {
     Container,
-    EmpSidebar, AdminSidebar,
+    EmpSidebar, AdminSidebar, AdminUserJobTable,
     Calender, CalenderDay, SchedulerTopBar, ScheduleItem, ScheduleSearch,
     JobTable, JobTableRow, JobTableSearch, JobTableHeader,
     LoginModal, RegisterForm, LogoutModal, CustomerFooter, CustomerNavbar,

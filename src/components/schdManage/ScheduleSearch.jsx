@@ -1,15 +1,19 @@
 import React from "react";
 import { useState } from "react";
 import { Button, Label, Select, TextInput } from "flowbite-react";
-import ButtonGroup from "flowbite-react/lib/esm/components/Button/ButtonGroup";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 function ScheduleSearch({ handleSearch }) {
+	const location = useLocation();
+	const [hasLocationState, setHasLocationState] = useState(false);
+	
 	const [searchSelect, setSearchSelect] = useState("");
 	const [searchString, setSearchString] = useState("");
 	const [searchStringErr, setSearchStringErr] = useState(false);
 
 	const [dateSelect, setDateSelect] = useState("");
-	const [date, setDate] = useState("2022-12-05");
+	const [date, setDate] = useState("");
 	const [dateErr, setDateErr] = useState(false);
 
 	const [startTimeSelect, setStartTimeSelect] = useState("");
@@ -23,6 +27,37 @@ function ScheduleSearch({ handleSearch }) {
 	const [showSelect, setShowSelect] = useState("both");
 	const [sortCol, setSortCol] = useState("date");
 	const [sortDir, setSortDir] = useState("desc");
+
+	//If reached page with location state;
+	useEffect(() => {
+		if (hasLocationState) {
+			setTimeout(() => {
+				handleSearch({
+					searchSelect,
+					searchString,
+					dateSelect,
+					date,
+					startTimeSelect,
+					startTime,
+					endTimeSelect,
+					endTime,
+					showSelect,
+					sortCol,
+					sortDir,
+			});
+		}, 100); 
+		}
+	}, [hasLocationState]);
+	
+	//If reach page with state, do a search.
+	useEffect(() => {
+		if (location?.state) {
+			setDate(location?.state?.date || "");
+			setDateSelect("on");
+			setHasLocationState(true);
+		}
+	}, []);
+	
 
 	function handleSubmit() {
 		//TODO: Make validation.
@@ -48,9 +83,9 @@ function ScheduleSearch({ handleSearch }) {
 	return (
 		<div className="flex flex-col justify-center h-full px-4" >
 			<div
-				className="pr-4 flex flex-col gap-1"
+				className="pr-4 flex flex-col gap-1 overflow-y-scroll"
 				style={{
-					height: "90%",
+					height: "70vh",
 					width: "100%",
 				}}
 			>

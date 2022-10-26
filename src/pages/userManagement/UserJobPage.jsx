@@ -40,13 +40,13 @@ function UserJobPage() {
 			.put(
 				JOB_DATA_URL,
 				{
-					params: { jobId },
+					params: { jobId: searchParams.get("id") },
 					cancelToken: axios.CancelToken((c) => (cancelToken = c)),
 				}
 			)
-			.then((job) => {
+			.then((response) => {
 				setIsRequestSuccess(true);
-				setJob(job);
+				setJob(response.data);
 			})
 			.catch((err) => {
 				setRequestHasErr(true);

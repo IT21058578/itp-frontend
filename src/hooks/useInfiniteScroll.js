@@ -40,7 +40,6 @@ function useInfiniteScroll(dataUrl, dataParams, pgNum, setPgNum, pgSize, forceUp
     //Only runs if force update is true.
     useEffect(() => {
         if (forceUpdate === true) {
-            console.log("Force update infinite scroll!");
             setDataList([]);
             setForceUpdate(false);
             setPgNum(1);

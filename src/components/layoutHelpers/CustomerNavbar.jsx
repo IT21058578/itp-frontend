@@ -86,7 +86,7 @@ function CustomerNavbar() {
 								<div
 									onClick={() => navigate("auth/login")}
 									style={{ fontSize: "0.9em" }}
-									className="font-medium hover:cursor-pointer hover:text-blue-700 ml-4"
+									className="transition-all font-medium hover:cursor-pointer hover:text-blue-600 active:text-blue-700 hover:bg-blue-50 active:bg-blue-200 px-3 py-1 rounded-full"
 								>
 									Login
 								</div>
