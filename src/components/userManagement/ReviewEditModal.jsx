@@ -4,9 +4,9 @@ import { Button, Label, Modal, Spinner, Textarea, TextInput } from 'flowbite-rea
 import React, { Fragment, useEffect, useState } from 'react'
 import JobTable from '../schdManage/JobTable';
 
-const RATING_POST_URL = "";
+const REVIEW_API_URL = process.env.REACT_APP_REVIEW_API_URL;
 
-function UserReviewModal({job, setIsActive, isActive}) {
+function ReviewEditModal({job, setIsActive, isActive}) {
     const titleMaxLength = 40;
     const descriptionMaxLength = 80;
 
@@ -27,11 +27,11 @@ function UserReviewModal({job, setIsActive, isActive}) {
 
     //Check if a review exists when opened. If it does, set values.
     useEffect(() => {
-        if (!job?.review === undefined) {
+        if (job?.review !== null) {
             setReviewExists(true);
-            setTitle(job.review?.title);
-            setDescription(job.review?.description);
-            setRating(job.review?.rating);
+            setTitle(job?.review?.title || "");
+            setDescription(job?.review?.description || "");
+            setRating(job?.review?.rating || "");
         }
     }, [isActive])
     
@@ -52,7 +52,8 @@ function UserReviewModal({job, setIsActive, isActive}) {
         }
 
         setRatingHasErr(false);
-        if (Number(rating) < 0 && Number(rating) > 5) {
+        let ratingNum = Number(rating);
+        if (ratingNum < 0 || ratingNum > 5) {
             hasAnyErr = true;
             setRatingHasErr(true);
         }
@@ -65,15 +66,17 @@ function UserReviewModal({job, setIsActive, isActive}) {
     function sendRatingPostRequest() {
         let cancelToken;
 		setIsLoading(true);
-		axios
-			.put(
-				RATING_POST_URL,
-				{ title, description, rating },
-				{
-					params: { id: job?.id },
-					cancelToken: new axios.CancelToken((c) => (cancelToken = c)),
-				}
-			)
+		axios({
+                method: reviewExists ? 'put' : 'post',
+				url: REVIEW_API_URL,
+				data: { title, description, rating },
+                params: { jobId: job?.id },
+                cancelToken: new axios.CancelToken((c) => (cancelToken = c)),
+            })
+            .then(() => {
+                setIsActive(false);
+                window.location.reload();
+            })
 			.catch((err) => {
 				if (axios.isCancel(err)) {
 					return;
@@ -121,7 +124,7 @@ function UserReviewModal({job, setIsActive, isActive}) {
 									Title cannot be empty and must be less than{" "}
 									{titleMaxLength + 1} characters!
 								</div> : ""}
-                                <div className="w-1/6 text-end">{title.length} / {titleMaxLength}</div>
+                                <div className="w-1/6 text-end">{title?.length} / {titleMaxLength}</div>
                             </div>
                         </div>
                         <div className="w-1/4 pl-4 flex flex-col">
@@ -172,7 +175,7 @@ function UserReviewModal({job, setIsActive, isActive}) {
                                 Description cannot be empty and must be less than{" "}
                                 {descriptionMaxLength + 1} characters!
                             </div> : ""}
-                            <div className="w-1/6 text-end">{description.length} / {descriptionMaxLength}</div>
+                            <div className="w-1/6 text-end">{description?.length} / {descriptionMaxLength}</div>
                         </div>
                     </div>
                 </div>
@@ -205,4 +208,4 @@ function UserReviewModal({job, setIsActive, isActive}) {
   )
 }
 
-export default UserReviewModal
+export default ReviewEditModal

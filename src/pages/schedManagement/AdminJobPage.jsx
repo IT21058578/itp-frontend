@@ -1,6 +1,7 @@
 import { ChevronLeftIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
 import { Button, Rating, Spinner, Table } from "flowbite-react";
+import { RatingStar } from "flowbite-react/lib/esm/components/Rating/RatingStar";
 import React, { Fragment, useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { Container } from "../../components";
@@ -188,13 +189,13 @@ function AdminJobPage() {
 								<div className="flex flex-row">
 									<div className="flex-1">Title</div>
 									<div className="flex flex-row gap-2 items-center">
-										<div className="text-xs  px-2 rounded">
+										<div className="px-2 rounded">
 											<Rating>
-												<Rating.Star />
-												<p className="ml-2 text-sm font-medium text-gray-900 dark:text-white">
-													{job?.review?.rating}
-												</p>
-											</Rating>
+												<div className="flex flex-row gap-2">
+													<RatingStar filled={job?.review !== null}/>
+													{job?.review?.rating.toString().slice(0,4) || "0.00"}
+												</div>
+											</Rating> 
 										</div>
 									</div>
 								</div>

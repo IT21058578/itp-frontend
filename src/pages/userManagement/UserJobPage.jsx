@@ -3,41 +3,47 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useMemo } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { Button, Modal, Rating, Spinner, Table } from "flowbite-react";
-import { ArrowRightIcon, ChevronLeftIcon } from "@heroicons/react/24/solid";
+import { Button, Rating, Spinner, Table } from "flowbite-react";
+import { ChevronLeftIcon, TrashIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
-import { UserReviewModal } from "../../components";
+import { ReviewDeleteModal, ReviewEditModal } from "../../components";
+import { RatingStar } from "flowbite-react/lib/esm/components/Rating/RatingStar";
 
 const JOB_DATA_URL = `${process.env.REACT_APP_BACKEND_URL}/job`;
 //HOW TO GO BACK?
 
 function UserJobPage() {
 	const navigate = useNavigate();
-	const [jobId, setJobId] = useState("12342er5t4445");
 	const [job, setJob] = useState({});
 	const [isReviewMdlActive, setIsReviewMdlActive] = useState(false);
+	const [isDeleteMdlActive, setIsDeleteMdlActive] = useState(false);
 
 	const [searchParams, setSearchParams] = useSearchParams();
+
+	const search = useLocation();
+	const query = useMemo(() => new URLSearchParams(search), [search]);
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [isRequestSuccess, setIsRequestSuccess] = useState(false);
 	const [requestHasErr, setRequestHasErr] = useState(false);
 	const [requestErrMsg, setRequestErrMsg] = useState("");
-	
-	useEffect(() => {
-		setJobId(searchParams.get("id"));
-	}, [])
 
 	useEffect(() => {
 		sendJobDataRequest();
-	}, [jobId])
+	}, [])
+
+	function isReviewPending() {
+		const jobEndDate = new Date(job?.endTime);
+		const currentDate = new Date();
+		console.log(jobEndDate, currentDate);
+	}
 
 	function sendJobDataRequest() {
 		setIsLoading(true);
 		setRequestHasErr(false);
 		let cancelToken;
 		axios
-			.put(
+			.get(
 				JOB_DATA_URL,
 				{
 					params: { jobId: searchParams.get("id") },
@@ -47,6 +53,7 @@ function UserJobPage() {
 			.then((response) => {
 				setIsRequestSuccess(true);
 				setJob(response.data);
+				isReviewPending();
 			})
 			.catch((err) => {
 				setRequestHasErr(true);
@@ -59,6 +66,7 @@ function UserJobPage() {
 			})
 			.then(() => setIsLoading(false));
 	}
+
 
 	return (
 		<Fragment>
@@ -73,16 +81,16 @@ function UserJobPage() {
 						<ChevronLeftIcon className="h-10 w-10 p-2 rounded transition-all hover:cursor-pointer hover:text-blue-600 active:text-blue-700 hover:bg-blue-50 active:bg-blue-200" />
 					</span>
 					<span className="bg-slate-100 text-slate-600 py-1 px-4 rounded ">
-						#{jobId}
+						#{job?.id}
 					</span>
 				</span>
 				<span className="py-1 px-4 rounded text-sm border-l text-gray-500 font-medium">
 					<div className="text-black">Date</div>
-					2022-10-20
+					{job?.date}
 				</span>
 				<span className="py-1 px-4 rounded text-sm border-l text-gray-500 font-medium">
 					<div className="text-black">Period</div>
-					10:20 to 13:20
+					{job?.startTime?.split('T')[1].slice(0,5)} to {job?.endTime?.split('T')[1].slice(0,5)} 
 				</span>
 			</div>
 			<div className="flex-grow flex flex-col h-full pt-4">
@@ -96,13 +104,15 @@ function UserJobPage() {
 									<Table.HeadCell>Total Price</Table.HeadCell>
 								</Table.Head>
 								<Table.Body>
-								{job?.cart?.map((item) => <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-										<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-											Room Cleaning
-										</Table.Cell>
-										<Table.Cell>4</Table.Cell>
-										<Table.Cell>400</Table.Cell>
-									</Table.Row>)}
+									{job?.serviceList?.map((item) => 
+										<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+											<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+												{item?.name}
+											</Table.Cell>
+											<Table.Cell>{item?.quantity}</Table.Cell>
+											<Table.Cell>{item?.cost}</Table.Cell>
+										</Table.Row>
+									)}
 								</Table.Body>
 							</Table>
 						</div>
@@ -118,18 +128,20 @@ function UserJobPage() {
 									</div>
 								</div>
 								<div className="flex-1 font-normal text-gray-500">
-									59/3b, Saranankara Road, Dehiwala
+									{job?.address}
 								</div>
 							</div>
 							<div className="h-2/4 flex flex-row items-center">
 								<div className="flex-1 border-r text-center flex flex-col gap-1">
 									<div>Created At</div>
-									<div className="font-normal text-gray-500">2001-12-05</div>
+									<div className="font-normal text-gray-500">
+										On {job?.createdAt?.split('T')[0]} At {job?.createdAt?.split('T')[1].slice(0,5)}
+									</div>
 								</div>
 								<div className="flex-1 text-center flex flex-col gap-1">
 									<div>Amount</div>
 									<div className=" bg-green-100 text-green-500 mx-8 rounded">
-										500.0
+										{job?.amount}
 									</div>
 								</div>
 							</div>
@@ -143,43 +155,58 @@ function UserJobPage() {
 									<Table.HeadCell>Name</Table.HeadCell>
 								</Table.Head>
 								<Table.Body>
-								{job?.crew?.map((emp) => <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-										<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-											34314efdsf8df89342
-										</Table.Cell>
-										<Table.Cell>John Doe</Table.Cell>
-									</Table.Row>)}
+									{job?.crewList?.map((emp) => 
+										<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+											<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+												{emp?.id}
+											</Table.Cell>
+											<Table.Cell>{emp?.firstName} {emp?.lastName}</Table.Cell>
+										</Table.Row>
+									)}
 								</Table.Body>
 							</Table>
 						</div>
 						<div className="h-2/4 border rounded flex flex-col pb-2 text-sm font-medium relative">
-							{ job.review === undefined ? <div className="h-full w-full flex bg-black  bg-opacity-10 items-center justify-center absolute">
-								<Button onClick={() => setIsReviewMdlActive(true)}>Make a Review</Button>
-							</div> : "" }
+							{/*TODO: Make it impossible to review pending jobs */}
+							{}
+							{job.review === null ? 
+								<div className="h-full w-full flex bg-black  bg-opacity-10 items-center justify-center absolute">
+									<Button onClick={() => setIsReviewMdlActive(true)}>Make a Review</Button>
+								</div> 
+								: "" 
+							}
 							<div className="h-2/4 flex flex-col gap-1 flex-1 px-6 pt-4">
 								<div className="flex flex-row">
 									<div className="flex-1">Title</div>
 									<div className="flex flex-row gap-2 items-center">
-										<div className="text-xs  px-2 rounded">
+										<div className="px-2 rounded">
 											<Rating>
-												<Rating.Star filled={!job?.review === null}/>
-												<p className="ml-2 text-sm font-medium text-gray-900 dark:text-white">
-													0.0
-												</p>
-											</Rating>
+												<div className="flex flex-row gap-2">
+													<RatingStar filled={job?.review !== null}/>
+													{job?.review?.rating.toString().slice(0,4) || "0.00"}
+												</div>
+											</Rating> 
 										</div>
 									</div>
 								</div>
-								<div className="font-normal text-gray-500">Title</div>
+								<div className="font-normal text-gray-500">{job?.review?.title}</div>
 								<div className="flex flex-row mt-2">
 									<div className="flex-1">Description</div>
 								</div>
 								<div className="flex-1 font-normal text-gray-500">
-									Description
+									{job?.review?.description}
 								</div>
 								<div className="flex flex-row justify-end">
 									<Button onClick={() => setIsReviewMdlActive(true)} size="sm" style={{ width: "25%", height: "85%" }}>
 										Edit
+									</Button>
+									<Button 
+										color="failure"
+										onClick={() => setIsDeleteMdlActive(true)} 
+										size="sm" style={{ width: "25%", height: "85%" }}
+									>
+										<TrashIcon className="w-5 h-5 mr-2" />
+										Delete
 									</Button>
 								</div>
 							</div>
@@ -189,7 +216,8 @@ function UserJobPage() {
 			</div>
 			</Fragment>
 		</div>
-		<UserReviewModal review={job?.review} isActive={isReviewMdlActive} setIsActive={setIsReviewMdlActive}/>
+		<ReviewEditModal job={job} isActive={isReviewMdlActive} setIsActive={setIsReviewMdlActive} />
+		<ReviewDeleteModal jobId={job?.id} isActive={isDeleteMdlActive} setIsActive={setIsDeleteMdlActive} />				
 		</Fragment>
 	);
 }
