@@ -1,10 +1,12 @@
-import React from "react";
-import { Spinner, Table } from "flowbite-react";
-import JobTableHeader from "./JobTableHeader";
-import JobTableRow from "./JobTableRow";
+import { Button, Spinner, Table } from 'flowbite-react'
+import React, { Fragment } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import JobTableHeader from '../schdManage/JobTableHeader';
 
-function JobTable({
-	jobList,
+const ADMIN_USER_PAGE_URL = "user"
+
+function UserTable({
+	dataList,
 	handleSortChange,
 	sortDir,
 	sortCol,
@@ -12,14 +14,16 @@ function JobTable({
 	hasMore,
 	isLoading,
 }) {
-	return (
-		<div className="w-full h-full">
+	const navigate = useNavigate();
+	
+  	return (
+    <div className="w-full h-full">
 			<Table hoverable={true}>
 				<Table.Head>
 					<Table.HeadCell>
 						<JobTableHeader
-							dataName="id"
-							title="Job Id"
+							dataName="tempId"
+							title="User Id"
 							sortCol={sortCol}
 							sortDir={sortDir}
 							handleSortChange={handleSortChange}
@@ -27,8 +31,8 @@ function JobTable({
 					</Table.HeadCell>
 					<Table.HeadCell>
 						<JobTableHeader
-							dataName="date"
-							title="Date"
+							dataName="email"
+							title="email"
 							sortCol={sortCol}
 							sortDir={sortDir}
 							handleSortChange={handleSortChange}
@@ -36,8 +40,8 @@ function JobTable({
 					</Table.HeadCell>
 					<Table.HeadCell>
 						<JobTableHeader
-							dataName="hoursWorked"
-							title="Length"
+							dataName="name"
+							title="name"
 							sortCol={sortCol}
 							sortDir={sortDir}
 							handleSortChange={handleSortChange}
@@ -45,39 +49,27 @@ function JobTable({
 					</Table.HeadCell>
 					<Table.HeadCell>
 						<JobTableHeader
-							dataName="crewDeployed"
-							title="Crew"
+							dataName="type"
+							title="type"
 							sortCol={sortCol}
 							sortDir={sortDir}
 							handleSortChange={handleSortChange}
 						/>
 					</Table.HeadCell>
-					<Table.HeadCell>
-						<JobTableHeader
-							dataName="earnings"
-							title="Revenue"
-							sortCol={sortCol}
-							sortDir={sortDir}
-							handleSortChange={handleSortChange}
-						/>
-					</Table.HeadCell>
-					<Table.HeadCell>
-						<JobTableHeader
-							dataName="rating"
-							title="Rating"
-							sortCol={sortCol}
-							sortDir={sortDir}
-							handleSortChange={handleSortChange}
-						/>
-					</Table.HeadCell>
+					<Table.HeadCell></Table.HeadCell>
 				</Table.Head>
 				<Table.Body className="divide-y h-100">
-					{jobList?.map((job, i) =>
-						jobList.length === i + 1 ? (
-							<JobTableRow rowRef={lastTableRowRef} job={job} key={i} />
-						) : (
-							<JobTableRow job={job} key={i} />
-						)
+					{dataList?.map((item, i) =>	
+						<Table.Row 
+							className="transition-all font-medium hover:outline hover:rounded hover:outline-blue-500 hover:text-blue-600 hover:cursor-pointer" 
+							ref={dataList.length === i + 1 ? lastTableRowRef : null}
+							onClick={() => navigate(`${ADMIN_USER_PAGE_URL}?email=${item.email}`)}
+							>
+							<Table.Cell className="whitespace-nowrap text-gray-900 dark:text-white">{item.id}</Table.Cell>
+							<Table.Cell>{item.email}</Table.Cell>
+							<Table.Cell>{item.name}</Table.Cell>
+							<Table.Cell>{item.type === 'USER' ? 'CLIENT' : item.type}</Table.Cell>
+						</Table.Row>
 					)}
 					{isLoading ? (
 						<Table.Row>
@@ -106,7 +98,7 @@ function JobTable({
 				</Table.Body>
 			</Table>
 		</div>
-	);
+  )
 }
 
-export default JobTable;
+export default UserTable

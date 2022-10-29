@@ -27,13 +27,20 @@ import AdminSidebar from "./layoutHelpers/AdminSidebar";
 import EmpSidebar from "./layoutHelpers/EmpSidebar";
 
 import UserJobItem from "./userManagement/UserJobItem";
+import ReviewEditModal from "./userManagement/ReviewEditModal";
+import ReviewDeleteModal from "./userManagement/ReviewDeleteModal";
+import UserTable from "./userManagement/UserTable";
+import UserTableSearch from "./userManagement/UserTableSearch";
+import UserRoleChangeModal from "./userManagement/UserRoleChangeModal"
+import AdminUserJobTable from "./userManagement/AdminUserJobTable";
+import UserJobsTable from "./userManagement/UserJobsTable";
 
 export {
-    Container,
-    EmpSidebar, AdminSidebar,
+    Container, UserJobsTable,
+    EmpSidebar, AdminSidebar, AdminUserJobTable,
     Calender, CalenderDay, SchedulerTopBar, ScheduleItem, ScheduleSearch,
     JobTable, JobTableRow, JobTableSearch, JobTableHeader,
     LoginModal, RegisterForm, LogoutModal, CustomerFooter, CustomerNavbar,
     ScheduleDeleteModal, ScheduleEditModal, ScheduleRenewModal, ScheduleCreateModal, ScheduleCompleteModal,
-    UserJobItem,
+    UserJobItem, ReviewEditModal, UserTable, UserTableSearch, UserRoleChangeModal, ReviewDeleteModal
 };

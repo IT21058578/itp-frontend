@@ -16,7 +16,7 @@ function JobTableHeader({
 		<div className="flex flex-row items-center">
 			<div className="pr-2 h-fit">{title}</div>
 			<div
-				className="hover:cursor-pointer active:text-blue-500 w-fit"
+				className="transition-all rounded hover:cursor-pointer hover:text-blue-600 active:text-blue-700 hover:bg-blue-50 active:bg-blue-200 w-fit"
 				onClick={() => handleSortChange(dataName)}
 			>
 				{sortCol === dataName ? (

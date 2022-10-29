@@ -9,6 +9,8 @@ ReactSession.setStoreType("sessionStorage");
 
 //Place Main routes here.
 function App() {
+
+
   return (
     <Router>
       <Routes>
@@ -17,7 +19,6 @@ function App() {
         Userlayout is for customers. 
         AdminLayout is for admins and vice versa*/}
         <Route path="/*" element={<UserLayout />} />
-        <Route path="/employee/*" element={<EmpLayout />}></Route>
         <Route path="/admin/*" element={<AdminLayout />} ></Route>
       </Routes>
     </Router>

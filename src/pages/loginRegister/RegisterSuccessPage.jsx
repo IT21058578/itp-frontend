@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Button } from "flowbite-react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function RegisterSuccessPage() {
+	const location = useLocation();
 	const navigate = useNavigate();
-	const email = "gunasekeratharindu@gmail.com";
+	const [email, setEmail] = useState("");
+
+	useEffect(() => {
+		if (location?.state?.email == undefined) {
+			navigate("/"); //Redirect to homepage if it doesnt exist.
+		}
+		setEmail(location.state.email); //Otherwise set email
+	}, []);
+
 	return (
 		<div className="flex flex-col items-center justify-center">
 			<div className="text-4xl font-light mb-2">

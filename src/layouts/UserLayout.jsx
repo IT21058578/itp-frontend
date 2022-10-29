@@ -1,5 +1,5 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Categories from "../pages/ServiceCreation/Categories";
 import CatogrizedServicesHook from "../components/ServiceCreation/CategorizedServices";
 import ServiceDeatails from "../pages/ServiceCreation/ServiceDeatials";
@@ -15,9 +15,26 @@ import {
 	ResetPasswordPage,
 } from "../pages";
 import UserProfileLayout from "./UserProfileLayout";
+import { ReactSession } from 'react-client-session';
 import InvoicePage from '../pages/invoice/InvoicePage';
 
 function UserLayout() {
+	const navigate = useNavigate();
+
+	//Redirect admins if they try to access.
+	useEffect(() => {
+		async function validatePermissions() {
+			let permissions;
+			permissions = await ReactSession.get("permissions");
+			if (permissions) {
+				if (permissions.includes('ADMIN')) {
+					navigate("/admin");
+				}
+			}
+		}
+		validatePermissions();
+	}, [])
+
 	return (
 		<div className="min-h-screen flex flex-col">
 			<CustomerNavbar />
@@ -35,18 +52,18 @@ function UserLayout() {
 						element={<RegisterAuthenticationPage />}
 					/>
 
-					{/*Layout for user profile when logged */}
+					{/*Layout for user profile when logged. Conditionally rendered based on auth state. */}
 					<Route path="profile/*" element={<UserProfileLayout />} />
 
 					<Route path="auth/login" element={<LoginPage />} />
 					<Route path="auth/forgotpassword" element={<ForgotPasswordPage />} />
 					<Route path="auth/resetpassword" element={<ResetPasswordPage />} />
 					<Route path="auth/register" element={<RegisterPage />} />
-					<Route path="*" element={<ErrorPage />} />
 					<Route path="/categories/*" element={<Categories/>}></Route>
         			<Route path="/CatogrizedServices/*" element={<CatogrizedServicesHook/>}></Route>
         			<Route path="/serviceDeatials/*" element={<ServiceDeatails/>}></Route>
 					<Route path="/ServiceRequest/*" element={<ServiceRequest/>}></Route>
+					<Route path="*" element={<ErrorPage />} />
 
 					{/* Payment Routes in User Layout */}
 					<Route path="/invoice/*" element={<InvoicePage />}></Route>

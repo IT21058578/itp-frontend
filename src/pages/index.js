@@ -2,6 +2,8 @@ import SchedCalenderPage from "./schedManagement/SchedCalenderPage";
 import SchedJobListPage from "./schedManagement/SchedJobListPage";
 import SchedStatPage from "./schedManagement/SchedStatPage";
 import SchedItemListPage from "./schedManagement/SchedItemListPage";
+import AdminJobPage from "./schedManagement/AdminJobPage";
+
 import AdmEmpPage from "./empManagement/AdmEmpPage";
 import AdmEmpListPage from "./empManagement/AdmEmpListPage";
 import EmpJobPage from "./empManagement/EmpJobPage";
@@ -22,12 +24,15 @@ import UserEditDetailsPage from "./userManagement/UserEditDetailsPage";
 import UserJobsCompletedPage from "./userManagement/UserJobsCompletedPage";
 import UserJobsFuturePage from "./userManagement/UserJobsFuturePage";
 import UserJobPage from "./userManagement/UserJobPage";
+import AdminUserListPage from "./userManagement/AdminUserListPage";
+import AdminUserPage from "./userManagement/AdminUserPage"
+
 
 export {
-    SchedCalenderPage, SchedJobListPage, SchedStatPage, SchedItemListPage,
+    SchedCalenderPage, SchedJobListPage, SchedStatPage, SchedItemListPage, AdminJobPage,
     AdmEmpPage, AdmEmpListPage,
     EmpJobPage, EmpLandPage, EmpStatPage,
     UserChangePasswordPage, UserDashboardPage, UserEditDetailsPage, UserJobPage, UserJobsCompletedPage, UserJobsFuturePage,
     RegisterPage, RegisterSuccessPage, ForgotPasswordPage, RegisterAuthenticationPage, ResetPasswordPage,
-    ErrorPage, LoginPage
+    ErrorPage, LoginPage, AdminUserListPage, AdminUserPage
 };
