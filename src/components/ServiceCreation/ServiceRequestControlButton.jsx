@@ -11,7 +11,7 @@ function ScRequestControlButton() {
       return (
         <div>
             <button 
-              className=" hover:bg-green-600 items-center bg-sky-600 text-white font-medium rounded-md px-5 py-3" 
+              className=" hover:bg-green-600 items-center bg-sky-600 text-white text-xs font-medium rounded-md px-5 py-3" 
               onClick={()=>{navigateToSRpage()}} >
                   Check Requested Services
               </button>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Categories from "../pages/ServiceCreation/Categories";
-import CatogrizedServicesHook from "../hooks/ServiceCreation/CategorizedServices";
+import CatogrizedServicesHook from "../components/ServiceCreation/CategorizedServices";
 import ServiceDeatails from "../pages/ServiceCreation/ServiceDeatials";
 import ServiceRequest from "../pages/ServiceCreation/ServiceRequest";
 import { CustomerFooter, CustomerNavbar } from "../components";

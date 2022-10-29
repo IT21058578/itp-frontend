@@ -2,7 +2,8 @@ import React,{Component} from "react";
 import axios from 'axios';
 import ServiceCard from "../../components/ServiceCreation/ServiceCard";
 import Loader from '../../components/ServiceCreation/Loader';
-import NoService from "./NoServices";
+import ServiceReqButton from "../../components/ServiceCreation/ServiceRequestButton";
+
 
 
 
@@ -35,13 +36,16 @@ class ResturantCleaning extends Component{
                 {
                     this.state.services?.length>0
                     ?(
-                        <div>
-                        <div className=" flex justify-center items-center flex-wrap">
-                                {this.state.services.map((service)=>(
-                                    <ServiceCard service={service}/>
-                                ))}         
-                        </div>
-                        
+                        <div className="">
+                            <div className=" flex justify-center items-center flex-wrap rounded-xl border-2 border-gray m-2 p-10">
+                                    {this.state.services.map((service)=>(
+                                        <ServiceCard service={service}/>
+                                    ))}         
+                            </div>
+                            <div className="">
+                                <ServiceReqButton/>
+                            </div>
+                           
                         </div>
                        
                     ) : (

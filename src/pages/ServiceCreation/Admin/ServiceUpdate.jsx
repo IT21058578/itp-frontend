@@ -1,8 +1,8 @@
 import React from 'react'
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
-import { useState , useEffect} from 'react';
-import {Link, useLocation} from "react-router-dom"
+import { useState } from 'react';
+import { useLocation} from "react-router-dom"
 
 
 
@@ -49,7 +49,7 @@ function PopupUpdate(){
     name: "",
     image: "",
     description: "",
-    CardDescription: "",
+    cardDescription: "",
     category: "",
     update:""
 	})
@@ -90,13 +90,20 @@ function PopupUpdate(){
       
       alert("The service sccessfully Updated!");
       window.location.reload(false);
-
       
       
       
   }
-  function reload(){
-    window.location.reload(false);
+
+  function SubmitButton() {
+    if (sname && sdescription && sCardDescription) {
+      return <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=>{update();navigateToAdminPanel();UpdateAlert();}}>SUBMIT</button>;
+    } else {
+      return (
+        <button className="bg-gray-300 text-white font-bold py-2 px-4 rounded" onClick={()=>{update();navigateToAdminPanel();UpdateAlert();}} disabled>SUBMIT</button>
+
+      );
+    }
   }
     //console.log(" :",sname);
 
@@ -109,13 +116,13 @@ function PopupUpdate(){
 
   
   return (
-    <div className="text-center  transition-all top-56 w-full h-full">
-      <div className="p-8  bg-white align-center relative">
-        <div className="transition-all ">
+    <div className="text-center  transition-all top-56 w-full h-full ">
+      <div className="p-8  bg-white align-center relative shadow-2xl border-2 border-gray m-5">
+        <div className="transition-all  ">
             <form>
-            <p className="text-3xl ">Update form</p><br/>
+            
             <div className=" ">
-
+            <p className="text-3xl ">Update form</p><br/>
               <label class="block text-sm font-medium text-gray-500 dark:text-gray-400" for="inline-full-name">
                  Service Name  
               </label>
@@ -132,14 +139,16 @@ function PopupUpdate(){
               </label>
               <textarea rows="4" cols="50" className="p-2.5 text-sm text-gray-900 bg-gray-200 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="updatedDesc" placeholder={locationState.description} onChange={(e)=> {setSdescription(e.target.value);}}></textarea>
               <label for="inline-full-name" className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400" >
-                 Description  
+                 Short Description  
               </label>
-              <textarea rows="5" cols="60" className="p-2.5 text-sm text-gray-900 bg-gray-200 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="updatedDesc" placeholder={locationState.CardDescription} onChange={(e)=> {setSCardDescription(e.target.value);}}></textarea>
+              <textarea rows="5" cols="60" className="p-2.5 text-sm text-gray-900 bg-gray-200 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="updatedDesc" placeholder={locationState.cardDescription} onChange={(e)=> {setSCardDescription(e.target.value);}}></textarea>
 
 
                 <button className="absolute top-4 right-4 box-border" onClick={() => {navigateToAdminPanel();}}>X</button>
                 <br/>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=>{update();navigateToAdminPanel();UpdateAlert();}}>SUBMIT</button>
+
+                <SubmitButton/>
+                
    
             </div>
             </form>

@@ -23,7 +23,7 @@ const CategoryCard= ({category}) => {
                 </div>
                 <div className="z-10 bg-gray-800 absolute bottom-0 right-0 left-0 py-6 px-6 hover:opacity-[0.3] hover:bg-transparent">
                     <span className="uppercase font-light text-white text-cu tracking-cu2">{category.name}</span>
-                    <p className="mt-1 text-orange-200">{category.description}
+                    <p className="mt-1 text-orange-200 text-xs">{category.description}
                     </p>
                 </div>
                 

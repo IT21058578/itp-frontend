@@ -64,10 +64,21 @@ function CreatForm() {
     .then(alert("The service created Successfully!"));
   }
 
+  function SubmitButton() {
+    if (name && description && price && category && cardDescription) {
+      return <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=>{create();navigateToAdminPanel();}}>Create New Service</button>;
+    } else {
+      return (
+        <button type="submit" className="bg-gray-300 text-white font-bold py-2 px-4 rounded" onClick={()=>{create();navigateToAdminPanel();}} disabled>Create New Service</button>
+
+      );
+    }
+  }
+
   
 
   return (
-    <div className="text-center  transition-all top-56 w-full h-full">
+    <div className="text-center  transition-all top-56 w-full h-full ">
       <div className="p-8 bg-white align-center relative">
         <div className="transition-all ">
             <form>
@@ -112,7 +123,7 @@ function CreatForm() {
                     <option value="Apartment">Apartment Cleaning Service</option>
                     <option value="Laundry">Laundry Service</option>
                     <option value="Learning">Learning Centers Cleaning Service</option>
-                    <option value="OfficC">Office Cleaning Service</option>
+                    <option value="Office">Office Cleaning Service</option>
                     <option value="Restaurant">Restaurant Cleaning Service</option>
                     <option value="Sport">Sport Centers Cleaning Service</option>
                     </select>
@@ -129,7 +140,7 @@ function CreatForm() {
 
                 <button className="absolute top-4 right-4 box-border" onClick={() => {navigateToAdminPanel();}}>X</button>
                 <br/>
-                <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=>{create();navigateToAdminPanel();}}>Create New Service</button>
+                <SubmitButton/>
                 
             </div>
             </form>

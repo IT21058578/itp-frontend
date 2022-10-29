@@ -35,13 +35,16 @@ class SportCC extends Component{
                 {
                     this.state.services?.length>0
                     ?(
-                        <div>
-                        <div className=" flex justify-center items-center flex-wrap">
-                                {this.state.services.map((service)=>(
-                                    <ServiceCard service={service}/>
-                                ))}         
-                        </div>
-                        <ServiceReqButton/>
+                        <div className="">
+                            <div className=" flex justify-center items-center flex-wrap rounded-xl border-2 border-gray m-2 p-10">
+                                    {this.state.services.map((service)=>(
+                                        <ServiceCard service={service}/>
+                                    ))}         
+                            </div>
+                            <div className="">
+                                <ServiceReqButton/>
+                            </div>
+                           
                         </div>
                       
                     ) : (

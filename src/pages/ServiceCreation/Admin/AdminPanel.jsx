@@ -4,7 +4,7 @@ import axios from 'axios';
 import ServiceCreateButton from "../../../components/ServiceCreation/ServiceCreationButton";
 import ServiceRequestControlButton from "../../../components/ServiceCreation/ServiceRequestControlButton";
 import Loader from '../../../components/ServiceCreation/Loader';
-import NoService from "../NoServices";
+
 
 
 //import '../App.css';
@@ -43,7 +43,7 @@ class AdminPanel extends Component{
                     
                     ?(
                         <div>
-                            <div className="gride justify-items-end">
+                            <div className="gride justify-items-end ">
                                 <div className="m-2">
                                     <ServiceCreateButton/>
                                 </div>

@@ -9,7 +9,7 @@ import LogoutModal from "../loginRegister/LogoutModal";
 //THIS MUST BE UPDATED WITH LINKS.
 const navbarLinks = [
 	{ displayText: "Home", link: "/" },
-	{ displayText: "Services", link: "/services" },
+	{ displayText: "Services", link: "/categories" },
 	{ displayText: "About Us", link: "/aboutus" },
 	{ displayText: "Contact", link: "/contact" },
 ];

@@ -2,7 +2,7 @@ import React,{Component} from "react";
 import axios from 'axios';
 import CategoryCard from "../../components/ServiceCreation/CategoryCard";
 import Loader from '../../components/ServiceCreation/Loader';
-import NoService from "./NoServices";
+
 
 
 

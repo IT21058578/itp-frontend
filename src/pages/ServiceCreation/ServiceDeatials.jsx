@@ -1,5 +1,6 @@
 import React from 'react'
 import {Link, useLocation} from "react-router-dom";
+import axios from 'axios';
 
 function ServiceDeatials() {
     const location = useLocation()
@@ -11,6 +12,7 @@ function ServiceDeatials() {
         description: "",
         cardDescription: "",
         price: 0,
+        category: "",
 	})
 
     React.useEffect(() => {
@@ -20,29 +22,53 @@ function ServiceDeatials() {
       setLocationState(_state)
 		}
 	}, [location]);
+
+  function insertCartDetails(){
+    //Lakshan's API
+    axios.post(`http://localhost:8080/CartAPI`,
+    {
+        name: locationState.name,
+        image : locationState.image,
+        category: locationState.category+" Cleaning",
+        price: locationState.price,
+
+    })
+    .then(response => response.data)
+    .then(alert("The service created Successfully!"));
+  }
+
+  const addToCart = () =>{
+
+    
+  }
   return (
-    <form className="">
+    <form className="shadow-2xl border-2 border-gray m-5 p-10">
     <div >
-      <h1 className="flex item-center justify-centers my-2 text-center">{locationState.name}</h1>
+      <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900  lg:text-3xl dark:text-black">{locationState.name}</h1>
       <br/>
-      <div className="flex  items-center">
-        <div name="image gride" className="m-2">
-        <img src={locationState.image !== null? locationState.image : 'https://via.placeholder.com/400'} className=" mx-auto m-5 w-56 h-80" alt="img"></img>
+      <div className="flex ">
+          <div name="left to image flex" className="m-4 w-72">
+            <p>{locationState.description}</p>
+          </div>
+        <div className="m-2 hover:scale-125 shadow-2xl border-2 border-gray w-64 rounded-xl">
+        <img  src={locationState.image !== null? locationState.image : 'https://via.placeholder.com/400'} className=" mx-auto m-2  w-56 h-80 shadow rounded-xl align-middle border-none" alt="img"></img>
+        <div className="m-4 text-sm ">
+          <p><span className=" text-gray-500">Service Name:</span>   {locationState.name}</p>
+          <p><span className=" text-gray-500">Category:</span>  {locationState.category} Cleaning</p>
+          <p><span className=" text-gray-500">Service price:</span>  Rs.{locationState.price}.00</p>
+        </div>
         </div>
         
-        <div name="left to image flex" className="m-2">
-        <p>service name : {locationState.name}</p>
-        <p>basic price : {locationState.price}</p>
-      </div>
+          
       </div>
       <div className="flex item-center justify-center">
       <div className=" flex-row ">
         <div className="">
-            <p>{locationState.description}</p>
+            
         </div>
         <br/>
         <div>
-            <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add to cart</button>
+            <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=>insertCartDetails()}>Add to cart</button>
         </div>
       </div>
       </div>

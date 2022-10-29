@@ -1,8 +1,8 @@
 import React,{Component} from "react";
 import axios from 'axios';
-import ServiceCard from "../../../components/ServiceCreation/ServiceCard";
+import ServiceCard from "../../../components/ServiceCreation/AdminServiceCard";
 import Loader from '../../../components/ServiceCreation/Loader';
-import NoService from "../NoServices";
+
 
 
 

@@ -36,7 +36,7 @@ class ScAdminServiceReq extends Component {
         
           
           return(
-              <div className="">
+              <div className=" m-5">
                   <p className="text-3xl"></p>
                   {
                       this.state.req?.length>0

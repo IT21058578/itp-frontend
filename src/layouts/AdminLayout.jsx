@@ -5,7 +5,7 @@ import { AdmEmpPage } from "../pages";
 import { Fragment } from "react";
 import { AuthContext } from "../context";
 import AdminSchedLayout from "./AdminSchedLayout";
-import AdminCatogrizedServicesHook from "../hooks/ServiceCreation/AdminCategorizedServices";
+import AdminCatogrizedServicesHook from "../components/ServiceCreation/AdminCategorizedServices";
 import AdminPanel from "../pages/ServiceCreation/Admin/AdminPanel";
 import ServiceUpdate from "../pages/ServiceCreation/Admin/ServiceUpdate";
 import ServiceCreate from "../pages/ServiceCreation/Admin/ServiceCreate";

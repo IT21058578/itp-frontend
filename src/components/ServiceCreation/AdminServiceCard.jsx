@@ -39,7 +39,7 @@ const AdminServiceCard = ({service}) =>{
                 </div>
                 <div className="z-10 bg-gray-800 absolute bottom-0 right-0 left-0 py-6 px-6 hover:opacity-[0.3] hover:bg-transparent">
                     <span className="uppercase font-light text-white text-cu tracking-cu2">{service.name}</span>
-                    <p className="mt-1 text-orange-200">{service.cardDescription}
+                    <p className="mt-1 text-orange-200 text-xs">{service.cardDescription}
                     </p>
                 </div>
             </div>
@@ -54,7 +54,7 @@ const AdminServiceCard = ({service}) =>{
                     id: service.id,
                     name: service.name,
                     image: service.image,
-                    CardDescription: service.CardDescription,
+                    cardDescription: service.cardDescription,
                     description: service.description,
                     category : service.category,
                     update: service.update
