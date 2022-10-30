@@ -17,8 +17,10 @@ import {
 import UserProfileLayout from "./UserProfileLayout";
 import { ReactSession } from 'react-client-session';
 import InvoicePage from '../pages/invoice/InvoicePage';
+import PaymentInstrument from "../pages/invoice/PaymentInstrument";
 
 function UserLayout() {
+<<<<<<< HEAD
 	const navigate = useNavigate();
 
 	//Redirect admins if they try to access.
@@ -35,6 +37,9 @@ function UserLayout() {
 		validatePermissions();
 	}, [])
 
+=======
+	
+>>>>>>> bb34a45 (code cleanup)
 	return (
 		<div className="min-h-screen flex flex-col">
 			<CustomerNavbar />
@@ -67,7 +72,7 @@ function UserLayout() {
 
 					{/* Payment Routes in User Layout */}
 					<Route path="/invoice/*" element={<InvoicePage />}></Route>
-					
+									
 
 				</Routes>
 				<div className="bg-gray-100 w-1/12 border-l"></div>

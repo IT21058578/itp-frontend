@@ -1,10 +1,15 @@
 import { Card, Button } from "flowbite-react";
 import React from "react";
-function InvoiceFooter({id}){
+import PaymentInstrument from "./PaymentInstrument";
+
+function InvoiceFooter({id, email, totalPrice}){
   return(<Card><p>This has button to CRUD</p>
   <div className="flex flex-wrap gap-2">
   <Button color="purple">
-    Pay
+    Pay <PaymentInstrument 
+      total = {totalPrice}
+      email =  {email}
+    />
   </Button>
 
   <Button color="success">

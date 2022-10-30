@@ -7,7 +7,11 @@ import {
 	UserJobsCompletedPage,
 	UserJobsFuturePage,
 } from "../pages";
+<<<<<<< HEAD
 import { ReactSession } from "react-client-session";
+=======
+import InvoiceList from "../pages/invoice/InvoicePage";
+>>>>>>> bb34a45 (code cleanup)
 
 import SavedPaymentInstruments from '../pages/invoice/SavedPaymentInstruments';
 
@@ -15,7 +19,8 @@ const profileNavBarItems = [
 	{ name: "Dashboard", link: "/profile" },
 	{ name: "Completed Jobs", link: "/profile/jobs/completed" },
 	{ name: "Future Jobs", link: "/profile/jobs/future" },
-	{ name: "Payment Instruments", link: "profile/paymentinstruments" },
+	{ name: "Cards", link: "profile/paymentinstruments" },
+	{ name: "Invoices", link: "profile/invoices"},
 ];
 
 function UserProfileLayout() {
@@ -66,6 +71,7 @@ function UserProfileLayout() {
 					<Route path="jobs/future" element={<UserJobsFuturePage />} />
 					<Route path="password" element={<UserChangePasswordPage />} />
 					<Route path="profile/paymentinstruments" element={<SavedPaymentInstruments />} />
+					<Route path="prfile/invoices" element={<InvoiceList />}></Route>
 				</Routes>
 			</div>
 		</div>

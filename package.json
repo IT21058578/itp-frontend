@@ -15,7 +15,11 @@
     "react": "^18.2.0",
     "react-client-session": "^0.0.8",
     "react-dom": "^18.2.0",
+<<<<<<< HEAD
     "react-loader-spinner": "^5.3.4",
+=======
+    "react-hook-form": "^7.38.0",
+>>>>>>> bb34a45 (code cleanup)
     "react-router-dom": "^6.4.2",
     "react-scripts": "^5.0.1",
     "react-tiny-popover": "^7.2.0",
