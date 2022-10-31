@@ -1,6 +1,7 @@
 import React from 'react'
 import {Link, useLocation} from "react-router-dom";
 import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
 
 function ServiceDeatials() {
     const location = useLocation()
@@ -15,6 +16,13 @@ function ServiceDeatials() {
         category: "",
 	})
 
+
+
+  const navigate=useNavigate();
+    const navigateToSRpage = () => {
+        navigate('/');
+    }
+
     React.useEffect(() => {
 		console.log("location from new user", location)
 		if (location.state) {
@@ -24,8 +32,8 @@ function ServiceDeatials() {
 	}, [location]);
 
   function insertCartDetails(){
-    //Lakshan's API
-    axios.post(`http://localhost:8080/CartAPI`,
+    //Lakshana's API
+    axios.post(`http://localhost:8080/Lakshana's_API`,
     {
         name: locationState.name,
         image : locationState.image,
@@ -34,13 +42,11 @@ function ServiceDeatials() {
 
     })
     .then(response => response.data)
-    .then(alert("The service created Successfully!"));
+    .then(alert("No data passing, fake api, redirect to the home page"));
+
+    navigateToSRpage();
   }
 
-  const addToCart = () =>{
-
-    
-  }
   return (
     <form className="shadow-2xl border-2 border-gray m-5 p-10">
     <div >
@@ -68,7 +74,7 @@ function ServiceDeatials() {
         </div>
         <br/>
         <div>
-            <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=>insertCartDetails()}>Add to cart</button>
+            <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"  onClick={()=>insertCartDetails()} >Add to cart</button>
         </div>
       </div>
       </div>

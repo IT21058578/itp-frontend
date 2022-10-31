@@ -12,7 +12,7 @@ function ScCreateButton(){
     return (
       <div>
           <button 
-            className=" hover:bg-green-600 items-center bg-green-500 text-white font-medium text-sm rounded-md px-5 py-3" 
+            className=" hover:bg-sky-600 items-center bg-blue-600 text-white font-medium text-xs rounded-md px-5 py-3" 
             onClick={()=>{navigateToCreate()}} >
                 + Create
             </button>

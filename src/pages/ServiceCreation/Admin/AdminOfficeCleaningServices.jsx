@@ -30,13 +30,18 @@ class OfficeCleaning extends Component{
     render(){
         
         return(
-            <div className="">
-                <p className="text-3xl"></p>
+            <div className=" h-screen">
+                <div className="h-full overflow-scroll">
+                <div className="border-2 border-gray-300 bg-white rounded-lg m-2">
+                <p className="text-2xl p-2 m-2">Office Clening Services</p>
+                <hr className="bg-gray-400 m-2"/>
+                </div>
+                
                 {
                     this.state.services?.length>0
                     ?(
                         <div>
-                        <div className=" flex justify-center items-center flex-wrap">
+                        <div className=" flex justify-center items-center flex-wrap border-2 border-gray-300 bg-white rounded-lg m-2">
                                 {this.state.services.map((service)=>(
                                     <ServiceCard service={service}/>
                                 ))}         
@@ -51,7 +56,7 @@ class OfficeCleaning extends Component{
                     )
                 }
 
-               
+               </div>
             </div>
             
            
