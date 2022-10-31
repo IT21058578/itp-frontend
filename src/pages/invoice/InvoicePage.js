@@ -7,7 +7,16 @@ import InvoiceFooter from "./InvoiceFooter";
 function InvoicePage(){
   const [data, setData] = useState(null);
   useEffect(() => {
-    fetch(`http://localhost:8080/api/invoice`)
+
+    fetch('/InvoiceSampleData.json'
+    ,{
+      headers : { 
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+      }
+      })
+
+    
     .then((response) => response.json())
     .then(data => setData(data));
   }, []);
@@ -52,6 +61,8 @@ function InvoicePage(){
       />
       <InvoiceFooter 
         id={data[selectedCustomer].id}
+        email={data[selectedCustomer].customer.email}
+        totalPrice={data[selectedCustomer].invoiceTotal}
        />
         
       </Card>
