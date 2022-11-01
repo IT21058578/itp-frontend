@@ -117,31 +117,40 @@ function PopupUpdate(){
   
   return (
     <div className="text-center  transition-all top-56 w-full h-full ">
-      <div className="p-8  bg-white align-center relative shadow-2xl border-2 border-gray m-5">
+      <div className="p-8  align-center relative h-screen overflow-scroll m-2">
         <div className="transition-all  ">
             <form>
             
-            <div className=" ">
-            <p className="text-3xl ">Update form</p><br/>
+            <div className="bg-white flex flex-wrap  box-border border-gray-200 border-2 rounded-lg m-2 p-4">
+            <p className="text-2xl">Service Update Form</p>
+
+
+            </div>
+
+            
+            <div className="bg-white box-border border-2 shadow-md rounded-lg m-2 p-2 border-gray-200">
+
+            
+              <br/>
               <label class="block text-sm font-medium text-gray-500 dark:text-gray-400" for="inline-full-name">
                  Service Name  
-              </label>
-              <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="updatedName" type="text" placeholder={locationState.name} onChange={(e)=>setSname(e.target.value)}/><br/>
+              </label><br/>
+              <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="updatedName" type="text" placeholder={locationState.name} onChange={(e)=>setSname(e.target.value)} onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}/><br/>
               <br/>
               <label class="block text-sm font-medium text-gray-500 dark:text-gray-400" for="inline-full-name">
                  Service Image  
               </label>
-              <img src={baseImage !== null? baseImage : setBaseImage('https://via.placeholder.com/400')}  className=" mx-auto m-5 w-56 h-80" alt="userInput"></img>
-              <input type="file" className="bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="updatedName"  onChange={(e)=>{uploadImage(e)}}/><br/>
+              <img src={baseImage !== null? baseImage : locationState.image}  className="border-2 border-gray-400 mx-auto m-5 w-56 h-80" alt="userInput"></img>
+              <input type="file" className="bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="updatedName"  onChange={(e)=>{uploadImage(e)}}/><br/><br/>
                
+              <label for="inline-full-name" className="block text-sm font-medium text-gray-500 dark:text-gray-400" >
+                 Description  for service details view page
+              </label><br/>
+              <textarea rows="5" cols="60" className="p-2.5 text-sm text-gray-900 bg-gray-200 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none" id="updatedDesc" placeholder={locationState.description} onChange={(e)=> {setSdescription(e.target.value);}}></textarea><vr/>
               <label for="inline-full-name" className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400" >
-                 Description  
+                 Short Description  for crad view
               </label>
-              <textarea rows="4" cols="50" className="p-2.5 text-sm text-gray-900 bg-gray-200 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="updatedDesc" placeholder={locationState.description} onChange={(e)=> {setSdescription(e.target.value);}}></textarea>
-              <label for="inline-full-name" className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400" >
-                 Short Description  
-              </label>
-              <textarea rows="5" cols="60" className="p-2.5 text-sm text-gray-900 bg-gray-200 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="updatedDesc" placeholder={locationState.cardDescription} onChange={(e)=> {setSCardDescription(e.target.value);}}></textarea>
+              <textarea rows="5" cols="60" className="p-2.5 text-sm text-gray-900 bg-gray-200 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none" id="updatedDesc" placeholder={locationState.cardDescription} onChange={(e)=> {setSCardDescription(e.target.value);}}></textarea>
 
 
                 <button className="absolute top-4 right-4 box-border" onClick={() => {navigateToAdminPanel();}}>X</button>

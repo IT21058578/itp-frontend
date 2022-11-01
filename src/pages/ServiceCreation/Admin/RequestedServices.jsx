@@ -1,6 +1,7 @@
 import React,{Component} from "react";
 import axios from 'axios';
 import ServiceRequestCard from '../../../components/ServiceCreation/ServiceRequestCard';
+import Loader from "../../../components/ServiceCreation/Loader";
 
 
 
@@ -36,13 +37,13 @@ class ScAdminServiceReq extends Component {
         
           
           return(
-              <div className=" m-5">
+              <div className=" m-5 ">
                   <p className="text-3xl"></p>
                   {
                       this.state.req?.length>0
                       ?(
                           <div>
-                            <div className=" ">
+                            <div className="h-screen overflow-scroll border-2 border-gray-300 shadow-lg bg-white">
                                 
                                     {this.state.req.map((request)=>(
                                         <ServiceRequestCard request={request}/>
@@ -53,7 +54,7 @@ class ScAdminServiceReq extends Component {
                           </div>
                       ): (
                           <div className="empty">
-                              <p>No new service request</p>
+                              <Loader/>
                               
                           </div>
                           
