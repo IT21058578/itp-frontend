@@ -25,12 +25,13 @@ function ServiceDeatials() {
 
   function insertCartDetails(){
     //Lakshan's API
-    axios.post(`http://localhost:8080/CartAPI`,
+    axios.post(`http://localhost:8080/api/cart`,
     {
         name: locationState.name,
         image : locationState.image,
         category: locationState.category+" Cleaning",
         price: locationState.price,
+        cardDescription:locationState.cardDescription
 
     })
     .then(response => response.data)

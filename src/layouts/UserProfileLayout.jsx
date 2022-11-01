@@ -7,11 +7,8 @@ import {
 	UserJobsCompletedPage,
 	UserJobsFuturePage,
 } from "../pages";
-<<<<<<< HEAD
 import { ReactSession } from "react-client-session";
-=======
 import InvoiceList from "../pages/invoice/InvoicePage";
->>>>>>> bb34a45 (code cleanup)
 
 import SavedPaymentInstruments from '../pages/invoice/SavedPaymentInstruments';
 

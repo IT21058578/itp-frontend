@@ -12,6 +12,7 @@ const navbarLinks = [
 	{ displayText: "Services", link: "/categories" },
 	{ displayText: "About Us", link: "/aboutus" },
 	{ displayText: "Contact", link: "/contact" },
+	{ displayText: "My Cart", link: "/mycart" },
 ];
 
 const PROFILE_URL = "/profile";

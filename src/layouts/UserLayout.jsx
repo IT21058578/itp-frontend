@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Categories from "../pages/ServiceCreation/Categories";
+import Mycart from "../pages/ServiceCreation/myCart";
+// 
 import CatogrizedServicesHook from "../components/ServiceCreation/CategorizedServices";
 import ServiceDeatails from "../pages/ServiceCreation/ServiceDeatials";
 import ServiceRequest from "../pages/ServiceCreation/ServiceRequest";
@@ -20,7 +22,6 @@ import InvoicePage from '../pages/invoice/InvoicePage';
 import PaymentInstrument from "../pages/invoice/PaymentInstrument";
 
 function UserLayout() {
-<<<<<<< HEAD
 	const navigate = useNavigate();
 
 	//Redirect admins if they try to access.
@@ -37,9 +38,6 @@ function UserLayout() {
 		validatePermissions();
 	}, [])
 
-=======
-	
->>>>>>> bb34a45 (code cleanup)
 	return (
 		<div className="min-h-screen flex flex-col">
 			<CustomerNavbar />
@@ -65,6 +63,7 @@ function UserLayout() {
 					<Route path="auth/resetpassword" element={<ResetPasswordPage />} />
 					<Route path="auth/register" element={<RegisterPage />} />
 					<Route path="/categories/*" element={<Categories/>}></Route>
+					<Route path="/mycart/*" element={<Mycart/>}></Route>
         			<Route path="/CatogrizedServices/*" element={<CatogrizedServicesHook/>}></Route>
         			<Route path="/serviceDeatials/*" element={<ServiceDeatails/>}></Route>
 					<Route path="/ServiceRequest/*" element={<ServiceRequest/>}></Route>
