@@ -10,6 +10,8 @@ import {
 	AdminUserPage,
 	EmployeeManagementPage,
 	ZoneManagementPage,
+	AdminEmployeePage,
+	AdminZonePage,
 } from "../pages";
 import { Fragment } from "react";
 import AdminCatogrizedServicesHook from "../components/ServiceCreation/AdminCategorizedServices";
@@ -56,7 +58,12 @@ function AdminLayout() {
 							path="employees/*"
 							element={<EmployeeManagementPage />}
 						></Route>
+						<Route
+							path="employees/employee"
+							element={<AdminEmployeePage />}
+						></Route>
 						<Route path="zones/*" element={<ZoneManagementPage />}></Route>
+						<Route path="zones/zone" element={<AdminZonePage />}></Route>
 
 						{/*Fix these routes*/}
 						<Route path="/SCAdmin" element={<AdminPanel />}></Route>

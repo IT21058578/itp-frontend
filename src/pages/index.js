@@ -30,6 +30,8 @@ import AdminUserPage from "./userManagement/AdminUserPage"
 //Crew Assignment Module
 import EmployeeManagementPage from "./crewAssignment/EmployeeManagementPage";
 import ZoneManagementPage from "./crewAssignment/EmployeeManagementPage";
+import AdminEmployeePage from "./crewAssignment/AdminEmployeePage";
+import AdminZonePage from "./crewAssignment/AdminZonePage";
 
 
 export {
@@ -39,5 +41,5 @@ export {
     UserChangePasswordPage, UserDashboardPage, UserEditDetailsPage, UserJobPage, UserJobsCompletedPage, UserJobsFuturePage,
     RegisterPage, RegisterSuccessPage, ForgotPasswordPage, RegisterAuthenticationPage, ResetPasswordPage,
     ErrorPage, LoginPage, AdminUserListPage, AdminUserPage,
-    EmployeeManagementPage, ZoneManagementPage
+    EmployeeManagementPage, ZoneManagementPage, AdminEmployeePage, AdminZonePage
 };
