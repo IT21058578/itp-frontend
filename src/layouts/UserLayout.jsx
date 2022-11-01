@@ -15,12 +15,11 @@ import {
 	ResetPasswordPage,
 } from "../pages";
 import UserProfileLayout from "./UserProfileLayout";
-import { ReactSession } from 'react-client-session';
-import InvoicePage from '../pages/invoice/InvoicePage';
+import { ReactSession } from "react-client-session";
+import InvoicePage from "../pages/invoice/InvoicePage";
 import PaymentInstrument from "../pages/invoice/PaymentInstrument";
 
 function UserLayout() {
-<<<<<<< HEAD
 	const navigate = useNavigate();
 
 	//Redirect admins if they try to access.
@@ -29,17 +28,14 @@ function UserLayout() {
 			let permissions;
 			permissions = await ReactSession.get("permissions");
 			if (permissions) {
-				if (permissions.includes('ADMIN')) {
+				if (permissions.includes("ADMIN")) {
 					navigate("/admin");
 				}
 			}
 		}
 		validatePermissions();
-	}, [])
+	}, []);
 
-=======
-	
->>>>>>> bb34a45 (code cleanup)
 	return (
 		<div className="min-h-screen flex flex-col">
 			<CustomerNavbar />
@@ -64,16 +60,20 @@ function UserLayout() {
 					<Route path="auth/forgotpassword" element={<ForgotPasswordPage />} />
 					<Route path="auth/resetpassword" element={<ResetPasswordPage />} />
 					<Route path="auth/register" element={<RegisterPage />} />
-					<Route path="/categories/*" element={<Categories/>}></Route>
-        			<Route path="/CatogrizedServices/*" element={<CatogrizedServicesHook/>}></Route>
-        			<Route path="/serviceDeatials/*" element={<ServiceDeatails/>}></Route>
-					<Route path="/ServiceRequest/*" element={<ServiceRequest/>}></Route>
+					<Route path="/categories/*" element={<Categories />}></Route>
+					<Route
+						path="/CatogrizedServices/*"
+						element={<CatogrizedServicesHook />}
+					></Route>
+					<Route
+						path="/serviceDeatials/*"
+						element={<ServiceDeatails />}
+					></Route>
+					<Route path="/ServiceRequest/*" element={<ServiceRequest />}></Route>
 					<Route path="*" element={<ErrorPage />} />
 
 					{/* Payment Routes in User Layout */}
 					<Route path="/invoice/*" element={<InvoicePage />}></Route>
-									
-
 				</Routes>
 				<div className="bg-gray-100 w-1/12 border-l"></div>
 			</div>

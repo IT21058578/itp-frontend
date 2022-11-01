@@ -27,6 +27,10 @@ import UserJobPage from "./userManagement/UserJobPage";
 import AdminUserListPage from "./userManagement/AdminUserListPage";
 import AdminUserPage from "./userManagement/AdminUserPage"
 
+//Crew Assignment Module
+import EmployeeManagementPage from "./crewAssignment/EmployeeManagementPage";
+import ZoneManagementPage from "./crewAssignment/EmployeeManagementPage";
+
 
 export {
     SchedCalenderPage, SchedJobListPage, SchedStatPage, SchedItemListPage, AdminJobPage,
@@ -34,5 +38,6 @@ export {
     EmpJobPage, EmpLandPage, EmpStatPage,
     UserChangePasswordPage, UserDashboardPage, UserEditDetailsPage, UserJobPage, UserJobsCompletedPage, UserJobsFuturePage,
     RegisterPage, RegisterSuccessPage, ForgotPasswordPage, RegisterAuthenticationPage, ResetPasswordPage,
-    ErrorPage, LoginPage, AdminUserListPage, AdminUserPage
+    ErrorPage, LoginPage, AdminUserListPage, AdminUserPage,
+    EmployeeManagementPage, ZoneManagementPage
 };
