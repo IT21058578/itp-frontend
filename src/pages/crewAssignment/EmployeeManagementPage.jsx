@@ -100,11 +100,11 @@ function EmployeeManagementPage() {
 					</Container>
 					<Container className="w-4/6">
 						<div className="flex flex-row justify-end pb-2 mb-2 border-b">
-							<Button style={{ width: "25%" }}>
-								<div
-									onClick={() => setIsEmployeeCreationMdlActive(true)}
-									className="flex flex-row items-center gap-2"
-								>
+							<Button
+								onClick={() => setIsEmployeeCreationMdlActive(true)}
+								style={{ width: "25%" }}
+							>
+								<div className="flex flex-row items-center gap-2">
 									<PlusIcon className="w-5 h-5 flex-1" />
 									Create New Employee
 								</div>

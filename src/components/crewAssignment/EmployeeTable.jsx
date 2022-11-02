@@ -73,11 +73,16 @@ function EmployeeTable({
 							<Table.Cell>{item?.mobile || "?"}</Table.Cell>
 							<Table.Cell>
 								<div className="flex flex-row gap-2 items-center">
-									{item?.zoneAssignmentsList.map((zoneItem, i) => (
+									{item?.zoneAssignmentsList?.map((zoneItem, i) => (
 										<div className="text-xs bg-blue-400 text-white px-2 rounded">
 											{zoneItem?.sign || "?"}
 										</div>
 									))}
+									{item?.zoneAssignmentsList?.length === 0 ? (
+										<div className="text-xs bg-gray-400 text-white px-2 rounded">
+											Unassigned
+										</div>
+									) : null}
 								</div>
 							</Table.Cell>
 						</Table.Row>

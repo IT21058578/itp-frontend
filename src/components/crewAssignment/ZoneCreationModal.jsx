@@ -21,7 +21,7 @@ function ZoneCreationModal({ isActive, setIsActive }) {
 	const [name, setName] = useState("");
 	const [nameHasErr, setNameHasErr] = useState(false);
 
-	const descriptionMaxLength = 60;
+	const descriptionMaxLength = 200;
 	const [description, setDescription] = useState("");
 	const [descriptionHasErr, setDescriptionHasErr] = useState(false);
 
@@ -166,7 +166,7 @@ function ZoneCreationModal({ isActive, setIsActive }) {
 									placeholder="Description here..."
 									rows={3}
 									style={{ resize: "none", fontSize: "0.90em" }}
-									maxLength={nameMaxLength}
+									maxLength={descriptionMaxLength}
 									value={description}
 									onChange={(e) => setDescription(e.target.value)}
 									color={descriptionHasErr ? "failure" : "gray"}

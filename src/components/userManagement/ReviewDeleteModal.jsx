@@ -48,6 +48,7 @@ function ScheduleDeleteModal({ isActive, setIsActive, jobId }) {
 				setIsLoading(false);
 			});
 	}
+
 	return (
 		<Fragment>
 			<Modal show={isActive} onClose={() => setIsActive(false)}>

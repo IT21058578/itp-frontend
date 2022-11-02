@@ -96,9 +96,13 @@ function AdminZonePage() {
 							</div>
 							<div className="flex-1 flex flex-row h-full pt-4 gap-4 border-b">
 								<div className="flex-1 flex flex-col h-full gap-4">
-									<div>{zone?.name || "?"}</div>
-									<div className="text-gray">{zone?.description || "?"}</div>
-									<div className="flex-1 flex-row font-medium border-t pt-2 mt-2">
+									<div className="flex-1 flex flex-col font-medium">
+										<div className="text-xl mb-2">{zone?.name || "?"}</div>
+										<div className="text-gray-500">
+											{zone?.description || "?"}
+										</div>
+									</div>
+									<div className="flex flex-row font-medium border-t pt-2 mt-2">
 										<div className="flex-1">
 											<div className="text-black">Average Rating</div>
 											<div className="font-medium text-sm text-gray-500 mb-4">
@@ -117,7 +121,7 @@ function AdminZonePage() {
 										</div>
 									</div>
 								</div>
-								<div className="flex flex-col h-full gap-4">
+								<div className="flex flex-col h-full gap-4 border-l p-4">
 									<Button onClick={() => setIsZoneEditMdlActive(true)}>
 										<PencilIcon className="w-10 h-10" />
 									</Button>
@@ -155,7 +159,7 @@ function AdminZonePage() {
 										className="flex-grow border rounded bg-gray-50 overflow-y-scroll"
 										style={{ height: "10vh" }}
 									>
-										<AdminZoneEmployeeTable zoneId={zone?.id} pgSize={pgSize} />
+										<AdminZoneJobTable zoneId={zone?.id} pgSize={pgSize} />
 									</div>
 								</div>
 							</div>
@@ -166,10 +170,12 @@ function AdminZonePage() {
 			<ZoneDeleteModal
 				isActive={isZoneDeleteMdlActive}
 				setIsActive={setIsZoneDeleteMdlActive}
+				zone={zone}
 			/>
 			<ZoneEditModal
 				isActive={isZoneEditMdlActive}
 				setIsActive={setIsZoneEditMdlActive}
+				zone={zone}
 			/>
 		</Fragment>
 	);

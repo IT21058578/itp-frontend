@@ -1,8 +1,8 @@
-import React from 'react'
+import React from "react";
 import { Modal } from "flowbite-react";
 
-function EmployeeDisableModal({ isActive, setIsActive }) {
-  return (
+function EmployeeToggleModal({ isActive, setIsActive, employee }) {
+	return (
 		<>
 			<Modal show={isActive} onClose={() => setIsActive(false)}>
 				<Modal.Header></Modal.Header>
@@ -15,4 +15,4 @@ function EmployeeDisableModal({ isActive, setIsActive }) {
 	);
 }
 
-export default EmployeeDisableModal
+export default EmployeeToggleModal;
