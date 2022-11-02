@@ -13,6 +13,8 @@ import {
 	PencilSquareIcon,
 	CalendarIcon,
 	BookmarkIcon,
+	MapPinIcon,
+	BuildingOfficeIcon,
 } from "@heroicons/react/24/solid";
 import LogoutModal from "../loginRegister/LogoutModal";
 import { ReactSession } from "react-client-session";
@@ -20,9 +22,11 @@ import { ReactSession } from "react-client-session";
 const ADM_LAND_URL = "/admin";
 const ADM_USERS_URL = "/admin/users";
 const ADM_JOBS_URL = "/admin/jobs";
-const ADM_CATEGORY_URL ="/admin/SCAdmin";
+const ADM_CATEGORY_URL = "/admin/SCAdmin";
 const ADM_SCHED_URL = "/admin/schedule";
 const ADM_CALENDER_URL = "/admin/calender";
+const ADM_EMP_URL = "/admin/employees";
+const ADM_ZONE_URL = "/admin/zones";
 
 function AdminSidebar() {
 	const { setAuth } = useContext(AuthContext);
@@ -57,7 +61,6 @@ function AdminSidebar() {
 		setAuth({}); //Revoke authorization.
 		navigate("/login"); //Redirect to login.
 	}
-	
 
 	return (
 		<Fragment>
@@ -78,14 +81,11 @@ function AdminSidebar() {
 						</Sidebar.ItemGroup>
 						{!collapsed ? (
 							<Sidebar.ItemGroup style={{ height: "3.25rem" }}>
-								<div 
-									className="transition-all flex flex-row items-center hover:text-blue-600 active:text-blue-700 hover:bg-blue-50 active:bg-blue-200 hover:cursor-pointer rounded-md px-3">
-										<div className="mr-1">
-											<div className="text-sm">
-												{firstName + " " + lastName}
-											</div>
-											<div className="text-xs">{email}</div>
-										</div>
+								<div className="transition-all flex flex-row items-center hover:text-blue-600 active:text-blue-700 hover:bg-blue-50 active:bg-blue-200 hover:cursor-pointer rounded-md px-3">
+									<div className="mr-1">
+										<div className="text-sm">{firstName + " " + lastName}</div>
+										<div className="text-xs">{email}</div>
+									</div>
 								</div>
 							</Sidebar.ItemGroup>
 						) : null}
@@ -129,6 +129,22 @@ function AdminSidebar() {
 								style={{ height: "2.5rem" }}
 							>
 								<div className="inline-block align-middle">Category Panel</div>
+							</Sidebar.Item>
+							<Sidebar.Item
+								href=""
+								onClick={(e) => gotoPage(e, ADM_EMP_URL)}
+								icon={BuildingOfficeIcon}
+								style={{ height: "2.5rem" }}
+							>
+								<div className="inline-block align-middle">Employees</div>
+							</Sidebar.Item>
+							<Sidebar.Item
+								href=""
+								onClick={(e) => gotoPage(e, ADM_ZONE_URL)}
+								icon={MapPinIcon}
+								style={{ height: "2.5rem" }}
+							>
+								<div className="inline-block align-middle">Zones</div>
 							</Sidebar.Item>
 						</Sidebar.ItemGroup>
 						<Sidebar.ItemGroup>

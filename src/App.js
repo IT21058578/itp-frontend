@@ -1,6 +1,4 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
-
 import { AdminLayout, EmpLayout, UserLayout } from "./layouts"
 import React from "react";
 import { ReactSession } from 'react-client-session';
@@ -14,7 +12,6 @@ function App() {
   return (
     <Router>
       <Routes>
-
         {/*Please put the pages into the appropriate layouts. 
         Userlayout is for customers. 
         AdminLayout is for admins and vice versa*/}

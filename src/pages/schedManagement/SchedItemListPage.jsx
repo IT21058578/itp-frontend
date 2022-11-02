@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Spinner } from "flowbite-react";
+import { Button, Spinner } from "flowbite-react";
 import React from "react";
 import { useContext } from "react";
 import { useState, useRef, useCallback, useEffect } from "react";
@@ -7,6 +7,7 @@ import { Fragment } from "react";
 import {
 	Container,
 	ScheduleCompleteModal,
+	ScheduleCreateModal,
 	ScheduleDeleteModal,
 	ScheduleEditModal,
 	ScheduleItem,
@@ -73,24 +74,28 @@ function SchedItemListPage() {
 				<Container>
 					<div className="flex flex-row text-2xl pb-2 border-b items-center justify-between">
 						<span className="flex flex-row items-center gap-4">
-							<span className="py-1 px-4">
-								Schedules
-							</span>
+							<span className="py-1 px-4">Schedules</span>
 						</span>
 					</div>
 				</Container>
 				<div className="flex w-full h-full gap-2 flex-row">
-					<Container
-						className="flex-grow rounded-md justify-center p-3 w-2/6"
-					>
+					<Container className="flex-grow rounded-md justify-center p-3 w-2/6">
 						<ScheduleSearch handleSearch={handleSearch} />
 					</Container>
-					<div
-						className="flex-grow h-full flex flex-col border p-2 gap-2 rounded-md overflow-y-scroll w-4/6 bg-white"
-						style={{height: "85.8vh"}}
-					>
-						{dataList.map((s, i) =>
-							dataList.length - 1 === i ? (
+					<div className="flex flex-col gap-2 w-4/6">
+						<Container className="flex flex-row justify-end">
+							<Button
+								style={{ width: "25%" }}
+								onClick={() => setIsCompleteMdlActive(true)}
+							>
+								Create Schedule
+							</Button>
+						</Container>
+						<div
+							className="flex-grow h-full flex flex-col border p-2 gap-2 rounded-md overflow-y-scroll w-full bg-white"
+							style={{ height: "70vh" }}
+						>
+							{dataList.map((s, i) => (
 								<ScheduleItem
 									key={i}
 									scheduleDetails={s}
@@ -99,34 +104,24 @@ function SchedItemListPage() {
 									setIsDeleteMdlActive={setIsDeleteMdlActive}
 									setIsRenewMdlActive={setIsRenewMdlActive}
 									setIsEditMdlActive={setIsEditMdlActive}
-									itemRef={lastScheduleRef}
+									itemRef={dataList.length - 1 === i ? lastScheduleRef : null}
 								/>
+							))}
+							{isLoading || hasMore ? (
+								<div className="border shadow-lg rounded-md p-4 py-10 flex w-full flex-col gap-2 h-fit items-center bg-gray-50">
+									<Spinner size="xl" />
+								</div>
 							) : (
-								<ScheduleItem
-									key={i}
-									scheduleDetails={s}
-									setFocus={setFocusScheduleDetails}
-									setIsCompleteMdlActive={setIsCompleteMdlActive}
-									setIsDeleteMdlActive={setIsDeleteMdlActive}
-									setIsRenewMdlActive={setIsRenewMdlActive}
-									setIsEditMdlActive={setIsEditMdlActive}
-								/>
-							)
-						)}
-						{isLoading || hasMore ? (
-							<div className="border shadow-lg rounded-md p-4 py-10 flex w-full flex-col gap-2 h-fit items-center bg-gray-50">
-								<Spinner size="xl" />
-							</div>
-						) : (
-							""
-						)}
-						{!hasMore && !isLoading ? (
-							<div className="border shadow-lg rounded-md p-4 py-10 flex w-full flex-col gap-2 h-fit items-center bg-gray-50 font-medium text-gray-500">
-								End of content...
-							</div>
-						) : (
-							""
-						)}
+								""
+							)}
+							{!hasMore && !isLoading ? (
+								<div className="border shadow-lg rounded-md p-4 py-10 flex w-full flex-col gap-2 h-fit items-center bg-gray-50 font-medium text-gray-500">
+									End of content...
+								</div>
+							) : (
+								""
+							)}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -149,6 +144,10 @@ function SchedItemListPage() {
 				isActive={isRenewMdlActive}
 				setIsActive={setIsRenewMdlActive}
 				scheduleDetails={focusScheduleDetails}
+			/>
+			<ScheduleCreateModal
+				isActive={isCompleteMdlActive}
+				setIsActive={setIsCompleteMdlActive}
 			/>
 		</Fragment>
 	);

@@ -1,9 +1,18 @@
 import React from 'react'
+import { Modal } from "flowbite-react";
 
-function EmployeeAssignModal() {
+function EmployeeAssignModal({ isActive, setIsActive }) {
   return (
-    <div>EmployeeAssignModal</div>
-  )
+		<>
+			<Modal show={isActive} onClose={() => setIsActive(false)}>
+				<Modal.Header></Modal.Header>
+				<Modal.Body>
+					<div className="flex flex-col"></div>
+				</Modal.Body>
+				<Modal.Footer></Modal.Footer>
+			</Modal>
+		</>
+	);
 }
 
 export default EmployeeAssignModal

@@ -29,7 +29,7 @@ import AdminUserPage from "./userManagement/AdminUserPage"
 
 //Crew Assignment Module
 import EmployeeManagementPage from "./crewAssignment/EmployeeManagementPage";
-import ZoneManagementPage from "./crewAssignment/EmployeeManagementPage";
+import ZoneManagementPage from "./crewAssignment/ZoneManagementPage";
 import AdminEmployeePage from "./crewAssignment/AdminEmployeePage";
 import AdminZonePage from "./crewAssignment/AdminZonePage";
 

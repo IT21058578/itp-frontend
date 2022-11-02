@@ -1,9 +1,18 @@
 import React from 'react'
+import { Modal } from "flowbite-react";
 
-function EmployeeDisableModal() {
+function EmployeeDisableModal({ isActive, setIsActive }) {
   return (
-    <div>EmployeeDisableModal</div>
-  )
+		<>
+			<Modal show={isActive} onClose={() => setIsActive(false)}>
+				<Modal.Header></Modal.Header>
+				<Modal.Body>
+					<div className="flex flex-col"></div>
+				</Modal.Body>
+				<Modal.Footer></Modal.Footer>
+			</Modal>
+		</>
+	);
 }
 
 export default EmployeeDisableModal

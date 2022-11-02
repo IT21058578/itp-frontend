@@ -35,6 +35,22 @@ import UserRoleChangeModal from "./userManagement/UserRoleChangeModal"
 import AdminUserJobTable from "./userManagement/AdminUserJobTable";
 import UserJobsTable from "./userManagement/UserJobsTable";
 
+import EmployeeAssignModal from "./crewAssignment/EmployeeAssignModal"
+import EmployeeCreationModal from "./crewAssignment/EmployeeCreationModal"
+import EmployeeDisableModal from "./crewAssignment/EmployeeDisableModal"
+import EmployeeEditModal from "./crewAssignment/EmployeeEditModal"
+import EmployeeSearchOptions from "./crewAssignment/EmployeeSearchOptions"
+import EmployeeTable from "./crewAssignment/EmployeeTable"
+import ZoneCreationModal from "./crewAssignment/ZoneCreationModal"
+import ZoneDeleteModal from "./crewAssignment/ZoneCreationModal"
+import ZoneEditModal from "./crewAssignment/ZoneEditModal"
+import ZoneSearchOptions from "./crewAssignment/ZoneSearchOptions"
+import ZoneTable from "./crewAssignment/ZoneTable"
+import AdminZoneJobTable from "./crewAssignment/AdminZoneJobTable";
+import AdminZoneEmployeeTable from "./crewAssignment/AdminZoneEmployeeTable";
+import AdminEmployeeJobTable from "./crewAssignment/AdminEmployeeJobTable";
+
+
 export {
     Container, UserJobsTable,
     EmpSidebar, AdminSidebar, AdminUserJobTable,
@@ -42,5 +58,8 @@ export {
     JobTable, JobTableRow, JobTableSearch, JobTableHeader,
     LoginModal, RegisterForm, LogoutModal, CustomerFooter, CustomerNavbar,
     ScheduleDeleteModal, ScheduleEditModal, ScheduleRenewModal, ScheduleCreateModal, ScheduleCompleteModal,
-    UserJobItem, ReviewEditModal, UserTable, UserTableSearch, UserRoleChangeModal, ReviewDeleteModal
+    UserJobItem, ReviewEditModal, UserTable, UserTableSearch, UserRoleChangeModal, ReviewDeleteModal,
+    EmployeeAssignModal, EmployeeCreationModal, EmployeeDisableModal, EmployeeEditModal, EmployeeSearchOptions,
+    EmployeeTable, ZoneCreationModal, ZoneDeleteModal, ZoneEditModal, ZoneSearchOptions, ZoneTable,
+    AdminZoneEmployeeTable, AdminZoneJobTable, AdminEmployeeJobTable,
 };

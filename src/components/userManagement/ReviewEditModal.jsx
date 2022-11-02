@@ -40,7 +40,7 @@ function ReviewEditModal({job, setIsActive, isActive}) {
         let hasAnyErr = false;
 
         setTitleHasErr(false);
-        if (title.length <= titleMaxLength && title.length < 1) {
+        if (title.length >= titleMaxLength && title.length < 1) {
             hasAnyErr = true;
             setTitleHasErr(true);
         }
