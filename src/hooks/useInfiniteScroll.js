@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 function useInfiniteScroll(dataUrl, dataParams, pgNum, setPgNum, pgSize, forceUpdate, setForceUpdate) {
     const [dataList, setDataList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [totalElements, setTotalElements] = useState(0);
     const [isError, setIsError] = useState(false);
     const [hasMore, setHasMore] = useState(false);
 
@@ -27,9 +28,13 @@ function useInfiniteScroll(dataUrl, dataParams, pgNum, setPgNum, pgSize, forceUp
                 }).then(response => {
                     setDataList(prevData => prevData.concat(response.data.content));
                     setHasMore(response.data.content.length !== 0);
+                    setTotalElements(response.data.totalElements);
                 }).catch(err => {
                     if (axios.isCancel(err)) { return; }
-                    else { setIsError(true); }
+                    else {
+                        console.log(err);
+                        setIsError(true);
+                    }
                 }).then(() => {
                     setIsLoading(false);
                 });
@@ -54,6 +59,7 @@ function useInfiniteScroll(dataUrl, dataParams, pgNum, setPgNum, pgSize, forceUp
                 }).then(response => {
                     setDataList(prevData => prevData.concat(response.data.content));
                     setHasMore(response.data.content.length !== 0);
+                    setTotalElements(response.data.totalElements);
                 }).catch(err => {
                     if (axios.isCancel(err)) { return; }
                     else { setIsError(true); }
@@ -63,7 +69,7 @@ function useInfiniteScroll(dataUrl, dataParams, pgNum, setPgNum, pgSize, forceUp
         }
     }, [forceUpdate])
 
-    return { dataList, hasMore, isLoading, isError };
+    return { dataList, hasMore, isLoading, isError, totalElements };
 }
 
 export default useInfiniteScroll

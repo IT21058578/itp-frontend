@@ -1,17 +1,23 @@
-import React, { Fragment, useCallback, useRef, useState } from "react";
+import React, {
+	Fragment,
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import { Spinner, Table } from "flowbite-react";
 import { useInfiniteScroll } from "../../hooks";
 import { useNavigate } from "react-router-dom";
 
-const ZONE_EMPLOYEES_URL = process.env.REACT_APP_ZONE_EMPLOYEE_SEARCH_API_URL;
+const EMPLOYEE_SEARCH_URL = process.env.REACT_APP_EMPLOYEE_SEARCH_API_URL;
 const EMPLOYEE_INFO_URL = "/admin/employees/employee";
 
-function AdminZoneEmployeeTable({ zoneId, pgSize }) {
+function AdminZoneEmployeeTable({ zoneId, pgSize, setItemCount }) {
 	const navigate = useNavigate();
 	const [pgNum, setPgNum] = useState(1);
-	const { dataList, hasMore, isLoading } = useInfiniteScroll(
-		ZONE_EMPLOYEES_URL,
-		{ id: zoneId },
+	const { dataList, hasMore, isLoading, totalElements } = useInfiniteScroll(
+		EMPLOYEE_SEARCH_URL,
+		{ zoneId },
 		pgNum,
 		setPgNum,
 		pgSize,
@@ -37,6 +43,10 @@ function AdminZoneEmployeeTable({ zoneId, pgSize }) {
 		},
 		[isLoading, hasMore]
 	);
+
+	useEffect(() => {
+		setItemCount(totalElements);
+	}, [totalElements]);
 
 	return (
 		<Fragment>

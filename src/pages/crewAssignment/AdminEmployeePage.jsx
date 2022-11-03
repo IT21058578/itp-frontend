@@ -1,9 +1,11 @@
 import {
 	AdminEmployeeJobTable,
+	AdminEmployeeZoneBadge,
 	Container,
 	EmployeeAssignModal,
 	EmployeeEditModal,
 	EmployeeToggleModal,
+	EmployeeUnassignModal,
 } from "../../components";
 import React, { Fragment, useEffect, useState } from "react";
 import { Button, Spinner } from "flowbite-react";
@@ -14,7 +16,6 @@ import {
 	HandRaisedIcon,
 	MapIcon,
 	PencilIcon,
-	TrashIcon,
 } from "@heroicons/react/24/solid";
 import axios from "axios";
 
@@ -35,7 +36,11 @@ function AdminEmployeePage() {
 	const [isEmployeeToggleMdlActive, setIsEmployeeToggleMdlActive] =
 		useState(false);
 
-	const [isLoading, setIsLoading] = useState(false);
+	const [isEmployeeUnassignMdlActive, setIsEmployeeUnassignMdlActive] =
+		useState(false);
+	const [unassignZoneId, setUnassignZoneId] = useState("");
+
+	const [isLoading, setIsLoading] = useState(true);
 	const [isRequestSuccess, setIsRequestSuccess] = useState(false);
 	const [requestHasErr, setRequestHasErr] = useState(false);
 	const [requestErrMsg, setRequestErrMsg] = useState("");
@@ -102,7 +107,33 @@ function AdminEmployeePage() {
 								</span>
 							</div>
 							<div className="flex-1 flex flex-row h-full pt-4 gap-4 border-b">
-								<div className="flex-1 flex flex-col h-full gap-4"></div>
+								<div className="flex-1 flex flex-col h-full gap-4">
+									<div className="flex-1"></div>
+									<div>
+										<div className="flex-1 font-medium border-t pt-2">
+											<div className="text-black mb-2 text-lg">
+												Assigned Zones
+											</div>
+											<div className="flex flex-row gap-2 font-medium text-lg text-gray-500 mb-4">
+												{employee?.zoneAssignmentsList?.map((zone, i) => (
+													<AdminEmployeeZoneBadge
+														zone={zone}
+														key={i}
+														setUnassignZoneId={setUnassignZoneId}
+														setIsEmployeeUnassignMdlActive={
+															setIsEmployeeUnassignMdlActive
+														}
+													/>
+												))}
+												{employee?.zoneAssignmentsList?.length === 0 && (
+													<span className="transition-all w-fit bg-gray-300 text-white px-4 py-1 rounded">
+														Unassigned
+													</span>
+												)}
+											</div>
+										</div>
+									</div>
+								</div>
 								<div className="flex flex-col h-full gap-2">
 									<Button onClick={() => setIsEmployeeEditMdlActive(true)}>
 										<PencilIcon className="w-8 h-8" />
@@ -111,10 +142,10 @@ function AdminEmployeePage() {
 										<MapIcon className="w-8 h-8" />
 									</Button>
 									<Button
-										color={employee?.isDisabled ? "success" : "failure"}
+										color={employee?.disabled ? "success" : "failure"}
 										onClick={() => setIsEmployeeToggleMdlActive(true)}
 									>
-										{employee?.isDisabled ? (
+										{employee?.disabled ? (
 											<ArrowPathIcon className="w-8 h-8" />
 										) : (
 											<HandRaisedIcon className="w-8 h-8" />
@@ -137,7 +168,7 @@ function AdminEmployeePage() {
 										<AdminEmployeeJobTable
 											type="PENDING"
 											pgSize={pgSize}
-											email={employee?.id}
+											id={employee?.id}
 										/>
 									</div>
 								</div>
@@ -155,7 +186,7 @@ function AdminEmployeePage() {
 										<AdminEmployeeJobTable
 											type="COMPLETED"
 											pgSize={pgSize}
-											email={employee?.id}
+											id={employee?.id}
 										/>
 									</div>
 								</div>
@@ -178,6 +209,12 @@ function AdminEmployeePage() {
 				isActive={isEmployeeEditMdlActive}
 				setIsActive={setIsEmployeeEditMdlActive}
 				employee={employee}
+			/>
+			<EmployeeUnassignModal
+				isActive={isEmployeeUnassignMdlActive}
+				setIsActive={setIsEmployeeUnassignMdlActive}
+				employee={employee}
+				zoneId={unassignZoneId}
 			/>
 		</Fragment>
 	);

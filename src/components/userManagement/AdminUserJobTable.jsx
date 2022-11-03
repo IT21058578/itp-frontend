@@ -4,14 +4,14 @@ import { useInfiniteScroll } from '../../hooks';
 import { useNavigate } from 'react-router-dom';
 
 const JOB_INFO_URL = "/admin/jobs/job";
-const USER_JOBS_URL = process.env.REACT_APP_USER_JOBS_API_URL;
+const USER_JOBS_URL = process.env.REACT_APP_JOB_SEARCH_API_URL;
 
-function AdminUserJobTable({type, pgSize, email}) {
+function AdminUserJobTable({type, pgSize, clientId}) {
 	const navigate = useNavigate();
 	const [pgNum, setPgNum] = useState(1);
 	const { dataList, hasMore, isLoading } = useInfiniteScroll(
 		USER_JOBS_URL,
-		{email, type},
+		{clientId, status: type},
 		pgNum,
 		setPgNum,
 		pgSize,

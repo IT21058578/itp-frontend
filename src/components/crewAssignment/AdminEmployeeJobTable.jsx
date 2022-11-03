@@ -1,23 +1,17 @@
-import React, {
-	Fragment,
-	useCallback,
-	useEffect,
-	useRef,
-	useState,
-} from "react";
+import React, { Fragment, useCallback, useRef, useState } from "react";
 import { Button, Spinner, Table } from "flowbite-react";
 import { useInfiniteScroll } from "../../hooks";
 import { useNavigate } from "react-router-dom";
 
 const JOB_INFO_URL = "/admin/jobs/job";
-const USER_JOBS_URL = process.env.REACT_APP_USER_JOBS_API_URL;
+const JOB_SEARCH_URL = process.env.REACT_APP_JOB_SEARCH_API_URL;
 
 function AdminEmployeeJobTable({ type, id, pgSize }) {
 	const navigate = useNavigate();
 	const [pgNum, setPgNum] = useState(1);
 	const { dataList, hasMore, isLoading } = useInfiniteScroll(
-		USER_JOBS_URL,
-		{ id, type },
+		JOB_SEARCH_URL,
+		{ employeeId: id, status: type },
 		pgNum,
 		setPgNum,
 		pgSize,

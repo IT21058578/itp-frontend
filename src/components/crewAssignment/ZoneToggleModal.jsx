@@ -3,8 +3,9 @@ import { Button, Modal, Spinner } from "flowbite-react";
 import axios from "axios";
 import { ArrowPathIcon, HandRaisedIcon } from "@heroicons/react/24/solid";
 
-const EMPLOYEE_ZONE_ASSIGN_URL = process.env.REACT_APP_EMPLOYEE_TOGGLE_URL;
-function EmployeeToggleModal({ isActive, setIsActive, employee }) {
+const ZONE_TOGGLE_URL = process.env.REACT_APP_ZONE_TOGGLE_URL;
+
+function ZoneToggleModal({ isActive, setIsActive, zone }) {
 	const [isLoading, setIsLoading] = useState(false);
 	const [responseHasErr, setResponseHasErr] = useState(false);
 	const [responseErrMsg, setResponseErrMsg] = useState(false);
@@ -12,17 +13,17 @@ function EmployeeToggleModal({ isActive, setIsActive, employee }) {
 	function validateSubmission() {
 		let hasAnyErr = false;
 		if (!hasAnyErr) {
-			sendEmployeePutRequest();
+			sendZonePutRequest();
 		}
 	}
 
-	function sendEmployeePutRequest() {
+	function sendZonePutRequest() {
 		let cancelToken;
 		setIsLoading(true);
 		axios({
 			method: "put",
-			url: EMPLOYEE_ZONE_ASSIGN_URL,
-			params: { disable: !employee?.disabled, id: employee?.id },
+			url: ZONE_TOGGLE_URL,
+			params: { disable: !zone?.disabled, id: zone?.id },
 			cancelToken: new axios.CancelToken((c) => (cancelToken = c)),
 		})
 			.then((response) => {
@@ -34,7 +35,7 @@ function EmployeeToggleModal({ isActive, setIsActive, employee }) {
 				}
 				setResponseHasErr(true);
 				if (err.response?.status === 409) {
-					setResponseErrMsg("Employee is already assigned to this zone");
+					setResponseErrMsg("zone is already assigned to this zone");
 				} else if (err.response?.status < 500) {
 					setResponseErrMsg(
 						"A handled miscellaneous server error occured. Please try again."
@@ -55,13 +56,13 @@ function EmployeeToggleModal({ isActive, setIsActive, employee }) {
 	return (
 		<>
 			<Modal show={isActive} onClose={() => setIsActive(false)}>
-				<Modal.Header>Toggle Employee</Modal.Header>
+				<Modal.Header>Toggle Zone</Modal.Header>
 				<Modal.Body>
 					<div className="flex flex-col">
 						Are you sure you want to{" "}
-						{employee?.disabled
-							? "enable this employee again? They will be able to be assigned to jobs again."
-							: "disable this employee? They will no longer be assigned to new jobs."}
+						{zone?.disabled
+							? "enable this zone again? This will allow users to select this zone for jobs"
+							: "disable this zone? This will disallow users from specifying jobs for this zone"}
 					</div>
 				</Modal.Body>
 				<Modal.Footer>
@@ -75,11 +76,11 @@ function EmployeeToggleModal({ isActive, setIsActive, employee }) {
 						)}
 						<div className="">
 							<Button
-								color={employee.disabled ? "success" : "failure"}
+								color={zone.disabled ? "success" : "failure"}
 								onClick={validateSubmission}
 								disabled={isLoading}
 							>
-								{employee?.disabled ? (
+								{zone?.disabled ? (
 									<ArrowPathIcon className="w-5 h-5 mr-2" />
 								) : (
 									<HandRaisedIcon className="w-5 h-5 mr-2" />
@@ -88,13 +89,13 @@ function EmployeeToggleModal({ isActive, setIsActive, employee }) {
 									<Fragment>
 										<div className="flex flex-row">
 											<div className="mr-2">
-												{employee?.disabled ? "Enabling..." : "Disabling..."}
+												{zone?.disabled ? "Enabling..." : "Disabling..."}
 											</div>
 											<Spinner size="sm" />
 										</div>
 									</Fragment>
 								) : (
-									<>{employee?.disabled ? "Enable" : "Disable"}</>
+									<>{zone?.disabled ? "Enable" : "Disable"}</>
 								)}
 							</Button>
 						</div>
@@ -105,4 +106,4 @@ function EmployeeToggleModal({ isActive, setIsActive, employee }) {
 	);
 }
 
-export default EmployeeToggleModal;
+export default ZoneToggleModal;

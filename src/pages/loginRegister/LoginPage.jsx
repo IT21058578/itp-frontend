@@ -60,6 +60,7 @@ function LoginPage() {
 		axios
 			.post(LOGIN_URL, null, { params: { email, password } })
 			.then((response) => {
+				ReactSession.set("userId", response.data.id);
 				ReactSession.set("email", response.data.email);
 				ReactSession.set("firstName", response.data.firstName);
 				ReactSession.set("lastName", response.data.lastName);

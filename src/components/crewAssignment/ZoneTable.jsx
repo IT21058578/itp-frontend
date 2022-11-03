@@ -60,15 +60,27 @@ function ZoneTable({
 				<Table.Body className="divide-y h-100">
 					{dataList?.map((item, i) => (
 						<Table.Row
-							className="transition-all font-medium hover:outline hover:rounded hover:outline-blue-500 hover:text-blue-600 hover:cursor-pointer"
+							className={`transition-all font-medium hover:outline hover:rounded hover:outline-blue-500 hover:text-blue-600 hover:cursor-pointer ${
+								item.disabled
+									? "text-gray-400 hover:outline-gray-600 hover:text-gray-600"
+									: ""
+							}`}
 							ref={dataList?.length === i + 1 ? lastTableRowRef : null}
 							onClick={() => navigate(`${ZONE_PAGE_URL}?id=${item?.id || "?"}`)}
 						>
-							<Table.Cell className="whitespace-nowrap text-gray-900 dark:text-white">
+							<Table.Cell
+								className={`whitespace-nowrap dark:text-white ${
+									item.disabled ? "text-gray-400" : "text-gray-900"
+								}`}
+							>
 								{item?.id || "?"}
 							</Table.Cell>
 							<Table.Cell>
-								<div className="text-xs w-fit bg-blue-400 text-white px-2 rounded">
+								<div
+									className={`text-xs w-fit ${
+										item.disabled ? "bg-gray-400" : "bg-blue-400"
+									} text-white px-2 rounded`}
+								>
 									{item?.sign || "?"}
 								</div>
 							</Table.Cell>

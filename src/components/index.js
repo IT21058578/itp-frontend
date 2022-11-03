@@ -35,15 +35,21 @@ import UserRoleChangeModal from "./userManagement/UserRoleChangeModal"
 import AdminUserJobTable from "./userManagement/AdminUserJobTable";
 import UserJobsTable from "./userManagement/UserJobsTable";
 
+//Employees
 import EmployeeAssignModal from "./crewAssignment/EmployeeAssignModal"
 import EmployeeCreationModal from "./crewAssignment/EmployeeCreationModal"
 import EmployeeToggleModal from "./crewAssignment/EmployeeToggleModal"
 import EmployeeEditModal from "./crewAssignment/EmployeeEditModal"
+import EmployeeUnassignModal from "./crewAssignment/EmployeeUnassignModal";
 import EmployeeSearchOptions from "./crewAssignment/EmployeeSearchOptions"
 import EmployeeTable from "./crewAssignment/EmployeeTable"
+import AdminEmployeeZoneBadge from "./crewAssignment/AdminEmployeeZoneBadge";
+
+//Zones
 import ZoneCreationModal from "./crewAssignment/ZoneCreationModal"
 import ZoneDeleteModal from "./crewAssignment/ZoneDeleteModal"
 import ZoneEditModal from "./crewAssignment/ZoneEditModal"
+import ZoneToggleModal from "./crewAssignment/ZoneToggleModal"
 import ZoneSearchOptions from "./crewAssignment/ZoneSearchOptions"
 import ZoneTable from "./crewAssignment/ZoneTable"
 import AdminZoneJobTable from "./crewAssignment/AdminZoneJobTable";
@@ -61,5 +67,5 @@ export {
     UserJobItem, ReviewEditModal, UserTable, UserTableSearch, UserRoleChangeModal, ReviewDeleteModal,
     EmployeeAssignModal, EmployeeCreationModal, EmployeeToggleModal, EmployeeEditModal, EmployeeSearchOptions,
     EmployeeTable, ZoneCreationModal, ZoneDeleteModal, ZoneEditModal, ZoneSearchOptions, ZoneTable,
-    AdminZoneEmployeeTable, AdminZoneJobTable, AdminEmployeeJobTable,
+    AdminZoneEmployeeTable, AdminZoneJobTable, AdminEmployeeJobTable, ZoneToggleModal, EmployeeUnassignModal, AdminEmployeeZoneBadge
 };

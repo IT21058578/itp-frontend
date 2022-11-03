@@ -4,14 +4,17 @@ import {
 	AdminZoneJobTable,
 	ZoneDeleteModal,
 	ZoneEditModal,
+	ZoneToggleModal,
 } from "../../components";
 import React, { Fragment, useEffect, useState } from "react";
-import { Button, Spinner } from "flowbite-react";
+import { Button, Spinner, Tooltip } from "flowbite-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
 	ChevronLeftIcon,
 	PencilIcon,
 	TrashIcon,
+	ArrowPathIcon,
+	HandRaisedIcon,
 } from "@heroicons/react/24/solid";
 import axios from "axios";
 
@@ -21,9 +24,12 @@ const pgSize = 10;
 function AdminZonePage() {
 	const navigate = useNavigate();
 	const [zone, setZone] = useState({});
+	const [employeeCount, setEmployeeCount] = useState(1);
+	const [jobCount, setJobCount] = useState(1);
 
 	const [isZoneEditMdlActive, setIsZoneEditMdlActive] = useState(false);
 	const [isZoneDeleteMdlActive, setIsZoneDeleteMdlActive] = useState(false);
+	const [isZoneToggleMdlActive, setIsZoneToggleMdlActive] = useState(false);
 
 	const [searchParams, setSearchParams] = useSearchParams();
 
@@ -123,14 +129,31 @@ function AdminZonePage() {
 								</div>
 								<div className="flex flex-col h-full gap-4 border-l p-4">
 									<Button onClick={() => setIsZoneEditMdlActive(true)}>
-										<PencilIcon className="w-10 h-10" />
+										<PencilIcon className="w-8 h-8" />
 									</Button>
 									<Button
-										color="failure"
-										onClick={() => setIsZoneDeleteMdlActive(true)}
+										color={zone?.disabled ? "success" : "failure"}
+										onClick={() => setIsZoneToggleMdlActive(true)}
 									>
-										<TrashIcon className="w-10 h-10" />
+										{zone?.disabled ? (
+											<ArrowPathIcon className="w-8 h-8" />
+										) : (
+											<HandRaisedIcon className="w-8 h-8" />
+										)}
 									</Button>
+									<Tooltip
+										content="Zone can only be deleted if there are no jobs and employees assigned to it"
+										style="light"
+										placement="right"
+									>
+										<Button
+											disabled={jobCount > 0 ||  employeeCount > 0}
+											color="failure"
+											onClick={() => setIsZoneDeleteMdlActive(true)}
+										>
+											<TrashIcon className="w-8 h-8" />
+										</Button>
+									</Tooltip>
 								</div>
 							</div>
 							<div className="flex flex-1 flex-row gap-2 pt-4">
@@ -138,28 +161,36 @@ function AdminZonePage() {
 									<div className="flex flex-row gap-3 items-center">
 										<div className="font-medium text-lg">Employees</div>
 										<div className="text-sm bg-blue-500 text-white px-2 rounded">
-											{zone?.employeeCount || 0}
+											{employeeCount || 0}
 										</div>
 									</div>
 									<div
 										className="flex-grow border rounded bg-gray-50 overflow-y-scroll"
 										style={{ height: "10vh" }}
 									>
-										<AdminZoneEmployeeTable zoneId={zone?.id} pgSize={pgSize} />
+										<AdminZoneEmployeeTable
+											zoneId={zone?.id}
+											pgSize={pgSize}
+											setItemCount={setEmployeeCount}
+										/>
 									</div>
 								</div>
 								<div className="flex-1 flex flex-col gap-3 px-4">
 									<div className="flex flex-row gap-3 items-center">
 										<div className="font-medium text-lg">Jobs</div>
 										<div className="text-sm bg-blue-500 text-white px-2 rounded">
-											{zone?.employeeCount || 0}
+											{jobCount || 0}
 										</div>
 									</div>
 									<div
 										className="flex-grow border rounded bg-gray-50 overflow-y-scroll"
 										style={{ height: "10vh" }}
 									>
-										<AdminZoneJobTable zoneId={zone?.id} pgSize={pgSize} />
+										<AdminZoneJobTable
+											zoneId={zone?.id}
+											pgSize={pgSize}
+											setItemCount={setJobCount}
+										/>
 									</div>
 								</div>
 							</div>
@@ -167,6 +198,11 @@ function AdminZonePage() {
 					)}
 				</div>
 			</Container>
+			<ZoneToggleModal
+				isActive={isZoneToggleMdlActive}
+				setIsActive={setIsZoneToggleMdlActive}
+				zone={zone}
+			/>
 			<ZoneDeleteModal
 				isActive={isZoneDeleteMdlActive}
 				setIsActive={setIsZoneDeleteMdlActive}

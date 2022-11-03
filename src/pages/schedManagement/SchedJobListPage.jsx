@@ -11,8 +11,7 @@ import { useInfiniteScroll } from "../../hooks";
 // entries of the table shown will link directly to a the main job page where
 // further information can be seen in detail.
 
-const JOB_URL = process.env.REACT_APP_JOB_API_URL;
-const JOB_SEARCH_URL = process.env.REACT_APP_JOB_SEARCH_API_URL;
+const JOB_SEARCH_URL = process.env.REACT_APP_JOB_SEARCH_SIMPLE_API_URL;
 
 function SchedJobListPage() {
 	const [searchParams, setSearchParams] = useState({});
@@ -84,22 +83,18 @@ function SchedJobListPage() {
 				<Container>
 					<div className="flex flex-row text-2xl pb-2 border-b items-center justify-between">
 						<span className="flex flex-row items-center gap-4">
-							<span className="py-1 px-4">
-								Jobs
-							</span>
+							<span className="py-1 px-4">Jobs</span>
 						</span>
 					</div>
 				</Container>
 				<div className="flex w-full h-full gap-2">
-					<Container
-						className="flex-grow rounded-md justify-center p-3 w-2/6"
-					>
+					<Container className="flex-grow rounded-md justify-center p-3 w-2/6">
 						<JobTableSearch handleSearch={handleSearch} />
 					</Container>
 					<Container className="w-4/6">
 						<div
 							className="flex-grow flex border rounded-md overflow-y-scroll h-full bg-gray-50"
-							style={{height: "70vh"}}
+							style={{ height: "70vh" }}
 						>
 							<JobTable
 								handleSortChange={handleSortChange}
