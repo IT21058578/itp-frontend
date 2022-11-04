@@ -2,9 +2,24 @@ import React from 'react'
 import {Link, useLocation} from "react-router-dom";
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
+import { ReactSession } from "react-client-session";
+import { useState, useEffect } from "react";
 
 function ServiceDeatials() {
-    const location = useLocation()
+    const location = useLocation();
+    const [firstName, setFirstName] = useState(null);
+	  const [lastName, setLastName] = useState(null);
+	  const [email, setEmail] = useState(null);
+    const [avatarUrl, setAvatarUrl] = useState("");
+
+    useEffect(() => {
+      setFirstName(ReactSession.get("firstName"));
+		  setLastName(ReactSession.get("lastName"));
+		  setEmail(ReactSession.get("email"));
+		  setAvatarUrl("");
+    }, []);
+
+    
 
 	const [locationState, setLocationState] = React.useState({
 		id: 0,
@@ -15,6 +30,8 @@ function ServiceDeatials() {
         price: 0,
         category: "",
 	})
+
+
 
 
 
@@ -42,10 +59,27 @@ function ServiceDeatials() {
         cardDescription:locationState.cardDescription
 
     })
-    .then(response => response.data)
-    .then(alert("No data passing, fake api, redirect to the home page"));
+    .then(response => response.data);
 
     navigateToSRpage();
+  }
+
+  function CheckLogin(){
+    if(firstName && lastName && email){
+      return(
+
+        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => insertCartDetails()}>Add to cart</button>
+        
+      );
+    }
+    else{
+      return(
+        <div className=" grid-flow-row items-center justify-center">
+          <p className="text-red-600 text-1xl ">Please login into the system for add this service to cart !</p>
+          <button type="submit" className="bg-gray-300 mx-36  text-white font-bold py-2 px-4 rounded" onClick={() => insertCartDetails()} disabled>Add to cart</button>
+        </div>
+      );
+    }
   }
 
   return (
@@ -75,7 +109,7 @@ function ServiceDeatials() {
         </div>
         <br/>
         <div>
-            <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"  onClick={()=>insertCartDetails()} >Add to cart</button>
+          <CheckLogin/>
         </div>
       </div>
       </div>
