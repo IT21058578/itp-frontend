@@ -11,6 +11,8 @@ import ServiceUpdate from "../pages/ServiceCreation/Admin/ServiceUpdate";
 import ServiceCreate from "../pages/ServiceCreation/Admin/ServiceCreate";
 import RequestedServices from '../pages/ServiceCreation/Admin/RequestedServices';
 import StockManagementPage from "../pages/stockManagement";
+import SupplierManagementPage from "../pages/supplierManagement";
+
 import DialogsAdd from "../pages/stock/addStock";
 
 function AdminLayout() {
@@ -43,6 +45,10 @@ function AdminLayout() {
 						<Route
 							path="stock/*"
 							element={<StockManagementPage auth={auth} />}
+						></Route>
+						<Route
+							path="supplier/*"
+							element={<SupplierManagementPage auth={auth} />}
 						></Route>
         				<Route
 							path="/AdminCatogrizedServices/*"

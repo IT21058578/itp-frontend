@@ -11,10 +11,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Edit } from "@mui/icons-material";
 import DialogsEdit from "./edit";
-// /components/muiComponents/
+
 import axios from "../../axios";
-import useNotification from "../../components/muiComponents/components/core/snakeBar";
-import { LinearProgress } from "@mui/material";
+import useNotification from "../../components/core/snakeBar";
 
 const drawerWidth = 250;
 const useStyles = makeStyles(
@@ -60,7 +59,7 @@ const data = [
   },
 ];
 
-export default function Completed({ data, loading }) {
+export default function Completed({ data }) {
   const [, sendNotification] = useNotification();
 
   const classes = useStyles();
@@ -72,10 +71,10 @@ export default function Completed({ data, loading }) {
   const Deleting = (row) => {
     console.log(row);
     axios
-      .delete(`stock?id=${row.id}`)
+      .delete(`booking?id=${row.id}`)
       .then((res) => {
         sendNotification({ msg: "success", variant: "success" });
-        window.location.href = "/admin/stock";
+        window.location.href = "/booking";
       })
       .catch((error) => {
         console.log("There was an error!", error.response);
@@ -98,12 +97,11 @@ export default function Completed({ data, loading }) {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Supplier Name</TableCell>
-              <TableCell align="right">Supplier Contact</TableCell>
-              <TableCell align="right">Supplier Email</TableCell>
-              {/* <TableCell align="right">Contact</TableCell> */}
-              <TableCell align="right">Product Type</TableCell>
-              <TableCell align="right">Monthly Due</TableCell>
+              <TableCell>Date</TableCell>
+              <TableCell align="right">Time</TableCell>
+              <TableCell align="right">Crew</TableCell>
+              <TableCell align="right">Servise Type</TableCell>
+              <TableCell align="right">Payment</TableCell>
               <TableCell align="center">Action</TableCell>
             </TableRow>
           </TableHead>
@@ -115,13 +113,12 @@ export default function Completed({ data, loading }) {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {row.su_name}
+                    {row.date}
                   </TableCell>
-                  <TableCell align="right">{row.su_contact}</TableCell>
-                  <TableCell align="right">{row.su_email}</TableCell>
-                  {/* <TableCell align="right">{row.contact}</TableCell> */}
-                  <TableCell align="right">{row.product_type}</TableCell>
-                  <TableCell align="right">{row.monthly_due}</TableCell>
+                  <TableCell align="right">{row.time}</TableCell>
+                  <TableCell align="right">{row.crew}</TableCell>
+                  <TableCell align="right">{row.serviseType}</TableCell>
+                  <TableCell align="right">{row.payment}</TableCell>
                   <TableCell align="center">
                     <EditIcon
                       style={{ color: "green", cursor: "pointer" }}
@@ -135,20 +132,6 @@ export default function Completed({ data, loading }) {
                   </TableCell>
                 </TableRow>
               ))}
-          </TableBody>
-          <TableBody>
-            <TableCell align="center" colSpan={12}>
-              {!loading && data && data.length === 0 && <p>No data</p>}
-            </TableCell>
-          </TableBody>
-          <TableBody>
-            <TableCell align="center" colSpan={12}>
-              {loading && (
-                <p>
-                  <LinearProgress />
-                </p>
-              )}
-            </TableCell>
           </TableBody>
         </Table>
       </TableContainer>
