@@ -5,15 +5,9 @@ import LoginModal from "../loginRegister/LoginModal";
 import { ReactSession } from "react-client-session";
 import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/solid";
 import LogoutModal from "../loginRegister/LogoutModal";
+import axios from "axios";
 
 //THIS MUST BE UPDATED WITH LINKS.
-const navbarLinks = [
-	{ displayText: "Home", link: "/" },
-	{ displayText: "Services", link: "/categories" },
-	{ displayText: "About Us", link: "/aboutus" },
-	{ displayText: "Contact", link: "/contact" },
-	{ displayText: "My Cart", link: "/mycart" },
-];
 
 const PROFILE_URL = "/profile";
 
@@ -26,12 +20,32 @@ function CustomerNavbar() {
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
 	const [email, setEmail] = useState("");
+	const [Number, setNumber] = useState(0);
 	const avatarUrl = "";
+
+	const navbarLinks = [
+		{ displayText: "Home", link: "/" },
+		{ displayText: "Services", link: "/categories" },
+		{ displayText: "About Us", link: "/aboutus" },
+		{ displayText: "Contact", link: "/contact" },
+		{ displayText: "My Cart", link: "/mycart", no: Number || "" },
+	];
+
 
 	useEffect(() => {
 		setFirstName(ReactSession.get("firstName"));
 		setLastName(ReactSession.get("lastName"));
 		setEmail(ReactSession.get("email"));
+		axios.get("http://localhost:8080/api/cart")
+			.then(response => response.data)
+			.then((data) => {
+				setNumber(data.length);
+
+			}
+			).catch((err) => {
+				setNumber(0);
+
+			})
 	}, [])
 
 	return (
@@ -54,6 +68,7 @@ function CustomerNavbar() {
 					<div className="flex-grow" />
 					<div className="flex items-center gap-2">
 						<div className="px-8 flex flex-col lg:flex-row md:flex-row items-center gap-8">
+						<button>Clear All </button>
 							{navbarLinks.map((item, i) => (
 								<div
 									onClick={() => navigate(item.link)}
@@ -62,21 +77,34 @@ function CustomerNavbar() {
 									className="transition-all font-medium hover:cursor-pointer hover:text-blue-600 active:text-blue-700 hover:bg-blue-50 active:bg-blue-200 px-3 py-1 rounded-full"
 								>
 									{item.displayText}
+									{item.no ?<span style={{
+										padding: '4px 10px',
+										background: '#f68f33',
+										borderRadius: '19px',
+										width: '10px',
+										textAlign: 'center',
+										margin: 0,
+										color: '#fff',
+										marginLeft: '12px'
+									}} >
+
+										{ item.no }
+									</span>: ""}
 								</div>
 							))}
 						</div>
 						<div className="border-l px-4">
 							{email?.length > 0 ? (
 								<div className="flex flex-row items-center gap-4">
-									<div 
-										onClick={() => {navigate(PROFILE_URL)}}
+									<div
+										onClick={() => { navigate(PROFILE_URL) }}
 										className="transition-all flex flex-row items-center hover:text-blue-600 active:text-blue-700 hover:bg-blue-50 active:bg-blue-200 hover:cursor-pointer rounded px-3 py-1">
-											<div className="mr-1">
-												<div className="text-sm">
-													{firstName + " " + lastName}
-												</div>
-												<div className="text-xs">{email}</div>
+										<div className="mr-1">
+											<div className="text-sm">
+												{firstName + " " + lastName}
 											</div>
+											<div className="text-xs">{email}</div>
+										</div>
 									</div>
 									<ArrowRightOnRectangleIcon
 										onClick={() => setIsLogoutMdlActive(true)}

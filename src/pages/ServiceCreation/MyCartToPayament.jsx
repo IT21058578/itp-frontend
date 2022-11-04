@@ -1,11 +1,11 @@
 import axios from "axios";
-import { Label, Modal, TextInput, Spinner, Button } from "flowbite-react";
+import { Label, Modal, TextInput, Spinner, Button, Select } from "flowbite-react";
 import React, { Fragment } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ReactSession } from "react-client-session";
 
-const LOGIN_URL = process.env.REACT_APP_LOGIN_API_URL;
+const PAYMENT_URL = 'http://localhost:8000/api/payment';
 const USER_DASHBOARD_URL = "/profile";
 const AUTH_REGISTER_URL = "/auth/register";
 const ADMIN_DASHBOARD_URL = "/admin";
@@ -46,31 +46,74 @@ function MyCartToPayament() {
 	const [loginErrMsg, setLoginErrMsg] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 
+	const [crew, setCrew] = useState('');
+
+
 	function validatePayment(e) {
 		e.preventDefault();
-		console.log(Date,STime,ETime,Address,Zone,"payment")
+		console.log(Date, STime, ETime, Address, Zone, "payment")
 		let hasAnyErr = false;
+		var dif = (new window.Date("1970-1-1 " + ETime) - new window.Date("1970-1-1 " + STime)) / 1000 / 60 / 60;
 
 		//Check password
-		setPasswordHasErr(false);
-		if (password.length <= 0) {
-			console.log(password);
-			setPasswordHasErr(true);
-			setPasswordErrMsg("Password cannot be empty!");
+		setDateHasErr(false);
+		if (Date.length <= 0) {
+			console.log(Date);
+			setDateHasErr(true);
+			setDateErrMsg("Date cannot be empty!");
 			hasAnyErr = true;
 		}
 
-		
 
+
+		setSTimeHasErr(false);
+		if (STime.length <= 0) {
+			console.log(STime);
+			setSTimeHasErr(true);
+			setSTimeErrMsg("start time cannot be empty!");
+			hasAnyErr = true;
+		}
+
+		setETimeHasErr(false);
+		if (ETime.length <= 0) {
+			console.log(ETime);
+			setETimeHasErr(true);
+			setETimeErrMsg("End time cannot be empty!");
+			hasAnyErr = true;
+		}
+		if (dif < 0) {
+			console.log(ETime);
+			setETimeHasErr(true);
+			setETimeErrMsg("End time greater than start time");
+			hasAnyErr = true;
+
+		}
+		if (dif > 1) {
+			console.log(ETime, dif < 1);
+			setETimeHasErr(true);
+			setETimeErrMsg("End time time limit is 1 hour from start time");
+			hasAnyErr = true;
+
+		}
+		setAddressHasErr(false);
+		if (Address.length <= 0) {
+			console.log(Address);
+			setAddressHasErr(true);
+			setAddressErrMsg("Address cannot be empty!");
+			hasAnyErr = true;
+		}
+
+		console.log(dif, new window.Date("1970-1-1 " + ETime), new window.Date("1970-1-1 " + STime), "difdifdif")
+		// console.log(new window.Date())
 		if (!hasAnyErr) {
 			sendLoginRequest();
 		}
 	}
-
+	// add payment part here
 	function sendLoginRequest() {
 		setIsLoading(true);
 		axios
-			.post(LOGIN_URL, null, { params: { email, password } })
+			.post(PAYMENT_URL, null, { params: { email, password } })
 			.then((response) => {
 				alert("successfully completed !")
 
@@ -101,7 +144,9 @@ function MyCartToPayament() {
 			})
 			.then(() => setIsLoading(false));
 	}
-
+const crews =[
+	'CREW 01','CREW 02',"CREW 03",'CREW 05','CREW 05'
+]
 	return (
 		<div className="w-2/6 p-8 flex flex-col items-center justify-center">
 			<div className="text-2xl font-medium">Make a Payment</div>
@@ -139,9 +184,9 @@ function MyCartToPayament() {
 							disabled={isLoading}
 							value={STime}
 							onChange={(e) => setSTime(e.target.value)}
-							color={passwordHasErr ? "failure" : "gray"}
+							color={STimeHasErr ? "failure" : "gray"}
 							helperText={
-								passwordHasErr ? (
+								STimeHasErr ? (
 									<span className="text-red-600">{STimeErrMsg}</span>
 								) : (
 									""
@@ -161,9 +206,9 @@ function MyCartToPayament() {
 							disabled={isLoading}
 							value={ETime}
 							onChange={(e) => setETime(e.target.value)}
-							color={passwordHasErr ? "failure" : "gray"}
+							color={ETimeHasErr ? "failure" : "gray"}
 							helperText={
-								passwordHasErr ? (
+								ETimeHasErr ? (
 									<span className="text-red-600">{ETimeErrMsg}</span>
 								) : (
 									""
@@ -197,6 +242,20 @@ function MyCartToPayament() {
 
 					</div>
 				</div>
+				<div className="mb-2 block">
+						<Label value="Crew" />
+					</div>
+				<Select
+					defaultValue={crew}
+					onChange={(e) => setCrew(e.target.value)}
+				>
+					{
+						crews && crews.map((item,i)=>(
+
+							<option key={i} value={item}>{item}</option>
+						))
+					}
+				</Select>
 
 			</div>
 
@@ -224,6 +283,8 @@ function MyCartToPayament() {
 						)}
 					</Button>
 				</div>
+
+				
 			</div>
 		</div>
 	);
