@@ -128,7 +128,7 @@ function AdminSidebar() {
 								icon={PencilSquareIcon}
 								style={{ height: "2.5rem" }}
 							>
-								<div className="inline-block align-middle">Category Panel</div>
+								<div className="inline-block align-middle">Category and Service Panel</div>
 							</Sidebar.Item>
 						</Sidebar.ItemGroup>
 						<Sidebar.ItemGroup>

@@ -51,6 +51,46 @@ function CreatForm() {
       });
     };
  
+    function RedAlertN() {
+      if (name) {
+        return (null);
+      }else{
+        return (<p className="text-1xl text-red-600">⚠</p>);
+      }
+      
+    }
+    function RedAlertD() {
+      if (description) {
+        return (null);
+      }else{
+        return (<p className="text-1xl text-red-600">⚠</p>);
+      }
+      
+    }
+    function RedAlertCD() {
+      if (cardDescription) {
+        return (null);
+      }else{
+        return (<p className="text-1xl text-red-600">⚠</p>);
+      }
+      
+    }
+    function RedAlertC() {
+      if (category) {
+        return (null);
+      }else{
+        return (<p className="text-1xl text-red-600">⚠</p>);
+      }
+      
+    }
+    function RedAlertP() {
+      if (price) {
+        return (null);
+      }else{
+        return (<p className="text-1xl text-red-600">⚠</p>);
+      }
+      
+    }
 
   function create(){
 
@@ -70,6 +110,7 @@ function CreatForm() {
     .then(response => response.data)
     .then(alert("The service created Successfully!"));
   }
+
 
   function SubmitButton() {
     if (name && description && price && category && cardDescription) {
@@ -104,7 +145,7 @@ function CreatForm() {
 
               <label class="block text-sm font-medium text-gray-500 dark:text-gray-400" for="inline-full-name">
                  Service Name  
-              </label>
+              </label><RedAlertN/>
               <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="updatedName" type="text" placeholder="Enter the Service name" onChange={(e)=>{setName(e.target.value)}} onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}/><br/>
               <br/>
               
@@ -116,13 +157,13 @@ function CreatForm() {
               
               <label for="inline-full-name" className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400" >
                  Description  
-              </label>
+              </label><RedAlertD/>
               <textarea rows="4" cols="50" className="p-2.5 text-sm text-gray-900 bg-gray-200 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none" id="updatedDesc" placeholder="Enter the more details about  this service, this will show in service view page" onChange={(e)=>{setDescription(e.target.value)}}></textarea>
 
 
               <label for="inline-full-name" className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400" >
                  Card Description  
-              </label>
+              </label><RedAlertCD/>
               <textarea rows="4" cols="50" className="p-2.5 text-sm text-gray-900 bg-gray-200 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none" id="updatedCardDesc" placeholder="Enter the short description about service, this will show in the service card" onChange={(e)=>{setCardDescription(e.target.value)}}></textarea>
 
 
@@ -130,7 +171,7 @@ function CreatForm() {
                <div className="m-2">
                 <label class="block text-sm font-medium text-gray-500 dark:text-gray-400" for="inline-full-name">
                     Select Category 
-                </label>
+                </label><RedAlertC/>
                 <select className="bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500 text-sm w-60" onClick={(e)=>{setCategory(e.target.value);}}>
                     <option selected value={null}>Select a Category</option>
                     <option value="Home">Home Cleaning Service</option>
@@ -142,7 +183,7 @@ function CreatForm() {
                </div>
                <label class="block text-sm font-medium text-gray-500 dark:text-gray-400" for="inline-full-name">
                  Service Price  
-              </label>
+              </label><RedAlertP/>
               <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="updatedName" type="text" placeholder="price" onChange={(e)=>{setPrice(e.target.value)}} onKeyPress={(event) => {if (!/[0-9]/.test(event.key)) {event.preventDefault();}}}/><br/>
               <br/>
 

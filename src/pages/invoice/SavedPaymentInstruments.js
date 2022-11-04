@@ -1,34 +1,22 @@
-import {React, useState, useEffect} from "react"
+import { React, useState, useEffect } from "react";
 import { ReactSession } from "react-client-session";
+import axios from "axios";
 import Instruments from "../../components/Payment/Instruments";
 
-function SavedPaymentInstruments(){
-  const email = ReactSession.get("email");
-  console.log(email)
-  const [data, setData] = useState(null);
-  
+function SavedPaymentInstruments() {
+  const [data, setData] = useState([]);
+
   useEffect(() => {
-    fetch('/PaymentInstrumentSampleData.json'
-    ,{
-      headers : { 
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-      }
+    axios
+      .get(`http://localhost:8080/api/v1/instrument`, {
+        params: { email: ReactSession.get("email") },
       })
-    .then((response) => response.json())
-    .then(data => setData(data));
+      .then((response) => setData(response.data))
+      .catch((err) => console.log(err))
+      .then(() => console.log("function ran"));
   }, []);
 
-   if(data == null){
-    console.log("no data")
-   }
-  console.log(data)
-
-  return(
-    <Instruments 
-      cards ={data}
-    />
-  )
+  return <Instruments cards={data} />;
 }
 
 export default SavedPaymentInstruments;
