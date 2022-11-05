@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import ConsentModel from "../../../components/PaymentManagement/ConsentModel";
-import PaymentInstrument from "../Instrument/PaymentInstrument";
 
 function InvoiceFooter({ id, email, totalPrice, children, paymentStatus }) {
   const [returnValue, setReturnValue] = React.useState(false);
@@ -13,7 +12,7 @@ function InvoiceFooter({ id, email, totalPrice, children, paymentStatus }) {
   const navigate = useNavigate();
 
   const openModal = () => {
-    console.log(isOpen);
+    //console.log(isOpen);
     setIsOpen(true);
     // console.log(isOpen);
   };
@@ -23,7 +22,6 @@ function InvoiceFooter({ id, email, totalPrice, children, paymentStatus }) {
   };
 
   useEffect(() => {
-    console.log("Return" + returnValue);
     if (returnValue) {
       axios
         .delete(`http://localhost:8080/api/v1/invoice?id=${id}`)
@@ -45,8 +43,15 @@ function InvoiceFooter({ id, email, totalPrice, children, paymentStatus }) {
       <p></p>
       <div className="flex gap-2 flex-col items-center pb-10">
         {!paymentStatus ? (
-          <Button color="purple">
-            Pay <PaymentInstrument total={totalPrice} email={email} />
+          <Button
+            color="purple"
+            onClick={() =>
+              navigate(
+                `/profile/payment?invoiceID=${id}&email=${email}&totalPrice=${totalPrice}`
+              )
+            }
+          >
+            Pay
           </Button>
         ) : (
           ""
@@ -65,3 +70,7 @@ function InvoiceFooter({ id, email, totalPrice, children, paymentStatus }) {
   );
 }
 export default InvoiceFooter;
+
+<div className="font-medium text-blue-600 hover:underline dark:text-blue-500 hover:cursor-pointer">
+  More
+</div>;
