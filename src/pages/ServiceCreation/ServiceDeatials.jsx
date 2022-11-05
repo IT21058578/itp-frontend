@@ -75,7 +75,7 @@ function ServiceDeatials() {
     else{
       return(
         <div className=" grid-flow-row items-center justify-center">
-          <p className="text-red-600 text-1xl ">Please login into the system for add this service to cart !</p>
+          <p className="text-red-600 text-1xl ">Please login into the system for enable this feature !</p>
           <button type="submit" className="bg-gray-300 mx-36  text-white font-bold py-2 px-4 rounded" onClick={() => insertCartDetails()} disabled>Add to cart</button>
         </div>
       );
