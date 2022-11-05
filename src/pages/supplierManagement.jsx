@@ -9,7 +9,9 @@ function SupplierManagementPage({ auth }) {
 
 	return (
 		<div>
-			<SupplierManagement/>
+			<h2 style={{ fontSize: "24px" }} > SUPPLIER MANAGEMENT</h2>
+
+			<SupplierManagement />
 		</div>
 	);
 }

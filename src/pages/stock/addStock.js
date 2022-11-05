@@ -116,41 +116,41 @@ export default function DialogsAdd(props) {
   const { open, handleClickOpen, handleClose, data } = props;
 
   const initialFValues = {
-    su_name: data ? data.su_name : "",
-    su_contact: data ? data.su_contact : "",
+    productID: data ? data.productID : "",
+    productType: data ? data.productType : "",
     su_email: data ? data.su_email : "",
-    su_contact: data ? data.contact : "",
-    product_type: data ? data.product_type : "",
-    monthly_due: data ? data.monthly_due : "",
+    productType: data ? data.contact : "",
+    availableStock: data ? data.availableStock : "",
+    nextPurchaseDate: data ? data.nextPurchaseDate : "",
   };
 
   const validate = useCallback((fieldValues = values) => {
     let temp = { ...errors };
 
-    if ("su_name" in fieldValues)
-      temp.su_name =
-        fieldValues.su_name.length > 5 ? "" : "Minimum 6 characters required.";
+    if ("productID" in fieldValues)
+      temp.productID =
+        fieldValues.productID.length > 5 ? "" : "Minimum 6 characters required.";
 
-    if ("su_contact" in fieldValues)
-      temp.su_contact =
-        fieldValues.su_contact.length > 8
+    if ("productType" in fieldValues)
+      temp.productType =
+        fieldValues.productType.length > 1
           ? ""
-          : "Minimum 8 characters required.";
+          : "not empty";
 
     if ("su_email" in fieldValues)
       temp.su_email = /$^|.+@.+..+/.test(fieldValues.su_email)
         ? ""
         : "Email is not valid.";
 
-    if ("product_type" in fieldValues)
-      temp.product_type =
-        fieldValues.product_type.length > 2
+    if ("availableStock" in fieldValues)
+      temp.availableStock =
+        fieldValues.availableStock.length > 1
           ? ""
-          : "Minimum 2 characters required.";
+          : "Not Empty ..";
 
-    if ("monthly_due" in fieldValues)
-      temp.monthly_due =
-        fieldValues.monthly_due.length > 1
+    if ("nextPurchaseDate" in fieldValues)
+      temp.nextPurchaseDate =
+        fieldValues.nextPurchaseDate.length > 1
           ? ""
           : "Minimum 2 characters required.";
 
@@ -180,12 +180,11 @@ export default function DialogsAdd(props) {
   const handleSubmit = (e) => {
     console.log(values);
     const json = {
-      su_name: values.su_name,
-      su_contact: values.su_contact,
-      su_email: values.su_email,
-      contact: values.su_contact,
-      product_type: values.product_type,
-      monthly_due: Number(values.monthly_due),
+      productID: values.productID,
+      productType: values.productType,
+      contact: values.productType,
+      availableStock: values.availableStock,
+      nextPurchaseDate: (values.nextPurchaseDate),
     };
     axios
       .post(`stock`, json, {
@@ -207,56 +206,47 @@ export default function DialogsAdd(props) {
       <Container>
         <Form className={classes.MainDiv}>
           <Input
-            name="su_name"
-            label="Name"
-            placeholder="Name"
-            value={values.su_name}
+            name="productID"
+            label="Product ID"
+            placeholder="Product ID"
+            value={values.productID}
             type="text"
             onChange={handleInputChange}
-            error={errors.su_name}
+            error={errors.productID}
           />
           <br />
 
           <Input
-            name="su_contact"
-            label="Contact"
-            type="su_contact"
-            placeholder="Contact"
-            value={values.su_contact}
-            onChange={handleInputChange}
-            error={errors.su_contact}
-          />
-          <br />
-
-          <Input
-            name="su_email"
-            type="su_email"
-            placeholder="Email"
-            value={values.su_email}
-            onChange={handleInputChange}
-            error={errors.su_email}
-            label="Email"
-          />
-          <br />
-
-          <Input
-            name="product_type"
-            type="product_type"
-            placeholder="Product Type"
-            value={values.product_type}
-            onChange={handleInputChange}
-            error={errors.product_type}
+            name="productType"
             label="Product Type"
+            type="productType"
+            placeholder="Product Type"
+            value={values.productType}
+            onChange={handleInputChange}
+            error={errors.productType}
+          />
+          <br />
+
+         
+
+          <Input
+            name="availableStock"
+            type="availableStock"
+            placeholder="Available Stock"
+            value={values.availableStock}
+            onChange={handleInputChange}
+            error={errors.availableStock}
+            label="Available Stock"
           />
           <br />
           <Input
-            name="monthly_due"
-            type="number"
-            placeholder="Monthly Due"
-            value={values.monthly_due}
+            name="nextPurchaseDate"
+            type="date"
+            placeholder="next Purchase Date "
+            value={values.nextPurchaseDate}
             onChange={handleInputChange}
-            error={errors.monthly_due}
-            label="Monthly Due"
+            error={errors.nextPurchaseDate}
+            label="next Purchase Date"
           />
           <br />
 
