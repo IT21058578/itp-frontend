@@ -37,7 +37,7 @@ function ServiceDeatials() {
 
   const navigate=useNavigate();
     const navigateToSRpage = () => {
-        navigate('/');
+        navigate('/mycart');
     }
 
     React.useEffect(() => {

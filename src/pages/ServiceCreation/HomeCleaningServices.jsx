@@ -32,14 +32,14 @@ class HomeCleaning extends Component{
         return(
             <div className="">
                 <div className="h-screen ">
-                <div className="border-2 border-gray-300 bg-gray-100 rounded-lg m-2">
-                <p className="text-2xl p-2 m-2">Home Clening Services</p>
-                <hr className="bg-gray-400 m-2"/>
-                </div>
                 {
                     this.state.services?.length>0
                     ?(
                         <div className="">
+                            <div className="border-2 border-gray-300 bg-gray-100 rounded-lg m-2">
+                                <p className="text-2xl p-2 m-2">Home Clening Services</p>
+                                <hr className="bg-gray-400 m-2"/>
+                            </div>
                             <div className=" flex justify-center items-center flex-wrap rounded-xl border-2 border-gray-300 m-2 p-10 bg-gray-100">
                                     {this.state.services.map((service)=>(
                                         <ServiceCard service={service}/>
