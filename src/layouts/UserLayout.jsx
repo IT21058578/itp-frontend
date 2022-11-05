@@ -18,7 +18,7 @@ import {
 } from "../pages";
 import UserProfileLayout from "./UserProfileLayout";
 import { ReactSession } from "react-client-session";
-import InvoicePage from "../pages/invoice/InvoicePage";
+import InvoicePage from "../pages/PaymentManagement/Invoice/InvoicePage";
 
 function UserLayout() {
   const navigate = useNavigate();

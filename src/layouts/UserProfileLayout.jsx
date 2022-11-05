@@ -9,9 +9,9 @@ import {
 } from "../pages";
 import { ReactSession } from "react-client-session";
 
-import SavedPaymentInstruments from "../pages/invoice/SavedPaymentInstruments";
-import InvoiceList from "../pages/invoice/InvoiceList";
-import InvoicePage from "../pages/invoice/InvoicePage";
+import SavedPaymentInstruments from "../pages/PaymentManagement/Instrument/SavedPaymentInstruments.js";
+import InvoiceList from "../pages/PaymentManagement/Invoice/InvoiceList";
+import InvoicePage from "../pages/PaymentManagement/Invoice/InvoicePage";
 
 const profileNavBarItems = [
   { name: "Dashboard", link: "/profile" },

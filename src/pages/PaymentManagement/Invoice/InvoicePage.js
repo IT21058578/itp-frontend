@@ -1,12 +1,13 @@
 import { React, useState, useEffect } from "react";
-import InvoiceCustomer from "./invoiceCustomer";
-import { Card } from "flowbite-react";
-import InvoiceBody from "./InvoiceBody";
-import InvoiceFooter from "./InvoiceFooter";
-import { ReactSession } from "react-client-session";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
-import GenericPdfDownloader from "../../components/Payment/GenericPDFDownloader";
+import { Card } from "flowbite-react";
+
+import InvoiceCustomer from "./invoiceCustomer";
+import InvoiceBody from "./InvoiceBody";
+import InvoiceFooter from "./InvoiceFooter";
+
+import GenericPdfDownloader from "../../../components/PaymentManagement/GenericPDFDownloader";
 
 function InvoicePage() {
   const [invoice, setInvoice] = useState(null);
@@ -23,8 +24,6 @@ function InvoicePage() {
       .then(() => console.log("function ran"));
   }, []);
 
-  //:TODO function to select the customer based on the login
-
   return (
     <div className="max-w-4xl">
       <Card>
@@ -35,7 +34,7 @@ function InvoicePage() {
             </h1>
             <img
               className="mb-3 h-24 w-24 rounded-full shadow-lg"
-              src={require("../../images/new_logo.jpg")}
+              src={require("../../../images/new_logo.jpg")}
               alt=""
             />
             <h1>Quick Clean(Pvt)Ltd</h1>

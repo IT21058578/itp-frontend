@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { ReactSession } from "react-client-session";
 import { useNavigate } from "react-router-dom";
-import InvoicePage from "./InvoicePage";
 
 function InvoiceList() {
   const [invoices, setInvoices] = useState([]);

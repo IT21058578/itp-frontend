@@ -1,10 +1,11 @@
 import { Card, Button } from "flowbite-react";
 import React from "react";
-import PaymentInstrument from "./PaymentInstrument";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import ConsentModel from "../../components/Payment/ConsentModel";
-import { useEffect } from "react";
+
+import ConsentModel from "../../../components/PaymentManagement/ConsentModel";
+import PaymentInstrument from "../Instrument/PaymentInstrument";
 
 function InvoiceFooter({ id, email, totalPrice, children, paymentStatus }) {
   const [returnValue, setReturnValue] = React.useState(false);
