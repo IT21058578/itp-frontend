@@ -90,6 +90,9 @@ function ServiceDeatials() {
       <div className="flex ">
           <div name="left to image flex" className="m-4 w-72">
             <p>{locationState.description}</p>
+            
+          <br/>
+          <p className="text-gray-400 border-2 text-1xl p-2 border-gray-400 rounded-lg">This price shown is an advance of some kind, and will vary depending on the complete work. If you need any clarification please contact us or you can check our specifications from our team.</p>
           </div>
         <div className="m-2 hover:scale-125 shadow-2xl border-2 border-gray w-64 rounded-xl">
         <img  src={locationState.image !== null? locationState.image : 'https://via.placeholder.com/400'} className=" mx-auto m-2  w-56 h-80 shadow rounded-xl align-middle border-none" alt="img"></img>
