@@ -18,7 +18,8 @@ import { ReactSession } from "react-client-session";
 
 function AdminLayout() {
 	const navigate = useNavigate();
-	
+	const { auth } = useContext(AuthContext);
+
 	//Redirect clients if they try to access.
 	useEffect(() => {
 		async function validatePermissions() {
