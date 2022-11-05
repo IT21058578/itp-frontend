@@ -9,6 +9,7 @@ function StockManagementPage({ auth }) {
 
 	return (
 		<div>
+			<h2 style={{fontSize:"24px"}} > STOCK MANAGEMENT</h2>
 			<StockManagement/>
 		</div>
 	);

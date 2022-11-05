@@ -95,33 +95,35 @@ export default function Completed({ data, loading }) {
   return (
     <>
       <TableContainer component={Paper}>
+      
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Supplier Name</TableCell>
-              <TableCell align="right">Supplier Contact</TableCell>
-              <TableCell align="right">Supplier Email</TableCell>
-              {/* <TableCell align="right">Contact</TableCell> */}
+              <TableCell>productID</TableCell>
               <TableCell align="right">Product Type</TableCell>
-              <TableCell align="right">Monthly Due</TableCell>
-              <TableCell align="center">Action</TableCell>
+              <TableCell align="right">Available Stock</TableCell>
+              <TableCell align="right">Next PurchaseDate</TableCell>
+            
             </TableRow>
           </TableHead>
           <TableBody>
+         
             {data &&
               data.map((row, i) => (
                 <TableRow
                   key={i}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
+                  {/* <TableCell component="th" scope="row">
+                    {row.id}
+                  </TableCell> */}
                   <TableCell component="th" scope="row">
-                    {row.su_name}
+                    {row.productID}
                   </TableCell>
-                  <TableCell align="right">{row.su_contact}</TableCell>
-                  <TableCell align="right">{row.su_email}</TableCell>
+                  <TableCell align="right">{row.productType}</TableCell>
+                  <TableCell align="right">{row.availableStock}</TableCell>
                   {/* <TableCell align="right">{row.contact}</TableCell> */}
-                  <TableCell align="right">{row.product_type}</TableCell>
-                  <TableCell align="right">{row.monthly_due}</TableCell>
+                  <TableCell align="right">{row.nextPurchaseDate}</TableCell>
                   <TableCell align="center">
                     <EditIcon
                       style={{ color: "green", cursor: "pointer" }}

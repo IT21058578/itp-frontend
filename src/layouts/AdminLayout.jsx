@@ -13,7 +13,9 @@ import RequestedServices from '../pages/ServiceCreation/Admin/RequestedServices'
 import StockManagementPage from "../pages/stockManagement";
 import SupplierManagementPage from "../pages/supplierManagement";
 
-import DialogsAdd from "../pages/stock/addStock";
+import DialogsAdd from "../pages/supplier/addStock";
+import DialogsAddStock from "../pages/stock/addStock";
+
 import { ReactSession } from "react-client-session";
 
 function AdminLayout() {
@@ -33,7 +35,7 @@ function AdminLayout() {
 				navigate("/error");
 			}
 		}
-		validatePermissions();
+		// validatePermissions();
 	}, [])
 
 	return (
@@ -75,8 +77,12 @@ function AdminLayout() {
 							element={<AdminPanel/>}
 						></Route>
 						<Route
-							path="add-stock"
+							path="add-supplier"
 							element={<DialogsAdd auth={auth} />}
+						></Route>
+						<Route
+							path="add-stock"
+							element={<DialogsAddStock auth={auth} />}
 						></Route>
 						<Route
 							path="stock/*"

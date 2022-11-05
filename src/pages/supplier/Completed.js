@@ -72,10 +72,10 @@ export default function Completed({ data, loading }) {
   const Deleting = (row) => {
     console.log(row);
     axios
-      .delete(`stock?id=${row.id}`)
+      .delete(`supplier?id=${row.id}`)
       .then((res) => {
         sendNotification({ msg: "success", variant: "success" });
-        window.location.href = "/admin/stock";
+        window.location.href = "/admin/supplier";
       })
       .catch((error) => {
         console.log("There was an error!", error.response);

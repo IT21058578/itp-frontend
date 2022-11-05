@@ -188,12 +188,12 @@ export default function DialogsAdd(props) {
       monthly_due: Number(values.monthly_due),
     };
     axios
-      .post(`stock`, json, {
+      .post(`supplier`, json, {
         headers: { "Content-Type": "application/json" },
       })
       .then((res) => {
         sendNotification({ msg: "success", variant: "success" });
-        window.location.href = "/admin/stock";
+        window.location.href = "/admin/supplier";
       })
       .catch((error) => {
         console.log("There was an error!", error.response);

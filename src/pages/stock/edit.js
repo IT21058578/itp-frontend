@@ -101,12 +101,12 @@ export default function DialogsEdit(props) {
   const [, sendNotification] = useNotification();
   const [loading, setLoading] = useState(true);
   const initialFValues = {
-    su_name: data ? data.su_name : "",
-    su_contact: data ? data.su_contact : "",
+    productID: data ? data.productID : "",
+    productType: data ? data.productType : "",
     su_email: data ? data.su_email : "",
     contact: data ? data.contact : "",
-    product_type: data ? data.product_type : "",
-    monthly_due: data ? data.monthly_due : "",
+    availableStock: data ? data.availableStock : "",
+    nextPurchaseDate: data ? data.nextPurchaseDate : "",
   };
 
   const validate = useCallback((fieldValues = values) => {
@@ -142,12 +142,12 @@ export default function DialogsEdit(props) {
   const handleSubmit = (e) => {
     console.log(values);
     const json = {
-      su_name: values.su_name,
-      su_contact: values.su_contact,
+      productID: values.productID,
+      productType: values.productType,
       su_email: values.su_email,
       contact: values.contact,
-      product_type:  values.product_type,
-      monthly_due: Number(values.monthly_due),
+      availableStock:  values.availableStock,
+      nextPurchaseDate: (values.nextPurchaseDate),
     };
     axios
       .put(`stock`, json, {
@@ -180,28 +180,28 @@ export default function DialogsEdit(props) {
         </BootstrapDialogTitle>
         <Form className={classes.MainDiv} onSubmit={handleSubmit}>
           <Input
-            name="su_name"
-            label="Name"
-            placeholder="Name"
-            value={values.su_name}
+            name="productID"
+            label="Product ID"
+            placeholder="Product ID"
+            value={values.productID}
             type="text"
             onChange={handleInputChange}
-            error={errors.su_name}
+            error={errors.productID}
           />
           <br />
 
           <Input
-            name="su_contact"
-            label="Contact"
-            type="su_contact"
-            placeholder="Contact"
-            value={values.su_contact}
+            name="productType"
+            label="Product Type"
+            type="productType"
+            placeholder="Product Type"
+            value={values.productType}
             onChange={handleInputChange}
-            error={errors.su_contact}
+            error={errors.productType}
           />
           <br />
 
-          <Input
+          {/* <Input
             name="su_email"
             type="su_email"
             placeholder="Email"
@@ -210,27 +210,27 @@ export default function DialogsEdit(props) {
             error={errors.su_email}
             label="Email"
           />
-          <br />
+          <br /> */}
 
           <br />
           <Input
-            name="product_type"
-            type="product_type"
-            placeholder="Product Type"
-            value={values.product_type}
+            name="availableStock"
+            type="availableStock"
+            placeholder="Available Stock"
+            value={values.availableStock}
             onChange={handleInputChange}
-            error={errors.product_type}
-            label="Product Type"
+            error={errors.availableStock}
+            label="Available Stock"
           />
           <br />
           <Input
-            name="monthly_due"
-            type="number"
-            placeholder="Monthly Due"
-            value={values.monthly_due}
+            name="nextPurchaseDate"
+            type="date"
+            placeholder="Next Purchase Date"
+            value={values.nextPurchaseDate}
             onChange={handleInputChange}
-            error={errors.monthly_due}
-            label="Monthly Due"
+            error={errors.nextPurchaseDate}
+            label="Next Purchase Date"
           />
         </Form>
         <DialogContent dividers></DialogContent>

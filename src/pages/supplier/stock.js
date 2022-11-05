@@ -15,7 +15,7 @@ export default function StockManagement() {
   // Loading
   React.useEffect(() => {
     axios
-      .get(`stock`)
+      .get(`supplier`)
       .then((res) => {
         console.log(res.data, "data");
         setAllData(res.data);
@@ -40,7 +40,7 @@ export default function StockManagement() {
       >
         <div></div>
         <Link
-          to="/admin/add-stock"
+          to="/admin/add-supplier"
           style={{
             width: "100px",
             display: "flex",

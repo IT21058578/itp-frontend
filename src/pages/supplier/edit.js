@@ -150,14 +150,14 @@ export default function DialogsEdit(props) {
       monthly_due: Number(values.monthly_due),
     };
     axios
-      .put(`stock`, json, {
+      .put(`supplier`, json, {
         params: { id: data.id },
         headers: { "Content-Type": "application/json; charset=utf8" },
       })
       .then((res) => {
         sendNotification({ msg: "success", variant: "success" });
         setLoading(false);
-        window.location.href = "/admin/stock";
+        window.location.href = "/admin/supplier";
       })
       .catch((error) => {
         console.log("There was an error!", error.response);
