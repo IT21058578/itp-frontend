@@ -130,7 +130,7 @@ function AdminSidebar() {
 								icon={PencilSquareIcon}
 								style={{ height: "2.5rem" }}
 							>
-								<div className="inline-block align-middle">Category and Service Panel</div>
+								<div className="inline-block align-middle">Services Panel</div>
 							</Sidebar.Item>
 							<Sidebar.Item
 								href=""

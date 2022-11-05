@@ -32,15 +32,16 @@ class LaundryService extends Component{
         return(
             <div className=" h-screen">
                 <div className="h-full overflow-scroll">
-                <div className="border-2 border-gray-300 bg-white rounded-lg m-2">
-                <p className="text-2xl p-2 m-2">Laundry Services</p>
-                <hr className="bg-gray-400 m-2"/>
-                </div>
+                
                 
                 {
                     this.state.services?.length>0
                     ?(
                         <div>
+                            <div className="border-2 border-gray-300 bg-white rounded-lg m-2">
+                                <p className="text-2xl p-2 m-2">Laundry Services</p>
+                                <hr className="bg-gray-400 m-2"/>
+                            </div>
                         <div className=" flex justify-center items-center flex-wrap border-2 border-gray-300 bg-white rounded-lg m-2">
                                 {this.state.services.map((service)=>(
                                     <ServiceCard service={service}/>

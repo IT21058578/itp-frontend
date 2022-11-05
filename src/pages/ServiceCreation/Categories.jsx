@@ -31,15 +31,16 @@ class Categories extends Component{
             
             <div className=" ">
                 <div className="">
-                <div className="border-2 border-gray-300 rounded-lg m-2 bg-gray-100">
-                <p className="text-2xl p-2 m-2">Categories</p>
-                <hr className="bg-gray-400 m-2"/>
-                </div>
+                
                 
                 {
                     this.state.categories?.length>0
                     ?(
                         <div>
+                            <div className="border-2 border-gray-300 rounded-lg m-2 bg-gray-100">
+                                <p className="text-2xl p-2 m-2">Service categories</p>
+                                <hr className="bg-gray-400 m-2"/>
+                            </div>
                         <div className=" flex justify-center items-center flex-wrap border-2 border-gray-300 bg-gray-100 rounded-lg m-2">
                                 
                                     {this.state.categories.map((category)=>(

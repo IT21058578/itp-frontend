@@ -45,7 +45,7 @@ class AdminPanel extends Component{
                         <div className="h-screen overflow-scroll ">
                             <div className="gride border-2 border-gray-300 rounded-lg m-2 bg-white">
                                 <div className="">
-                                    <p className="text-2xl p-2">Categories and Servicse control panel</p>
+                                    <p className="text-2xl p-2">Services control panel</p>
                                 </div>
                                 <div className=" flex flex-wrap justify-end">
                                     <div className="m-2">

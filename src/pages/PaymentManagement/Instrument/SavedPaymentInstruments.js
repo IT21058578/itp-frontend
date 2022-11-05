@@ -1,7 +1,8 @@
 import { React, useState, useEffect } from "react";
 import { ReactSession } from "react-client-session";
 import axios from "axios";
-import Instruments from "../../components/Payment/Instruments";
+
+import Instruments from "./Instruments";
 
 function SavedPaymentInstruments() {
   const [data, setData] = useState([]);

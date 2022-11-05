@@ -5,11 +5,15 @@ import { useState , useEffect} from 'react';
 import { Container } from 'postcss';
 
 
+
+
 function CreatForm() {
 
   const navigate=useNavigate();
 
+
   const navigateToAdminPanel = () => {
+
       navigate(`/admin/SCAdmin`);
   }
 
@@ -23,7 +27,7 @@ function CreatForm() {
   const[description,setDescription] =useState();
   //const[link,setLink] =useState();
   const[optionType,setOptionType] =useState();
-  const[category,setCategory] =useState();
+  const[category,setCategory] =useState(null);
   const[price,setPrice] =useState();
   const[cardDescription,setCardDescription] =useState();
 
@@ -92,6 +96,9 @@ function CreatForm() {
       
     }
 
+
+    
+
   function create(){
 
 
@@ -108,13 +115,24 @@ function CreatForm() {
 
     })
     .then(response => response.data)
-    .then(alert("The service created Successfully!"));
+    .then(alert("Service creation is successful !"));
+
+    
+
   }
 
 
   function SubmitButton() {
     if (name && description && price && category && cardDescription) {
-      return <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=>{create();navigateToAdminPanel();preventEnter();}}>Create New Service</button>;
+      return(
+      <>
+      <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=>{create();}}>Create New Service</button>
+
+
+      
+      
+      </>);
+      
     } else {
       return (
         <button type="submit" className="bg-gray-300 text-white font-bold py-2 px-4 rounded" onClick={()=>{create();navigateToAdminPanel();preventEnter();}} disabled>Create New Service</button>
@@ -173,7 +191,7 @@ function CreatForm() {
                     Select Category 
                 </label><RedAlertC/>
                 <select className="bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500 text-sm w-60" onClick={(e)=>{setCategory(e.target.value);}}>
-                    <option selected value={null}>Select a Category</option>
+                    <option selected value="">Select a Category</option>
                     <option value="Home">Home Cleaning Service</option>
                     <option value="Apartment">Apartment Cleaning Service</option>
                     <option value="Laundry">Laundry Service</option>
@@ -194,6 +212,10 @@ function CreatForm() {
                 <button className="absolute top-4 right-4 box-border" onClick={() => {navigateToAdminPanel();}}>X</button>
                 <br/>
                 <SubmitButton/>
+
+
+
+                
                 
             </div>
             </form>
