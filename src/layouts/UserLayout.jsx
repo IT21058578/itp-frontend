@@ -18,6 +18,7 @@ import {
 } from "../pages";
 import UserProfileLayout from "./UserProfileLayout";
 import { ReactSession } from "react-client-session";
+import InvoicePage from "../pages/invoice/InvoicePage";
 
 function UserLayout() {
   const navigate = useNavigate();
@@ -71,6 +72,9 @@ function UserLayout() {
             element={<ServiceDeatails />}
           ></Route>
           <Route path="/ServiceRequest/*" element={<ServiceRequest />}></Route>
+
+          <Route path="/profile/invoice/" element={<InvoicePage />}></Route>
+
           <Route path="*" element={<ErrorPage />} />
         </Routes>
         <div className="bg-gray-100 w-1/12 border-l"></div>

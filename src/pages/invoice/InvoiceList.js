@@ -3,9 +3,12 @@ import { Table } from "flowbite-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { ReactSession } from "react-client-session";
+import { useNavigate } from "react-router-dom";
+import InvoicePage from "./InvoicePage";
 
 function InvoiceList() {
   const [invoices, setInvoices] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -48,21 +51,14 @@ function InvoiceList() {
                   <Table.Cell>
                     {invoice?.paymentStatus ? "Paid" : "Due"}
                   </Table.Cell>
+
                   <Table.Cell>
-                    <a
-                      href="/tables"
-                      className="font-medium text-blue-600 hover:underline dark:text-blue-500"
+                    <div
+                      onClick={() => navigate(`invoice?id=${invoice?.id}`)}
+                      className="font-medium text-blue-600 hover:underline dark:text-blue-500 hover:cursor-pointer"
                     >
                       More
-                    </a>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <a
-                      href="/tables"
-                      className="font-medium text-blue-600 hover:underline dark:text-blue-500"
-                    >
-                      {invoice?.paymentStatus ? "" : "Pay"}
-                    </a>
+                    </div>
                   </Table.Cell>
                 </Table.Row>
               ))}
@@ -73,5 +69,3 @@ function InvoiceList() {
 }
 
 export default InvoiceList;
-
-//TODO: 1. Get the Saved invoices for the logged in users email address & show as a table

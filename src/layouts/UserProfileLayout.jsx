@@ -11,13 +11,14 @@ import { ReactSession } from "react-client-session";
 
 import SavedPaymentInstruments from "../pages/invoice/SavedPaymentInstruments";
 import InvoiceList from "../pages/invoice/InvoiceList";
+import InvoicePage from "../pages/invoice/InvoicePage";
 
 const profileNavBarItems = [
   { name: "Dashboard", link: "/profile" },
   { name: "Completed Jobs", link: "/profile/jobs/completed" },
   { name: "Future Jobs", link: "/profile/jobs/future" },
   { name: "Cards", link: "/profile/paymentinstruments" },
-  { name: "Invoices", link: "/profile/invoices" },
+  { name: "Orders", link: "/profile/invoices" },
 ];
 
 function UserProfileLayout() {
@@ -71,6 +72,7 @@ function UserProfileLayout() {
             element={<SavedPaymentInstruments />}
           />
           <Route path="invoices" element={<InvoiceList />}></Route>
+          <Route path="invoices/invoice" element={<InvoicePage />}></Route>
         </Routes>
       </div>
     </div>

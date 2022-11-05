@@ -19,6 +19,8 @@
     "flowbite-react": "^0.2.1",
     "framer-motion": "^7.6.1",
     "notistack": "^2.0.8",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
     "parse": "^3.4.4",
     "react": "^18.2.0",
     "react-client-session": "^0.0.8",
