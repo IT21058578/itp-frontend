@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Categories from "../pages/ServiceCreation/Categories";
 import Mycart from "../pages/ServiceCreation/myCart";
@@ -22,7 +22,9 @@ import InvoicePage from "../pages/PaymentManagement/Invoice/InvoicePage";
 
 function UserLayout() {
   const navigate = useNavigate();
-
+  const [firstName, setFirstName] = useState(null);
+  const [lastName, setLastName] = useState(null);
+  const [email, setEmail] = useState(null);
   //Redirect admins if they try to access.
   useEffect(() => {
     async function validatePermissions() {
@@ -35,6 +37,11 @@ function UserLayout() {
       }
     }
     validatePermissions();
+  }, []);
+  useEffect(() => {
+    setFirstName(ReactSession.get("firstName"));
+    setLastName(ReactSession.get("lastName"));
+    setEmail(ReactSession.get("email"));
   }, []);
 
   return (
@@ -62,7 +69,10 @@ function UserLayout() {
           <Route path="auth/resetpassword" element={<ResetPasswordPage />} />
           <Route path="auth/register" element={<RegisterPage />} />
           <Route path="/categories/*" element={<Categories />}></Route>
-          <Route path="/mycart/*" element={<Mycart />}></Route>
+           
+
+            <Route path={`/mycart`} element={<Mycart />}></Route>
+            {/* gunasekeratharindu@gmail.com */}
           <Route
             path="/CatogrizedServices/*"
             element={<CatogrizedServicesHook />}

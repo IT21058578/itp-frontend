@@ -28,7 +28,6 @@ function CustomerNavbar() {
 		{ displayText: "Services", link: "/categories" },
 		{ displayText: "About Us", link: "/aboutus" },
 		{ displayText: "Contact", link: "/contact" },
-		{ displayText: "My Cart", link: "/mycart", no: Number || "" },
 	];
 
 
@@ -68,7 +67,7 @@ function CustomerNavbar() {
 					<div className="flex-grow" />
 					<div className="flex items-center gap-2">
 						<div className="px-8 flex flex-col lg:flex-row md:flex-row items-center gap-8">
-						<button>Clear All </button>
+							<button>Clear All </button>
 							{navbarLinks.map((item, i) => (
 								<div
 									onClick={() => navigate(item.link)}
@@ -77,7 +76,7 @@ function CustomerNavbar() {
 									className="transition-all font-medium hover:cursor-pointer hover:text-blue-600 active:text-blue-700 hover:bg-blue-50 active:bg-blue-200 px-3 py-1 rounded-full"
 								>
 									{item.displayText}
-									{item.no ?<span style={{
+									{item.no ? <span style={{
 										padding: '4px 10px',
 										background: '#f68f33',
 										borderRadius: '19px',
@@ -88,10 +87,30 @@ function CustomerNavbar() {
 										marginLeft: '12px'
 									}} >
 
-										{ item.no }
-									</span>: ""}
+										{item.no}
+									</span> : ""}
 								</div>
 							))}
+					{firstName &&		<div
+								onClick={() => navigate('mycart')}
+								style={{ fontSize: "0.9em" }}
+								className="transition-all font-medium hover:cursor-pointer hover:text-blue-600 active:text-blue-700 hover:bg-blue-50 active:bg-blue-200 px-3 py-1 rounded-full"
+							>
+								My Cart
+								{Number ? <span style={{
+									padding: '4px 10px',
+									background: '#f68f33',
+									borderRadius: '19px',
+									width: '10px',
+									textAlign: 'center',
+									margin: 0,
+									color: '#fff',
+									marginLeft: '12px'
+								}} >
+
+									{Number}
+								</span> : ""}
+							</div>}
 						</div>
 						<div className="border-l px-4">
 							{email?.length > 0 ? (

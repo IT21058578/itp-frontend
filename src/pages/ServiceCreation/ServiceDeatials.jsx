@@ -37,7 +37,7 @@ function ServiceDeatials() {
 
   const navigate=useNavigate();
     const navigateToSRpage = () => {
-        navigate('/mycart');
+      window.location.href='/mycart'
     }
 
     React.useEffect(() => {
@@ -48,7 +48,8 @@ function ServiceDeatials() {
 		}
 	}, [location]);
 
-  function insertCartDetails(){
+  function insertCartDetails(e){
+    e.preventDefault()
     //Lakshan's API
     axios.post(`http://localhost:8080/api/cart`,
     {
@@ -68,7 +69,7 @@ function ServiceDeatials() {
     if(firstName && lastName && email){
       return(
 
-        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => insertCartDetails()}>Add to cart</button>
+        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={(e) => insertCartDetails(e)}>Add to cart</button>
         
       );
     }
