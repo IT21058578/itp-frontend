@@ -166,9 +166,7 @@ function AddInstrument({ invoiceId }) {
             firstName: response.data.firstName,
             lastName: response.data.lastName,
             address: response.data.address,
-            services: [
-              response.data.services.map((service) => id: service.id, ),
-            ],
+            services: [response.data.services.map((service) => service)],
             invoiceDate: response.data.invoiceDate,
             invoiceTotal: response.data.invoiceTotal,
             paymentStatus: true,
