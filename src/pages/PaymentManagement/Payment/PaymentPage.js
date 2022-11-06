@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { Card } from "flowbite-react";
 import { useSearchParams } from "react-router-dom";
 
-import PaymentFooter from "./PaymentFooter";
 import SelectPaymentInstrument from "../Instrument/SelectPaymentInstrument";
 import AddPaymentInstrument from "../Instrument/AddInstrument";
 
@@ -28,8 +27,15 @@ function PaymentPage() {
           <h1>To: Quick Clean(Pvt)Ltd, No 3, Battaramulla, Sri Lanka</h1>
         </Card>
 
-        <SelectPaymentInstrument email={searchParams.get("email")} />
-        <AddPaymentInstrument invoiceId={searchParams.get("invoiceID")} />
+        <SelectPaymentInstrument
+          email={searchParams.get("email")}
+          totalAmount={searchParams.get("totalPrice")}
+          invoiceId={searchParams.get("invoiceID")}
+        />
+        <AddPaymentInstrument
+          invoiceId={searchParams.get("invoiceID")}
+          totalAmount={searchParams.get("totalPrice")}
+        />
       </Card>
     </div>
   );

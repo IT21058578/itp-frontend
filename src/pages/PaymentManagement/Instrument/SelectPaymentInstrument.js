@@ -4,8 +4,10 @@ import { Card, Button, Spinner, Select } from "flowbite-react";
 import axios from "axios";
 import { ReactSession } from "react-client-session";
 import { CheckBadgeIcon } from "@heroicons/react/24/solid";
+import StripePayment from "../../../components/PaymentManagement/StripePayment";
+import Stripe from "react-stripe-checkout";
 
-function SelectPaymentInstrument({ email }) {
+function SelectPaymentInstrument({ email, totalAmount, invoiceId }) {
   const [data, setData] = useState([]);
   const [value, setValue] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -16,6 +18,92 @@ function SelectPaymentInstrument({ email }) {
   const [cardType, setCardType] = useState("");
   const [cardNumberHasErr, setcardNumberHasErr] = useState(false);
   const [cardNumberErrMsg, setcardNumberErrMsg] = useState("");
+  const [stripeStatus, setStripeStatus] = useState(false);
+  const [invoice, setInvoice] = useState({});
+
+  async function handleToken(token) {
+    console.log(token);
+    token.email = email;
+
+    // axios
+    //   .get(`http://localhost:8080/api/v1/instrument`, {
+    //     params: { instId: instId },
+    //   })
+    //   .then((response) => {
+    //     console.log(response.data);
+    //     setToken(response.data);
+    //   })
+    //   .catch((err) => console.log(err))
+    //   .then(() => console.log("function ran"));
+
+    await axios
+      .post("http://localhost:8080/api/v1/payment/charge", "", {
+        headers: {
+          token: token.id,
+          amount: totalAmount,
+          email: email,
+        },
+      })
+      .then(() => {
+        setStripeStatus(true);
+        updateInstrument();
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  }
+
+  function updateInstrument() {
+    axios
+      .get(`http://localhost:8080/api/v1/invoice?invoiceId=${invoiceId}`)
+      .then((response) => {
+        setInvoice(response.data);
+        console.log(invoice);
+        console.log(response.data);
+
+        // const newPaymentStatus = { paymentStatus: true };
+        // const new_obj = { ...response.data, ...newPaymentStatus };
+
+        // console.log("This is the new obj");
+        // console.log(new_obj);
+
+        const options = {
+          method: "PUT",
+          url: "http://localhost:8080/api/v1/invoice",
+          params: { id: invoiceId },
+          headers: { "Content-Type": "application/json" },
+          data: {
+            id: invoiceId,
+            email: email,
+            firstName: response.data.firstName,
+            lastName: response.data.lastName,
+            address: response.data.address,
+            services: [response.data.services.map((service) => service)],
+            invoiceDate: response.data.invoiceDate,
+            invoiceTotal: response.data.invoiceTotal,
+            paymentStatus: true,
+            invoiceExpireDate: response.data.invoiceExpireDate,
+            total: response.data.total,
+          },
+        };
+
+        axios
+          .request(options)
+          .then(function (response) {
+            console.log(response.data);
+          })
+          .catch(function (error) {
+            console.error(error);
+          });
+
+        // const config = { headers: { "Content-Type": "application/json" } };
+        // axios.put(`http://localhost:8080/api/v1/invoice?id=${invoiceId}`, {
+        //   data: { new_obj },
+        //   config,
+        // });
+      })
+      .catch((err) => console.log(err));
+  }
 
   useEffect(() => {
     axios
@@ -32,7 +120,7 @@ function SelectPaymentInstrument({ email }) {
     setCvv(cardObject?.cvv);
     setExpiryDate(cardObject?.expiryDate);
     setCardType(cardObject?.cardType);
-    //console.log(cardType);
+    console.log(cardType);
   }, [value]);
 
   function validateInstrument({ setcardNumber }) {
@@ -48,14 +136,14 @@ function SelectPaymentInstrument({ email }) {
     }
 
     if (!hasAnyErr) {
-      // processPayment();
-      setcardNumber(cardNumber);
+      processPayment();
     }
   }
 
   function processPayment() {
     setIsLoading(true);
     console.log("Sending the data to Stripe");
+
     axios
       .post(`http://localhost:8080/api/v1/payment/charge`, {
         email,
@@ -122,7 +210,22 @@ function SelectPaymentInstrument({ email }) {
             ))
           )}
         </Select>
-        <Button
+
+        <div className="App">
+          <Stripe
+            stripeKey="pk_test_51Ln0qXJfShQL4M87u0Y78wO5oE7ooyx8xqbzsm3h7o4hADKinVM2bsM9rg9F9it5gS094kf5ay1Ytt2191Wi5FLL009sHMZFNp"
+            token={handleToken}
+            label={"Confirm Payment"}
+          />
+        </div>
+        <div>
+          {stripeStatus ? (
+            <span className="text-green-600">{"Payment Successful"}</span>
+          ) : (
+            ""
+          )}
+        </div>
+        {/* <Button
           style={{ width: "70%" }}
           onClick={validateInstrument}
           disabled={isLoading}
@@ -136,7 +239,7 @@ function SelectPaymentInstrument({ email }) {
           ) : (
             <div>Confirm Payment</div>
           )}
-        </Button>
+        </Button> */}
       </div>
     </Card>
   );
