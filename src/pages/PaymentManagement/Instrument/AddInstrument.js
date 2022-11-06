@@ -10,15 +10,22 @@ import {
   TextInput,
   Checkbox,
   Spinner,
+  Select,
 } from "flowbite-react";
 
 import { CheckBadgeIcon } from "@heroicons/react/24/solid";
 import { ReactSession } from "react-client-session";
+import Stripe from "react-stripe-checkout";
+import { FormHelperText } from "@mui/material";
 
-function AddInstrument() {
+function AddInstrument({ invoiceId, totalAmount }) {
   const navigate = useNavigate();
   const email = ReactSession.get("email");
-  const crntDate = 0; //Date.now().toISOString().split("T").toString();
+  const [invoice, setInvoice] = useState({});
+  const [stripeStatus, setStripeStatus] = useState(false);
+
+  const [savedStatus, setSavedStatus] = useState(false);
+  const [savedCardMsg, setSavedCardMsg] = useState("");
 
   const [cardNumber, setcardNumber] = useState(""); //cannot be empty
   const [cardNumberHasErr, setcardNumberHasErr] = useState(false);
@@ -40,8 +47,6 @@ function AddInstrument() {
   const [saveCardHasErr, setsaveCardHasErr] = useState(false);
   const [saveCardErrMsg, setsaveCardErrMsg] = useState("");
 
-  const [cardTypesAccepted, setcardTypesAccepted] = useState(false);
-
   const [isLoading, setIsLoading] = useState(false);
   const [instrumentHasErr, setinstrumentHasErr] = useState(false);
   const [registerErrMsg, setRegisterErrMsg] = useState("");
@@ -56,14 +61,14 @@ function AddInstrument() {
     setinstrumentHasErr(false);
 
     setcardNumberHasErr(false);
-    if (securityNumber.length <= 0) {
+    if (cardNumber.length < 15) {
       setcardNumberHasErr(true);
       setcardNumberErrMsg("Card Number Cannot be empty");
       hasAnyErr = true;
     }
 
     setsecurityNumberHasErr(false);
-    if (securityNumber.length <= 0) {
+    if (securityNumber.length != 3) {
       setsecurityNumberHasErr(true);
       setsecurityNumberErrMsg("CVV cannot be empty");
       hasAnyErr = true;
@@ -71,38 +76,121 @@ function AddInstrument() {
 
     //Check date of birth.
     setexpiryDateHasErr(false);
-    const expiryDateAsDate = new Date(expiryDate);
-    const today = Math.abs(new Date(Date.now()).getUTCFullYear - 1970);
-    if (expiryDateAsDate < today) {
+    if (
+      expiryDate.length <= 0 ||
+      !expiryDate.match(/[0-3][1-9][\/][2-9][0-9]/gm)
+    ) {
       setexpiryDateHasErr(true);
-      setexpiryDateErrMsg("Pls enter a Future Date");
+      setexpiryDateErrMsg("Pls enter a valid Date MM/YY");
       hasAnyErr = true;
     }
 
     //Check cardType.
     setcardTypeHasErr(false);
-    if (
-      !cardType.match(
-        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      )
-    ) {
+    if (cardType == 0) {
       setcardTypeHasErr(true);
       setcardTypeErrMsg("Must be a valid cardType!");
       hasAnyErr = true;
     }
 
     if (!hasAnyErr) {
-      sendRegistrationRequest();
+      handleToken();
+      sendPaymentProcessingRequest();
     }
   }
 
-  function sendRegistrationRequest() {
+  function updateInvoice() {
+    axios
+      .get(`http://localhost:8080/api/v1/invoice?invoiceId=${invoiceId}`)
+      .then((response) => {
+        setInvoice(response.data);
+        console.log(invoice);
+        console.log(response.data);
+
+        // const newPaymentStatus = { paymentStatus: true };
+        // const new_obj = { ...response.data, ...newPaymentStatus };
+
+        // console.log("This is the new obj");
+        // console.log(new_obj);
+
+        const options = {
+          method: "PUT",
+          url: "http://localhost:8080/api/v1/invoice",
+          params: { id: invoiceId },
+          headers: { "Content-Type": "application/json" },
+          data: {
+            id: invoiceId,
+            email: email,
+            firstName: response.data.firstName,
+            lastName: response.data.lastName,
+            address: response.data.address,
+            services: [response.data.services.map((service) => service)],
+            invoiceDate: response.data.invoiceDate,
+            invoiceTotal: response.data.invoiceTotal,
+            paymentStatus: true,
+            invoiceExpireDate: response.data.invoiceExpireDate,
+            total: response.data.total,
+          },
+        };
+
+        axios
+          .request(options)
+          .then(function (response) {
+            console.log(response.data);
+          })
+          .catch(function (error) {
+            console.error(error);
+          });
+
+        // const config = { headers: { "Content-Type": "application/json" } };
+        // axios.put(`http://localhost:8080/api/v1/invoice?id=${invoiceId}`, {
+        //   data: { new_obj },
+        //   config,
+        // });
+      })
+      .catch((err) => console.log(err));
+
+    console.log("Sending the data to Stripe");
+  }
+
+  async function handleToken(token) {
+    console.log(token);
+    token.email = email;
+
+    // axios
+    //   .get(`http://localhost:8080/api/v1/instrument`, {
+    //     params: { instId: instId },
+    //   })
+    //   .then((response) => {
+    //     console.log(response.data);
+    //     setToken(response.data);
+    //   })
+    //   .catch((err) => console.log(err))
+    //   .then(() => console.log("function ran"));
+
+    await axios
+      .post("http://localhost:8080/api/v1/payment/charge", "", {
+        headers: {
+          token: token.id,
+          amount: totalAmount,
+        },
+      })
+      .then(() => {
+        setStripeStatus(true);
+        updateInvoice();
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  }
+
+  function sendPaymentProcessingRequest() {
     let cvv = securityNumber;
     setIsLoading(true);
 
-    if (cardTypesAccepted) {
+    if (saveCard) {
       axios
-        .post(`localhost:8080/api/v1/instrument`, {
+        .post(`http://localhost:8080/api/v1/instrument`, {
           email,
           cardNumber,
           cardType,
@@ -112,7 +200,9 @@ function AddInstrument() {
         .then((response) => {
           //navigate somwhere
           // send the data to STRIPE
-          console.log("Sending the data to Stripe");
+          setSavedStatus(true);
+          setSavedCardMsg("Card Saved Successfully");
+          console.log("Data Saved Successfully & Sending Data to Stripe");
         })
         .catch((err) => {
           setinstrumentHasErr(true);
@@ -153,7 +243,9 @@ function AddInstrument() {
             <div>
               <TextInput
                 value={cardNumber}
-                onChange={(e) => setcardNumber(e.target.value)}
+                onChange={(e) => {
+                  setcardNumber(e.target.value);
+                }}
                 type="text"
                 placeholder="Card Number"
                 disabled={isLoading}
@@ -178,8 +270,8 @@ function AddInstrument() {
               <TextInput
                 value={expiryDate}
                 onChange={(e) => setexpiryDate(e.target.value)}
-                type="date"
-                placeholder={crntDate}
+                type="text"
+                placeholder={"MM/YY"}
                 color={expiryDateHasErr ? "failure" : "gray"}
                 disabled={isLoading}
                 helperText={
@@ -222,22 +314,41 @@ function AddInstrument() {
             <div className="mb-2 block">
               <Label value="Card Type" />
             </div>
+            {cardTypeHasErr ? (
+              <span className="text-red-600">{cardTypeErrMsg}</span>
+            ) : (
+              ""
+            )}
             <div>
-              <TextInput
-                type="text"
-                value={cardType}
-                onChange={(e) => setcardType(e.target.value)}
-                placeholder="Type your Card Type here..."
+              <Select
+                id="cardTypes"
+                defaultValue={0}
+                onChange={(e) => {
+                  setcardType(e.target.value);
+                  if (cardType != 0) {
+                    setcardTypeHasErr(false);
+                  }
+                }}
                 disabled={isLoading}
                 color={cardTypeHasErr ? "failure" : "gray"}
-                helperText={
-                  cardTypeHasErr ? (
-                    <span className="text-red-600">{cardTypeErrMsg}</span>
-                  ) : (
-                    ""
-                  )
-                }
-              />
+              >
+                <option value={0} key={1}>
+                  Select Card Type
+                </option>
+                <option value={"visa"} key={2}>
+                  Visa
+                </option>
+                <option value={"master"} key={3}>
+                  Master
+                </option>
+                <option value={"amex"} key={4}>
+                  Amex
+                </option>
+                <option value={"discover"} key={5}>
+                  Discover
+                </option>
+                FormHelperText=
+              </Select>
             </div>
           </div>
         </div>
@@ -247,19 +358,13 @@ function AddInstrument() {
             <div className="flex items-center gap-2">
               <Checkbox
                 value={saveCard}
-                onChange={(e) => setsaveCard(e.target.value)}
-                defaultChecked={false}
+                onChange={(e) => {
+                  setsaveCard(e.target.checked);
+                }}
                 disabled={isLoading}
                 color={saveCardHasErr ? "failure" : "gray"}
               />
-              <Label>
-                Save this Card for Later Use{" "}
-                <a
-                  href="/forms"
-                  className="text-blue-600 hover:underline dark:text-blue-500"
-                ></a>
-                .
-              </Label>
+              <Label>Save this Card for Later Use .</Label>
               {saveCardHasErr ? (
                 <span className="text-red-600 text-sm">{saveCardErrMsg}</span>
               ) : (
@@ -274,19 +379,44 @@ function AddInstrument() {
           ) : (
             ""
           )}
+
+          <div className="App">
+            <Stripe
+              stripeKey="pk_test_51Ln0qXJfShQL4M87u0Y78wO5oE7ooyx8xqbzsm3h7o4hADKinVM2bsM9rg9F9it5gS094kf5ay1Ytt2191Wi5FLL009sHMZFNp"
+              token={validateInstrument}
+              label={"Confirm Payment"}
+              email={email}
+            />
+          </div>
+          <div>
+            <div>
+              {stripeStatus ? (
+                <span className="text-green-600">{"Payment Successful"}</span>
+              ) : (
+                ""
+              )}
+            </div>
+            <div>
+              {savedStatus ? (
+                <span className="text-green-600">{savedCardMsg}</span>
+              ) : (
+                ""
+              )}
+            </div>
+          </div>
+
           <Button
-            style={{ width: "100%" }}
+            style={{ width: "30%" }}
             onClick={validateInstrument}
             disabled={isLoading}
             color="success"
           >
-            <CheckBadgeIcon className="h-6 w-6 mx-2" />
             {isLoading ? (
               <div>
                 Processing... <Spinner />
               </div>
             ) : (
-              <div>Confirm Payment</div>
+              <div>Save</div>
             )}
           </Button>
         </div>
@@ -296,3 +426,30 @@ function AddInstrument() {
 }
 
 export default AddInstrument;
+
+// function App() {
+//   async function handleToken(token) {
+//     console.log(token);
+//     await axios
+//       .post("http://localhost:8080/api/v1/payment/charge", "", {
+//         headers: {
+//           token: token.id,
+//           amount: 500,
+//         },
+//       })
+//       .then(() => {
+//         alert("Payment Success");
+//       })
+//       .catch((error) => {
+//         alert(error);
+//       });
+//   }
+//   return (
+//     <div className="App">
+//       <Stripe
+//         stripeKey="pk_test_51Ln0qXJfShQL4M87u0Y78wO5oE7ooyx8xqbzsm3h7o4hADKinVM2bsM9rg9F9it5gS094kf5ay1Ytt2191Wi5FLL009sHMZFNp"
+//         token={handleToken}
+//       />
+//     </div>
+//   );
+// }

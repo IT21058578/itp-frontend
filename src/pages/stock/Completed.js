@@ -9,8 +9,10 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { Edit } from "@mui/icons-material";
+import { Edit, Search } from "@mui/icons-material";
 import DialogsEdit from "./edit";
+import Input from "../../components/muiComponents/components/core/inputFeild";
+
 // /components/muiComponents/
 import axios from "../../axios";
 import useNotification from "../../components/muiComponents/components/core/snakeBar";
@@ -62,6 +64,15 @@ const data = [
 
 export default function Completed({ data, loading }) {
   const [, sendNotification] = useNotification();
+  const[SearchVal, setSearchVal] = React.useState("")
+  const [MainData, setMainData] = React.useState([]);
+  const [AFData, setAFData] = React.useState([]);
+
+  React.useEffect(() => {
+    setAFData(data)
+    setMainData(data)
+  }, [data])
+  
 
   const classes = useStyles();
   const Editing = (row) => {
@@ -92,10 +103,29 @@ export default function Completed({ data, loading }) {
     setOpen(false);
   };
 
+  const SearchValFun = (e) => {
+    setSearchVal(e.target.value)
+    let fil =MainData.filter(item=>item.productID.includes(e.target.value))
+    console.log(MainData,fil,"vfil")
+    setAFData(fil)
+  }
   return (
     <>
+
+     <div style={{width:"300px"}} >
+     <Input
+        name="Search"
+        type="text"
+        placeholder="Search "
+        value={SearchVal}
+        onChange={(e) => SearchValFun(e)}
+        // error={errors.nextPurchaseDate}
+        label="Search"
+      />
+     </div>
+      {/* {SearchVal} */}
       <TableContainer component={Paper}>
-      
+
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -103,13 +133,13 @@ export default function Completed({ data, loading }) {
               <TableCell align="right">Product Type</TableCell>
               <TableCell align="right">Available Stock</TableCell>
               <TableCell align="right">Next PurchaseDate</TableCell>
-            
+
             </TableRow>
           </TableHead>
           <TableBody>
-         
-            {data &&
-              data.map((row, i) => (
+
+            {AFData &&
+              AFData.map((row, i) => (
                 <TableRow
                   key={i}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
