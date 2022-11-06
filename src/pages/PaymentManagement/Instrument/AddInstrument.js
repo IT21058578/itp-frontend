@@ -18,10 +18,11 @@ import { ReactSession } from "react-client-session";
 import Stripe from "react-stripe-checkout";
 import { FormHelperText } from "@mui/material";
 
-function AddInstrument({ invoiceId }) {
+function AddInstrument({ invoiceId, totalAmount }) {
   const navigate = useNavigate();
   const email = ReactSession.get("email");
   const [invoice, setInvoice] = useState({});
+  const [stripeStatus, setStripeStatus] = useState(false);
 
   const [savedStatus, setSavedStatus] = useState(false);
   const [savedCardMsg, setSavedCardMsg] = useState("");
@@ -93,55 +94,12 @@ function AddInstrument({ invoiceId }) {
     }
 
     if (!hasAnyErr) {
+      handleToken();
       sendPaymentProcessingRequest();
     }
   }
 
-  function sendPaymentProcessingRequest() {
-    let cvv = securityNumber;
-    setIsLoading(true);
-
-    if (saveCard) {
-      axios
-        .post(`http://localhost:8080/api/v1/instrument`, {
-          email,
-          cardNumber,
-          cardType,
-          cvv,
-          expiryDate,
-        })
-        .then((response) => {
-          //navigate somwhere
-          // send the data to STRIPE
-          setSavedStatus(true);
-          setSavedCardMsg("Card Saved Successfully");
-          console.log("Data Saved Successfully & Sending Data to Stripe");
-        })
-        .catch((err) => {
-          setinstrumentHasErr(true);
-          if (err.response !== undefined) {
-            //For errors with response
-            if (err.response.status === 0) {
-              setRegisterErrMsg(
-                "Failed to connect to server. Please try again."
-              );
-            } else if (err.response.status === 409) {
-              setRegisterErrMsg(
-                "Card already exist, Please enter a different card."
-              );
-              setcardTypeHasErr(true);
-              setcardTypeErrMsg(
-                "Card alreayd exist, Please enter a different card."
-              );
-            } else {
-              setRegisterErrMsg("An error occured. Please try again.");
-            }
-          } else {
-            setRegisterErrMsg("Request couldn't be made. Please try again.");
-          }
-        })
-        .then(() => setIsLoading(false));
-    }
+  function updateInvoice() {
     axios
       .get(`http://localhost:8080/api/v1/invoice?invoiceId=${invoiceId}`)
       .then((response) => {
@@ -193,6 +151,84 @@ function AddInstrument({ invoiceId }) {
       .catch((err) => console.log(err));
 
     console.log("Sending the data to Stripe");
+  }
+
+  async function handleToken(token) {
+    console.log(token);
+    token.email = email;
+
+    // axios
+    //   .get(`http://localhost:8080/api/v1/instrument`, {
+    //     params: { instId: instId },
+    //   })
+    //   .then((response) => {
+    //     console.log(response.data);
+    //     setToken(response.data);
+    //   })
+    //   .catch((err) => console.log(err))
+    //   .then(() => console.log("function ran"));
+
+    await axios
+      .post("http://localhost:8080/api/v1/payment/charge", "", {
+        headers: {
+          token: token.id,
+          amount: totalAmount,
+        },
+      })
+      .then(() => {
+        setStripeStatus(true);
+        updateInvoice();
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  }
+
+  function sendPaymentProcessingRequest() {
+    let cvv = securityNumber;
+    setIsLoading(true);
+
+    if (saveCard) {
+      axios
+        .post(`http://localhost:8080/api/v1/instrument`, {
+          email,
+          cardNumber,
+          cardType,
+          cvv,
+          expiryDate,
+        })
+        .then((response) => {
+          //navigate somwhere
+          // send the data to STRIPE
+          setSavedStatus(true);
+          setSavedCardMsg("Card Saved Successfully");
+          console.log("Data Saved Successfully & Sending Data to Stripe");
+        })
+        .catch((err) => {
+          setinstrumentHasErr(true);
+          if (err.response !== undefined) {
+            //For errors with response
+            if (err.response.status === 0) {
+              setRegisterErrMsg(
+                "Failed to connect to server. Please try again."
+              );
+            } else if (err.response.status === 409) {
+              setRegisterErrMsg(
+                "Card already exist, Please enter a different card."
+              );
+              setcardTypeHasErr(true);
+              setcardTypeErrMsg(
+                "Card alreayd exist, Please enter a different card."
+              );
+            } else {
+              setRegisterErrMsg("An error occured. Please try again.");
+            }
+          } else {
+            setRegisterErrMsg("Request couldn't be made. Please try again.");
+          }
+        })
+        .then(() => setIsLoading(false));
+    }
   }
 
   return (
@@ -343,28 +379,48 @@ function AddInstrument({ invoiceId }) {
           ) : (
             ""
           )}
+
+          <div className="App">
+            <Stripe
+              stripeKey="pk_test_51Ln0qXJfShQL4M87u0Y78wO5oE7ooyx8xqbzsm3h7o4hADKinVM2bsM9rg9F9it5gS094kf5ay1Ytt2191Wi5FLL009sHMZFNp"
+              token={validateInstrument}
+              label={"Confirm Payment"}
+              email={email}
+            />
+          </div>
+          <div>
+            <div>
+              {stripeStatus ? (
+                <span className="text-green-600">{"Payment Successful"}</span>
+              ) : (
+                ""
+              )}
+            </div>
+            <div>
+              {savedStatus ? (
+                <span className="text-green-600">{savedCardMsg}</span>
+              ) : (
+                ""
+              )}
+            </div>
+          </div>
+
           <Button
-            style={{ width: "100%" }}
+            style={{ width: "30%" }}
             onClick={validateInstrument}
             disabled={isLoading}
             color="success"
           >
-            <CheckBadgeIcon className="h-6 w-6 mx-2" />
             {isLoading ? (
               <div>
                 Processing... <Spinner />
               </div>
             ) : (
-              <div>Confirm Payment</div>
+              <div>Save</div>
             )}
           </Button>
         </div>
       </div>
-      {savedStatus ? (
-        <span className="text-green-600">{savedCardMsg}</span>
-      ) : (
-        ""
-      )}
     </Card>
   );
 }

@@ -216,6 +216,7 @@ function SelectPaymentInstrument({ email, totalAmount, invoiceId }) {
             stripeKey="pk_test_51Ln0qXJfShQL4M87u0Y78wO5oE7ooyx8xqbzsm3h7o4hADKinVM2bsM9rg9F9it5gS094kf5ay1Ytt2191Wi5FLL009sHMZFNp"
             token={handleToken}
             label={"Confirm Payment"}
+            email={email}
           />
         </div>
         <div>
