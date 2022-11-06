@@ -12,12 +12,13 @@ import { ReactSession } from "react-client-session";
 import SavedPaymentInstruments from "../pages/PaymentManagement/Instrument/SavedPaymentInstruments.js";
 import InvoiceList from "../pages/PaymentManagement/Invoice/InvoiceList";
 import InvoicePage from "../pages/PaymentManagement/Invoice/InvoicePage";
+import ViewInstruments from "../pages/PaymentManagement/Instrument/View Instrument";
 
 const profileNavBarItems = [
   { name: "Dashboard", link: "/profile" },
   { name: "Completed Jobs", link: "/profile/jobs/completed" },
   { name: "Future Jobs", link: "/profile/jobs/future" },
-  { name: "Cards", link: "/profile/paymentinstruments" },
+  { name: "Cards", link: "/profile/instruments" },
   { name: "Orders", link: "/profile/invoices" },
 ];
 
@@ -67,12 +68,13 @@ function UserProfileLayout() {
           <Route path="jobs/completed" element={<UserJobsCompletedPage />} />
           <Route path="jobs/future" element={<UserJobsFuturePage />} />
           <Route path="password" element={<UserChangePasswordPage />} />
-          <Route
-            path="paymentinstruments"
-            element={<SavedPaymentInstruments />}
-          />
+          <Route path="instruments" element={<SavedPaymentInstruments />} />
           <Route path="invoices" element={<InvoiceList />}></Route>
           <Route path="invoices/invoice" element={<InvoicePage />}></Route>
+          <Route
+            path="instruments/instrument"
+            element={<ViewInstruments />}
+          ></Route>
         </Routes>
       </div>
     </div>

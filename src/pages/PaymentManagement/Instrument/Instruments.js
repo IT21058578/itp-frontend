@@ -1,8 +1,10 @@
 import React from "react";
 import { useEffect } from "react";
 import { Table } from "flowbite-react";
+import { useNavigate } from "react-router-dom";
 
 function Instruments({ cards }) {
+  const navigate = useNavigate();
   useEffect(() => {
     console.log(cards);
   }, [cards]);
@@ -33,12 +35,12 @@ function Instruments({ cards }) {
                   <Table.Cell>{card?.expiryDate}</Table.Cell>
                   <Table.Cell>{card?.cardType}</Table.Cell>
                   <Table.Cell>
-                    <a
-                      href="/tables"
+                    <div
+                      onClick={() => navigate(`instrument?id=${card.id}`)}
                       className="font-medium text-blue-600 hover:underline dark:text-blue-500"
                     >
-                      Edit
-                    </a>
+                      More
+                    </div>
                   </Table.Cell>
                 </Table.Row>
               ))}

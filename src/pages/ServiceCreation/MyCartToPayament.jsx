@@ -145,7 +145,7 @@ function MyCartToPayament() {
 			.then(() => setIsLoading(false));
 	}
 const crews =[
-	'CREW 01','CREW 02',"CREW 03",'CREW 05','CREW 05'
+	'ZONE 01','ZONE 02',"ZONE 03",'ZONE 05','ZONE 05'
 ]
 	return (
 		<div className="w-2/6 p-8 flex flex-col items-center justify-center">
@@ -243,7 +243,7 @@ const crews =[
 					</div>
 				</div>
 				<div className="mb-2 block">
-						<Label value="Crew" />
+						<Label value="ZONE" />
 					</div>
 				<Select
 					defaultValue={crew}
