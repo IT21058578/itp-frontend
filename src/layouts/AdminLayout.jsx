@@ -73,21 +73,12 @@ function AdminLayout() {
 						{/*Fix these routes*/}
 						<Route path="/SCAdmin" element={<AdminPanel />}></Route>
 						<Route path="/SCAdmin" element={<AdminPanel />}></Route>
-						<Route
-							path="add-supplier"
-							element={<DialogsAdd auth={auth} />}
-						></Route>
-						<Route
-							path="add-stock"
-							element={<DialogsAddStock auth={auth} />}
-						></Route>
-						<Route
-							path="stock/*"
-							element={<StockManagementPage auth={auth} />}
-						></Route>
+						<Route path="add-supplier" element={<DialogsAdd />}></Route>
+						<Route path="add-stock" element={<DialogsAddStock />}></Route>
+						<Route path="stock/*" element={<StockManagementPage />}></Route>
 						<Route
 							path="supplier/*"
-							element={<SupplierManagementPage auth={auth} />}
+							element={<SupplierManagementPage />}
 						></Route>
 						<Route
 							path="/AdminCatogrizedServices/*"
