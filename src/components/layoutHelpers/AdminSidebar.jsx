@@ -15,6 +15,8 @@ import {
 	BookmarkIcon,
 	MapPinIcon,
 	BuildingOfficeIcon,
+	WrenchScrewdriverIcon,
+	TruckIcon,
 } from "@heroicons/react/24/solid";
 import LogoutModal from "../loginRegister/LogoutModal";
 import { ReactSession } from "react-client-session";
@@ -135,7 +137,7 @@ function AdminSidebar() {
 							<Sidebar.Item
 								href=""
 								onClick={(e) => gotoPage(e, STOCK_JOBS_URL)}
-								icon={BriefcaseIcon}
+								icon={WrenchScrewdriverIcon}
 								style={{ height: "2.5rem" }}
 							>
 								<div className="inline-block align-middle">Stock</div>
@@ -143,7 +145,7 @@ function AdminSidebar() {
 							<Sidebar.Item
 								href=""
 								onClick={(e) => gotoPage(e, SUPPLIER_JOBS_URL)}
-								icon={BriefcaseIcon}
+								icon={TruckIcon}
 								style={{ height: "2.5rem" }}
 							>
 								<div className="inline-block align-middle">Supplier</div>
