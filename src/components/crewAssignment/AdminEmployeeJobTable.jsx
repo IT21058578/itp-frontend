@@ -1,4 +1,10 @@
-import React, { Fragment, useCallback, useRef, useState } from "react";
+import React, {
+	Fragment,
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import { Button, Spinner, Table } from "flowbite-react";
 import { useInfiniteScroll } from "../../hooks";
 import { useNavigate } from "react-router-dom";
@@ -6,10 +12,10 @@ import { useNavigate } from "react-router-dom";
 const JOB_INFO_URL = "/admin/jobs/job";
 const JOB_SEARCH_URL = process.env.REACT_APP_JOB_SEARCH_API_URL;
 
-function AdminEmployeeJobTable({ type, id, pgSize }) {
+function AdminEmployeeJobTable({ type, id, pgSize, setItemCount }) {
 	const navigate = useNavigate();
 	const [pgNum, setPgNum] = useState(1);
-	const { dataList, hasMore, isLoading } = useInfiniteScroll(
+	const { dataList, hasMore, isLoading, totalElements } = useInfiniteScroll(
 		JOB_SEARCH_URL,
 		{ employeeId: id, status: type },
 		pgNum,
@@ -38,6 +44,10 @@ function AdminEmployeeJobTable({ type, id, pgSize }) {
 		[isLoading, hasMore]
 	);
 
+	useEffect(() => {
+		setItemCount(totalElements);
+	}, [dataList]);
+
 	return (
 		<Fragment>
 			<Table hoverable={true}>
@@ -50,11 +60,11 @@ function AdminEmployeeJobTable({ type, id, pgSize }) {
 					{dataList?.map((job, i) => (
 						<Table.Row
 							key={i}
-							ref={dataList.length === i + 1 ? rowRef : null}
 							onClick={() => navigate(`${JOB_INFO_URL}?id=${job.id}`)}
 							className="transition-all hover:outline hover:rounded hover:outline-blue-500 hover:text-blue-600 hover:cursor-pointer font-medium"
 						>
 							<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+								<div ref={dataList.length === i + 1 ? rowRef : null} />
 								{job.id}
 							</Table.Cell>
 							<Table.Cell>{job.date}</Table.Cell>

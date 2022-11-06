@@ -59,6 +59,7 @@ function UserJobsTable({ type, clientId }) {
 			setSortCol(col);
 			setSortDir("asc");
 		}
+		setPgNum(1);
 	}
 
 	return (
@@ -115,11 +116,11 @@ function UserJobsTable({ type, clientId }) {
 					{dataList?.map((job, i) => (
 						<Table.Row
 							key={i}
-							ref={dataList?.length === i + 1 ? rowRef : null}
 							onClick={() => navigate(`${JOB_INFO_URL}?id=${job.id}`)}
 							className="transition-all bg-white hover:outline hover:rounded hover:outline-blue-500 hover:text-blue-600 hover:cursor-pointer font-medium"
 						>
 							<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+								<div ref={dataList?.length === i + 1 ? rowRef : null} />
 								{job.id}
 							</Table.Cell>
 							<Table.Cell>{job?.date}</Table.Cell>

@@ -68,6 +68,10 @@ function SchedItemListPage() {
 		setSearchSortParams({ ...s, isUpdated });
 	}
 
+	useEffect(() => {
+		setPgNum(1);
+	}, [JSON.stringify(searchSortParams)]);
+
 	return (
 		<Fragment>
 			<div className="flex flex-col gap-2 h-full w-full">
@@ -144,10 +148,6 @@ function SchedItemListPage() {
 				isActive={isRenewMdlActive}
 				setIsActive={setIsRenewMdlActive}
 				scheduleDetails={focusScheduleDetails}
-			/>
-			<ScheduleCreateModal
-				isActive={isCompleteMdlActive}
-				setIsActive={setIsCompleteMdlActive}
 			/>
 		</Fragment>
 	);

@@ -1,16 +1,22 @@
-import { CheckCircleIcon } from '@heroicons/react/24/solid';
-import axios from 'axios';
-import { Alert, Button, Modal, Spinner } from 'flowbite-react'
-import React, { Fragment, useState } from 'react'
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
+import axios from "axios";
+import { Alert, Button, Modal, Spinner } from "flowbite-react";
+import React, { Fragment, useState } from "react";
 
 const USER_ROLE_CHANGE_API_URL = process.env.REACT_APP_USER_ROLE_CHANGE_API_URL;
 
-function UserRoleChangeModal({isActive, setIsActive, userEmail, userType, toRole}) {
+function UserRoleChangeModal({
+	isActive,
+	setIsActive,
+	userEmail,
+	userType,
+	toRole,
+}) {
 	const [isLoading, setIsLoading] = useState(false);
 	const [responseHasErr, setResponseHasErr] = useState(false);
 	const [responseErrMsg, setResponseErrMsg] = useState(false);
 
-    const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
+	const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
 	const [successAlertClasses, setSuccessAlertClasses] = useState(
 		"absolute border-2 border-green-600 rounded-lg z-50 transition-all invisible"
 	);
@@ -21,16 +27,17 @@ function UserRoleChangeModal({isActive, setIsActive, userEmail, userType, toRole
 
 	function sendUserRoleChangeRequest() {
 		let cancelToken;
+		console.log(userEmail, toRole);
 		setIsLoading(true);
 		axios
-			.put(USER_ROLE_CHANGE_API_URL, {
+			.put(USER_ROLE_CHANGE_API_URL, null, {
 				params: { email: userEmail, role: toRole },
 				cancelToken: new axios.CancelToken((c) => (cancelToken = c)),
 			})
 			.then(() => {
 				togglealert();
 				resetModal();
-                window.location.reload();
+				window.location.reload();
 			})
 			.catch((err) => {
 				if (axios.isCancel(err)) {
@@ -38,7 +45,7 @@ function UserRoleChangeModal({isActive, setIsActive, userEmail, userType, toRole
 				}
 				setResponseHasErr(true);
 				if (err.response.status === 404) {
-					setResponseErrMsg("Schedule was not found. It no longer exists.");
+					setResponseErrMsg("User was not found. It no longer exists.");
 				} else if (err.response.status >= 500) {
 					setResponseErrMsg(
 						"A miscellaneous server error occured. Please try again."
@@ -72,9 +79,9 @@ function UserRoleChangeModal({isActive, setIsActive, userEmail, userType, toRole
 		}, 2200);
 	}
 
-    return (
-    <Fragment>
-        <div
+	return (
+		<Fragment>
+			<div
 				className={successAlertClasses}
 				style={{ top: "88vh", left: "78.3vw" }}
 			>
@@ -85,56 +92,60 @@ function UserRoleChangeModal({isActive, setIsActive, userEmail, userType, toRole
 					</span>
 				</Alert>
 			</div>
-        <Modal show={isActive} onClose={() => setIsActive(false)}>
-            <Modal.Header>Are you sure?</Modal.Header>
-            <Modal.Body>
-                {userType === "USER" ? 
-                    <div>
-                        Are you sure you want to change the user with email {userEmail} into an Admin?
-                        This will make it impossible for them to access the client dashboard.
-                    </div> 
-                    : <div>
-                        Are you sure you want to change the user with email {userEmail} into a Client?
-                        This will make it impossible for them to access the admin dashboard.
-                    </div>
-                }
-            </Modal.Body>
-            <Modal.Footer>
-                <div className="flex gap-2 justify-end w-full items-center">
-                    {responseHasErr ? (
-                        <div className="text-red-600 text-sm flex-1 text-center">
-                            {responseErrMsg}
-                        </div>
-                    ) : (
-                        ""
-                    )}
-                    <Button
-                        color="gray"
-                        onClick={() => setIsActive(false)}
-                        disabled={isLoading}
-                    >
-                        Cancel
-                    </Button>
-                    <Button
-                        onClick={validateSubmission}
-                        disabled={isLoading}
-                    >
-                        {isLoading ? (
-                            <Fragment>
-                                <div className="flex flex-row">
-                                    <div className="mr-2">Saving...</div>
-                                    <Spinner size="sm" />
-                                </div>
-                            </Fragment>
-                        ) : (
-                            "Yes"
-                        )}
-                    </Button>
-                </div>
-            </Modal.Footer>
-        </Modal>
-    </Fragment>
-    )
+			<Modal show={isActive} onClose={() => setIsActive(false)}>
+				<Modal.Header>Are you sure?</Modal.Header>
+				<Modal.Body>
+					{userType === "USER" ? (
+						<div>
+							Are you sure you want to change the user with email {userEmail}{" "}
+							into an Admin? This will make it impossible for them to access the
+							client dashboard.
+						</div>
+					) : (
+						<div>
+							Are you sure you want to change the user with email {userEmail}{" "}
+							into a Client? This will make it impossible for them to access the
+							admin dashboard.
+						</div>
+					)}
+				</Modal.Body>
+				<Modal.Footer>
+					<div className="flex gap-2 justify-end w-full items-center">
+						<div>
+							{responseHasErr ? (
+								<div className="text-red-600 text-sm flex-1 text-center">
+									{responseErrMsg}
+								</div>
+							) : (
+								""
+							)}
+						</div>
+						<div className="flex flex-row gap-2">
+							<Button
+								color="gray"
+								onClick={() => setIsActive(false)}
+								disabled={isLoading}
+							>
+								Cancel
+							</Button>
+							<Button onClick={validateSubmission} disabled={isLoading}>
+								{isLoading ? (
+									<Fragment>
+										<div className="flex flex-row">
+											<div className="mr-2">Saving...</div>
+											<Spinner size="sm" />
+										</div>
+									</Fragment>
+								) : (
+									"Yes"
+								)}
+							</Button>
+						</div>
+					</div>
+				</Modal.Footer>
+			</Modal>
+		</Fragment>
+	);
 }
 
-export default UserRoleChangeModal
+export default UserRoleChangeModal;

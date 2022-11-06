@@ -1,9 +1,9 @@
-import { Button, Spinner, Table } from 'flowbite-react'
-import React, { Fragment } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-import JobTableHeader from '../schdManage/JobTableHeader';
+import { Button, Spinner, Table } from "flowbite-react";
+import React, { Fragment } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import JobTableHeader from "../schdManage/JobTableHeader";
 
-const ADMIN_USER_PAGE_URL = "user"
+const ADMIN_USER_PAGE_URL = "user";
 
 function UserTable({
 	dataList,
@@ -15,9 +15,9 @@ function UserTable({
 	isLoading,
 }) {
 	const navigate = useNavigate();
-	
-  	return (
-    <div className="w-full h-full">
+
+	return (
+		<div className="w-full h-full">
 			<Table hoverable={true}>
 				<Table.Head>
 					<Table.HeadCell>
@@ -59,18 +59,25 @@ function UserTable({
 					<Table.HeadCell></Table.HeadCell>
 				</Table.Head>
 				<Table.Body className="divide-y h-100">
-					{dataList?.map((item, i) =>	
-						<Table.Row 
-							className="transition-all font-medium hover:outline hover:rounded hover:outline-blue-500 hover:text-blue-600 hover:cursor-pointer" 
-							ref={dataList.length === i + 1 ? lastTableRowRef : null}
-							onClick={() => navigate(`${ADMIN_USER_PAGE_URL}?email=${item.email}`)}
-							>
-							<Table.Cell className="whitespace-nowrap text-gray-900 dark:text-white">{item.id}</Table.Cell>
+					{dataList?.map((item, i) => (
+						<Table.Row
+							key={i}
+							className="transition-all font-medium hover:outline hover:rounded hover:outline-blue-500 hover:text-blue-600 hover:cursor-pointer"
+							onClick={() =>
+								navigate(`${ADMIN_USER_PAGE_URL}?email=${item.email}`)
+							}
+						>
+							<Table.Cell className="whitespace-nowrap text-gray-900 dark:text-white">
+								<div ref={dataList.length === i + 1 ? lastTableRowRef : null} />
+								{item.id}
+							</Table.Cell>
 							<Table.Cell>{item.email}</Table.Cell>
 							<Table.Cell>{item.name}</Table.Cell>
-							<Table.Cell>{item.type === 'USER' ? 'CLIENT' : item.type}</Table.Cell>
+							<Table.Cell>
+								{item.type === "USER" ? "CLIENT" : item.type}
+							</Table.Cell>
 						</Table.Row>
-					)}
+					))}
 					{isLoading ? (
 						<Table.Row>
 							<Table.Cell
@@ -98,7 +105,7 @@ function UserTable({
 				</Table.Body>
 			</Table>
 		</div>
-  )
+	);
 }
 
-export default UserTable
+export default UserTable;

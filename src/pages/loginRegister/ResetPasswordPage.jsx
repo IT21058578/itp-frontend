@@ -91,7 +91,7 @@ function ResetPasswordPage() {
 				{ email, password, resetToken },
 				{
 					params: { reset: true },
-					cancelToken: axios.CancelToken((c) => (cancelToken = c)),
+					cancelToken: new axios.CancelToken((c) => (cancelToken = c)),
 				}
 			)
 			.then((response) => {

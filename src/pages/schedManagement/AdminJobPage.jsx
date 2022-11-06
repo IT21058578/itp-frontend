@@ -9,6 +9,8 @@ import { Container } from "../../components";
 const JOB_DATA_URL = `${process.env.REACT_APP_BACKEND_URL}/job`;
 const JOB_LIST_URL = "/admin/jobs";
 const USER_PAGE_URL = "/admin/users/user";
+const EMP_PAGE_URL = "/admin/employees/employee";
+const ZONE_PAGE_URL = "/admin/zones/zone";
 
 function AdminJobPage() {
 	const navigate = useNavigate();
@@ -73,7 +75,7 @@ function AdminJobPage() {
 						<Fragment>
 							<div className="flex flex-row text-2xl pb-2 border-b items-center justify-between">
 								<span className="flex flex-row items-center gap-4">
-									<span onClick={() => navigate(JOB_LIST_URL)}>
+									<span onClick={() => navigate(-1)}>
 										<ChevronLeftIcon className="h-10 w-10 p-2 rounded transition-all hover:cursor-pointer hover:text-blue-600 active:text-blue-700 hover:bg-blue-50 active:bg-blue-200" />
 									</span>
 									<span className="bg-slate-100 text-slate-600 py-1 px-4 rounded ">
@@ -97,7 +99,6 @@ function AdminJobPage() {
 											<Table>
 												<Table.Head>
 													<Table.HeadCell>Service Name</Table.HeadCell>
-													<Table.HeadCell>Qty</Table.HeadCell>
 													<Table.HeadCell>Total Price</Table.HeadCell>
 												</Table.Head>
 												<Table.Body>
@@ -106,7 +107,6 @@ function AdminJobPage() {
 															<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
 																{item?.name}
 															</Table.Cell>
-															<Table.Cell>{item?.quantity}</Table.Cell>
 															<Table.Cell>{item?.cost}</Table.Cell>
 														</Table.Row>
 													))}
@@ -119,8 +119,13 @@ function AdminJobPage() {
 													<div className="flex-1">Address</div>
 													<div className="flex flex-row gap-2 items-center">
 														<div>Area</div>
-														<div className="text-xs bg-blue-400 text-white px-2 rounded">
-															A
+														<div
+															onClick={() =>
+																navigate(`${ZONE_PAGE_URL}?id=${job?.zoneId}`)
+															}
+															className="text-sm bg-blue-400 text-white px-2 rounded hover:bg-blue-500 active:bg-blue-600 transition-all hover:cursor-pointer hover:px-8"
+														>
+															{job?.zoneSign}
 														</div>
 													</div>
 												</div>
@@ -154,7 +159,12 @@ function AdminJobPage() {
 												</Table.Head>
 												<Table.Body>
 													{job?.crewList?.map((emp) => (
-														<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+														<Table.Row
+															className="transition-all font-medium hover:outline hover:rounded hover:outline-blue-500 hover:text-blue-600 hover:cursor-pointer"
+															onClick={() =>
+																navigate(`${EMP_PAGE_URL}?id=${emp?.id}`)
+															}
+														>
 															<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
 																{emp?.id}
 															</Table.Cell>

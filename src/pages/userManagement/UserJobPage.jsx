@@ -8,6 +8,7 @@ import { ChevronLeftIcon, TrashIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
 import { ReviewDeleteModal, ReviewEditModal } from "../../components";
 import { RatingStar } from "flowbite-react/lib/esm/components/Rating/RatingStar";
+import { set } from "react-hook-form";
 
 const JOB_DATA_URL = `${process.env.REACT_APP_BACKEND_URL}/job`;
 //HOW TO GO BACK?
@@ -15,6 +16,7 @@ const JOB_DATA_URL = `${process.env.REACT_APP_BACKEND_URL}/job`;
 function UserJobPage() {
 	const navigate = useNavigate();
 	const [job, setJob] = useState({});
+	const [isJobPending, setIsJobPending] = useState(true);
 	const [isReviewMdlActive, setIsReviewMdlActive] = useState(false);
 	const [isDeleteMdlActive, setIsDeleteMdlActive] = useState(false);
 
@@ -32,11 +34,11 @@ function UserJobPage() {
 		sendJobDataRequest();
 	}, []);
 
-	function isReviewPending() {
+	useEffect(() => {
 		const jobEndDate = new Date(job?.endTime);
 		const currentDate = new Date();
-		console.log(jobEndDate, currentDate);
-	}
+		setIsJobPending(jobEndDate > currentDate);
+	}, [job]);
 
 	function sendJobDataRequest() {
 		setIsLoading(true);
@@ -50,7 +52,6 @@ function UserJobPage() {
 			.then((response) => {
 				setIsRequestSuccess(true);
 				setJob(response.data);
-				isReviewPending();
 			})
 			.catch((err) => {
 				setRequestHasErr(true);
@@ -174,9 +175,12 @@ function UserJobPage() {
 								</div>
 								<div className="h-2/4 border rounded flex flex-col pb-2 text-sm font-medium relative">
 									{/*TODO: Make it impossible to review pending jobs */}
-									{}
-									{job.review === null ? (
+									{isJobPending ? (
 										<div className="h-full w-full flex bg-black  bg-opacity-10 items-center justify-center absolute">
+											Cannot review a pending job
+										</div>
+									) : job.review === null ? (
+										<div className="h-full w-full flex bg-black  bg-opacity-10 items-center justify-center absolute p-8">
 											<Button onClick={() => setIsReviewMdlActive(true)}>
 												Make a Review
 											</Button>
@@ -184,7 +188,13 @@ function UserJobPage() {
 									) : (
 										""
 									)}
-									<div className="h-2/4 flex flex-col gap-1 flex-1 px-6 pt-4">
+									<div
+										className={`h-2/4 flex flex-col gap-1 flex-1 px-6 pt-4 ${
+											isJobPending || job?.review === null
+												? "text-gray-400"
+												: ""
+										}`}
+									>
 										<div className="flex flex-row">
 											<div className="flex-1">Title</div>
 											<div className="flex flex-row gap-2 items-center">
@@ -208,11 +218,12 @@ function UserJobPage() {
 										<div className="flex-1 font-normal text-gray-500">
 											{job?.review?.description}
 										</div>
-										<div className="flex flex-row justify-end">
+										<div className="flex flex-row justify-end gap-2">
 											<Button
 												onClick={() => setIsReviewMdlActive(true)}
 												size="sm"
 												style={{ width: "25%", height: "85%" }}
+												disabled={isJobPending || job?.review === null}
 											>
 												Edit
 											</Button>
@@ -221,6 +232,7 @@ function UserJobPage() {
 												onClick={() => setIsDeleteMdlActive(true)}
 												size="sm"
 												style={{ width: "25%", height: "85%" }}
+												disabled={isJobPending || job?.review === null}
 											>
 												<TrashIcon className="w-5 h-5 mr-2" />
 												Delete

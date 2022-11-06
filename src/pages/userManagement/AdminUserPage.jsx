@@ -33,6 +33,10 @@ function AdminUserPage() {
 	}, []);
 
 	useEffect(() => {
+		setToRole(user.userType === "USER" ? "ADMIN" : "USER");
+	}, [user]);
+
+	useEffect(() => {
 		sendUserDataRequest();
 	}, [userEmail]);
 
@@ -48,8 +52,6 @@ function AdminUserPage() {
 			.then((response) => {
 				setIsRequestSuccess(true);
 				setUser(response.data);
-				setUserType(response.data.permissions[0]);
-				setToRole(response.data.permissions[0] === "ADMIN" ? "USER" : "ADMIN");
 			})
 			.catch((err) => {
 				setRequestHasErr(true);
@@ -150,9 +152,11 @@ function AdminUserPage() {
 												{user.address || "Address not specified"}
 											</div>
 										</div>
-										<Button onClick={() => setIsRoleChangeMdlActive(true)}>
-											Change Role
-										</Button>
+										<div className="w-1/6">
+											<Button onClick={() => setIsRoleChangeMdlActive(true)}>
+												Change Role
+											</Button>
+										</div>
 									</div>
 								</div>
 								<div className="flex flex-1 gap-2">
@@ -170,7 +174,7 @@ function AdminUserPage() {
 											<AdminUserJobTable
 												type="COMPLETED"
 												pgSize={pgSize}
-												email={searchParams.get("email")}
+												clientId={user?.id}
 											/>
 										</div>
 									</div>
@@ -188,7 +192,7 @@ function AdminUserPage() {
 											<AdminUserJobTable
 												type="PENDING"
 												pgSize={pgSize}
-												email={searchParams.get("email")}
+												clientId={user?.id}
 											/>
 										</div>
 									</div>

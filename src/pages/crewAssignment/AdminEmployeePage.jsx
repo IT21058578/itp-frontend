@@ -28,6 +28,9 @@ function AdminEmployeePage() {
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	const [employee, setEmployee] = useState({});
+	const [pendingJobCount, setPendingJobCount] = useState(0);
+	const [completedJobCount, setCompletedJobCount] = useState(0);
+
 	const [isEmployeeAssignMdlActive, setIsEmployeeAssignMdlActive] =
 		useState(false);
 	const [isEmployeeEditMdlActive, setIsEmployeeEditMdlActive] = useState(false);
@@ -158,7 +161,7 @@ function AdminEmployeePage() {
 									<div className="flex flex-row gap-3 items-center">
 										<div className="font-medium text-lg">Pending Jobs</div>
 										<div className="text-sm bg-blue-500 text-white px-2 rounded">
-											{employee?.pendingJobCount || 0}
+											{pendingJobCount || 0}
 										</div>
 									</div>
 									<div
@@ -169,6 +172,7 @@ function AdminEmployeePage() {
 											type="PENDING"
 											pgSize={pgSize}
 											id={employee?.id}
+											setItemCount={setPendingJobCount}
 										/>
 									</div>
 								</div>
@@ -176,7 +180,7 @@ function AdminEmployeePage() {
 									<div className="flex flex-row gap-3 items-center">
 										<div className="font-medium text-lg">Completed Jobs</div>
 										<div className="text-sm bg-blue-500 text-white px-2 rounded">
-											{employee?.completedJobCount || 0}
+											{completedJobCount || 0}
 										</div>
 									</div>
 									<div
@@ -187,6 +191,7 @@ function AdminEmployeePage() {
 											type="COMPLETED"
 											pgSize={pgSize}
 											id={employee?.id}
+											setItemCount={setCompletedJobCount}
 										/>
 									</div>
 								</div>

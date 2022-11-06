@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { ReactSession } from "react-client-session";
 
-const FORGOT_PASSWORD_URL = "";
+const FORGOT_PASSWORD_URL = process.env.REACT_APP_FORGOT_PASSWORD_API_URL;
 
 function UserChangePasswordPage() {
 	const [oldPassword, setOldPassword] = useState("");
@@ -90,7 +90,7 @@ function UserChangePasswordPage() {
 				{ email, newPassword: password, oldPassword },
 				{
 					params: { reset: true },
-					cancelToken: axios.CancelToken((c) => (cancelToken = c)),
+					cancelToken: new axios.CancelToken((c) => (cancelToken = c)),
 				}
 			)
 			.then((response) => {

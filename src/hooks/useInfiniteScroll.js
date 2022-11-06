@@ -26,8 +26,16 @@ function useInfiniteScroll(dataUrl, dataParams, pgNum, setPgNum, pgSize, forceUp
                 .post(dataUrl, { ...dataParams, pgNum, pgSize }, {
                     cancelToken: new axios.CancelToken(c => (cancelToken = c))
                 }).then(response => {
-                    setDataList(prevData => prevData.concat(response.data.content));
-                    setHasMore(response.data.content.length !== 0);
+                    const newData = response.data.content;
+                    setDataList(prevData => {
+                        let updatedData = prevData;
+                        if (!prevData) { prevData = []; }
+                        if (!newData.every(item => prevData.includes(item))) {
+                            updatedData = updatedData.concat(newData);
+                        }
+                        return updatedData;
+                    });
+                    setHasMore(newData.length !== 0);
                     setTotalElements(response.data.totalElements);
                 }).catch(err => {
                     if (axios.isCancel(err)) { return; }

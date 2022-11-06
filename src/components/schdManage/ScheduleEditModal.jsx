@@ -118,6 +118,7 @@ function ScheduleEditModal({ isActive, setIsActive, scheduleDetails }) {
 					title,
 					description,
 					isActive: true,
+					active: true,
 					date,
 					startTime,
 					endTime,

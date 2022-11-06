@@ -80,16 +80,9 @@ function RegisterForm() {
 		setRegisterHasErr(false);
 
 		setFirstNameHasErr(false);
-		if (lastName.length <= 0) {
+		if (firstName.length <= 0) {
 			setFirstNameHasErr(true);
-			setFirstNameErrMsg("Last name cannot be empty!");
-			hasAnyErr = true;
-		}
-
-		setLastNameHasErr(false);
-		if (lastName.length <= 0) {
-			setLastNameHasErr(true);
-			setLastNameErrMsg("Last name cannot be empty!");
+			setFirstNameErrMsg("First name cannot be empty!");
 			hasAnyErr = true;
 		}
 
@@ -108,12 +101,17 @@ function RegisterForm() {
 		}
 
 		//Check date of birth.
+		function calculateAge(birthday) {
+			// birthday is a date
+			var ageDifMs = Date.now() - birthday;
+			var ageDate = new Date(ageDifMs); // miliseconds from epoch
+			return ageDate.getUTCFullYear() - 1970;
+		}
+
 		setDateOfBirthHasErr(false);
-		const dateOfBirthAsDate = new Date(dateOfBirth);
-		const age = Math.abs(
-			new Date(Date.now() - dateOfBirthAsDate).getUTCFullYear - 1970
-		);
-		if (age < 18 || dateOfBirth.length !== 10) {
+		const age = calculateAge(new Date(dateOfBirth));
+		console.log(age);
+		if (age < 18) {
 			setDateOfBirthHasErr(true);
 			setDateOfBirthErrMsg("You must be 18 or older to create an account.");
 			hasAnyErr = true;
@@ -160,12 +158,12 @@ function RegisterForm() {
 		}
 
 		//Check tos
-		setTosAcceptedHasErr(false);
-		if (!tosAccepted) {
-			setTosAcceptedHasErr(true);
-			setTosAcceptedErrMsg("Please read and agree to our terms of service!");
-			hasAnyErr = true;
-		}
+		// setTosAcceptedHasErr(false);
+		// if (!tosAccepted) {
+		// 	setTosAcceptedHasErr(true);
+		// 	setTosAcceptedErrMsg("Please read and agree to our terms of service!");
+		// 	hasAnyErr = true;
+		// }
 
 		if (!hasAnyErr) {
 			sendRegistrationRequest();
@@ -174,6 +172,7 @@ function RegisterForm() {
 
 	function sendRegistrationRequest() {
 		setIsLoading(true);
+
 		axios
 			.post(REGISTER_URL, {
 				firstName,
@@ -432,7 +431,7 @@ function RegisterForm() {
 					</div>
 				</div>
 			</div>
-			<div className="flex flex-row gap-2 w-full h-full border-t py-2">
+			{/* <div className="flex flex-row gap-2 w-full h-full border-t py-2">
 				<div className="flex flex-col gap-4">
 					<div className="flex items-center gap-2">
 						<Checkbox
@@ -472,7 +471,7 @@ function RegisterForm() {
 						</Label>
 					</div>
 				</div>
-			</div>
+			</div> */}
 			<div className="flex flex-col gap-4 w-full h-full border-t py-2 items-center">
 				{registerHasErr ? (
 					<span className="text-red-600 text-sm">{registerErrMsg}</span>

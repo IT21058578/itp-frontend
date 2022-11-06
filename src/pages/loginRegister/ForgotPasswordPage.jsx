@@ -46,7 +46,7 @@ function ForgotPasswordPage() {
 			.put(
 				FORGOT_PASSWORD_URL,
 				{ email },
-				{ cancelToken: axios.CancelToken((c) => (cancelToken = c)) }
+				{ cancelToken: new axios.CancelToken((c) => (cancelToken = c)) }
 			)
 			.then((response) => {
 				setRequestIsSuccess(true);

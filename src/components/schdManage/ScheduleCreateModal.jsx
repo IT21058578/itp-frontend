@@ -94,6 +94,7 @@ function ScheduleCreateModal({ isActive, setIsActive }) {
 				endTime: tempEndTime,
 				description: tempDescription,
 				isActive: true,
+				active: true,
 			});
 		}
 	}

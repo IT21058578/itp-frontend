@@ -25,7 +25,7 @@ function ZoneManagementPage() {
 	const [searchSortParams, setSearchSortParams] = useState({});
 	const [sortDir, setSortDir] = useState("");
 	const [sortCol, setSortCol] = useState("");
-	const pgSize = 20;
+	const pgSize = 10;
 
 	useEffect(() => {
 		setSearchSortParams({ ...searchParams, sortDir, sortCol });

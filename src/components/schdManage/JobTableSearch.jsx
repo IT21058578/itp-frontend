@@ -15,7 +15,7 @@ function JobTableSearch({ handleSearch, isLoading }) {
 	const [lengthHasErr, setLengthHasErr] = useState(false);
 
 	const [dateSelect, setDateSelect] = useState("");
-	const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+	const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
 	const [dateErr, setDateErr] = useState(false);
 
 	const [crewSelect, setCrewSelect] = useState("ignore");
@@ -92,10 +92,10 @@ function JobTableSearch({ handleSearch, isLoading }) {
 					ratingSelect,
 					rating,
 				});
-			}, 500); 
+			}, 500);
 		}
 	}, [hasLocationState]);
-	
+
 	//If reach page with state, do a search.
 	useEffect(() => {
 		if (location?.state) {
@@ -105,9 +105,8 @@ function JobTableSearch({ handleSearch, isLoading }) {
 		}
 	}, []);
 
-
 	return (
-		<div className="flex flex-col justify-center h-full px-4" >
+		<div className="flex flex-col justify-center h-full px-4">
 			<div
 				className="pr-4 flex flex-col gap-3 overflow-y-scroll"
 				style={{
@@ -171,9 +170,7 @@ function JobTableSearch({ handleSearch, isLoading }) {
 								<Label value="Type" />
 							</div>
 							<div className="w-3/4">
-								<Select
-									onChange={(e) => setLengthSelect(e.target.value)}
-								>
+								<Select onChange={(e) => setLengthSelect(e.target.value)}>
 									<option value="">Ignore</option>
 									<option value="lessThan">Less Than</option>
 									<option value="greaterThan">Greater Than</option>
@@ -200,16 +197,14 @@ function JobTableSearch({ handleSearch, isLoading }) {
 					</div>
 				</div>
 				<div className="flex gap-4 flex-col py-4 border-t">
-					<Label>Search By Job Length</Label>
+					<Label>Search By Crew Size</Label>
 					<div className="flex flex-row gap-4 items-center">
 						<div className="flex flex-row w-2/4">
 							<div className="w-1/4 flex items-center">
 								<Label value="Type" />
 							</div>
 							<div className="w-3/4">
-								<Select
-									onChange={(e) => setCrewSelect(e.target.value)}
-								>
+								<Select onChange={(e) => setCrewSelect(e.target.value)}>
 									<option value="">Ignore</option>
 									<option value="lessThan">Less Than</option>
 									<option value="greaterThan">Greater Than</option>
@@ -243,9 +238,7 @@ function JobTableSearch({ handleSearch, isLoading }) {
 								<Label value="Type" />
 							</div>
 							<div className="w-3/4">
-								<Select
-									onChange={(e) => setRevenueSelect(e.target.value)}
-								>
+								<Select onChange={(e) => setRevenueSelect(e.target.value)}>
 									<option value="">Ignore</option>
 									<option value="lessThan">Less Than</option>
 									<option value="greaterThan">Greater Than</option>
@@ -279,9 +272,7 @@ function JobTableSearch({ handleSearch, isLoading }) {
 								<Label className="" value="Type" />
 							</div>
 							<div className="w-3/4">
-								<Select
-									onChange={(e) => setRatingSelect(e.target.value)}
-								>
+								<Select onChange={(e) => setRatingSelect(e.target.value)}>
 									<option value="">Ignore</option>
 									<option value="lessThan">Less Than</option>
 									<option value="greaterThan">Greater Than</option>

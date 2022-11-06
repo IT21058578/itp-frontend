@@ -48,6 +48,7 @@ function AdminLayout() {
 				</div>
 				<div className="bg-gray-100 p-2 w-full">
 					<Routes>
+						<Route path="" element={<SchedCalenderPage />}></Route>
 						<Route path="jobs/*" element={<SchedJobListPage />}></Route>
 						<Route path="jobs/job" element={<AdminJobPage />}></Route>
 						<Route path="calender/*" element={<SchedCalenderPage />}></Route>

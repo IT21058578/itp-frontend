@@ -1,17 +1,23 @@
-import React, { Fragment, useCallback, useEffect, useRef, useState } from 'react'
-import { Button, Spinner, Table } from 'flowbite-react';
-import { useInfiniteScroll } from '../../hooks';
-import { useNavigate } from 'react-router-dom';
+import React, {
+	Fragment,
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
+import { Button, Spinner, Table } from "flowbite-react";
+import { useInfiniteScroll } from "../../hooks";
+import { useNavigate } from "react-router-dom";
 
 const JOB_INFO_URL = "/admin/jobs/job";
 const USER_JOBS_URL = process.env.REACT_APP_JOB_SEARCH_API_URL;
 
-function AdminUserJobTable({type, pgSize, clientId}) {
+function AdminUserJobTable({ type, pgSize, clientId }) {
 	const navigate = useNavigate();
 	const [pgNum, setPgNum] = useState(1);
 	const { dataList, hasMore, isLoading } = useInfiniteScroll(
 		USER_JOBS_URL,
-		{clientId, status: type},
+		{ clientId, status: type },
 		pgNum,
 		setPgNum,
 		pgSize,
@@ -38,57 +44,60 @@ function AdminUserJobTable({type, pgSize, clientId}) {
 		[isLoading, hasMore]
 	);
 
-  	return (
-	<Fragment>
-		<Table hoverable={true}>
-			<Table.Head>
-				<Table.HeadCell>Id</Table.HeadCell>
-				<Table.HeadCell>Date</Table.HeadCell>
-				<Table.HeadCell>Period</Table.HeadCell>
-			</Table.Head>
-			<Table.Body className="divide-y h-100 transition-all">
-				{dataList?.map((job, i) =>
-					<Table.Row 
-					key={i} 
-					ref={dataList.length === i + 1 ? rowRef : null} 
-					onClick={() => navigate(`${JOB_INFO_URL}?id=${job.id}`)} 
-					className="transition-all hover:outline hover:rounded hover:outline-blue-500 hover:text-blue-600 hover:cursor-pointer font-medium" 
-					>
-						<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white" >{job.id}</Table.Cell>
-						<Table.Cell>{job.date}</Table.Cell>
-						<Table.Cell>
-							{job?.startTime?.split('T')[1].slice(0,5)} to {job?.endTime?.split('T')[1].slice(0,5)} 
-						</Table.Cell>
-					</Table.Row>
-				)}
-				{isLoading ? (
-					<Table.Row>
-						<Table.Cell
-							className="font-medium text-gray-500 text-center bg-gray-50"
-							colSpan={3}
+	return (
+		<Fragment>
+			<Table hoverable={true}>
+				<Table.Head>
+					<Table.HeadCell>Id</Table.HeadCell>
+					<Table.HeadCell>Date</Table.HeadCell>
+					<Table.HeadCell>Period</Table.HeadCell>
+				</Table.Head>
+				<Table.Body className="divide-y h-100 transition-all">
+					{dataList?.map((job, i) => (
+						<Table.Row
+							key={i}
+							onClick={() => navigate(`${JOB_INFO_URL}?id=${job.id}`)}
+							className="transition-all hover:outline hover:rounded hover:outline-blue-500 hover:text-blue-600 hover:cursor-pointer font-medium"
 						>
-							<Spinner />
-						</Table.Cell>
-					</Table.Row>
-				) : (
-					""
-				)}
-				{!hasMore && !isLoading ? (
-					<Table.Row>
-						<Table.Cell
-							className="font-medium text-gray-500 text-center bg-gray-50"
-							colSpan={3}
-						>
-							End of Content...
-						</Table.Cell>
-					</Table.Row>
-				) : (
-					""
-				)}
-			</Table.Body>
-		</Table>
-	</Fragment>
-  )
+							<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+								<div ref={dataList.length === i + 1 ? rowRef : null} />
+								{job.id}
+							</Table.Cell>
+							<Table.Cell>{job.date}</Table.Cell>
+							<Table.Cell>
+								{job?.startTime?.split("T")[1].slice(0, 5)} to{" "}
+								{job?.endTime?.split("T")[1].slice(0, 5)}
+							</Table.Cell>
+						</Table.Row>
+					))}
+					{isLoading ? (
+						<Table.Row>
+							<Table.Cell
+								className="font-medium text-gray-500 text-center bg-gray-50"
+								colSpan={3}
+							>
+								<Spinner />
+							</Table.Cell>
+						</Table.Row>
+					) : (
+						""
+					)}
+					{!hasMore && !isLoading ? (
+						<Table.Row>
+							<Table.Cell
+								className="font-medium text-gray-500 text-center bg-gray-50"
+								colSpan={3}
+							>
+								End of Content...
+							</Table.Cell>
+						</Table.Row>
+					) : (
+						""
+					)}
+				</Table.Body>
+			</Table>
+		</Fragment>
+	);
 }
 
-export default AdminUserJobTable
+export default AdminUserJobTable;
