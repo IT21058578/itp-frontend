@@ -112,14 +112,6 @@ function EmpSidebar({ auth }) {
 						>
 							<div className="inline-block align-middle">Jobs</div>
 						</Sidebar.Item>
-						<Sidebar.Item
-							href=""
-							onClick={(e) => gotoPage(e, CATEGORY_PANEL_URL)}
-							icon={PencilSquareIcon}
-							style={{ height: "2.5rem" }}
-						>
-							<div className="inline-block align-middle">Categories Panel</div>
-						</Sidebar.Item>
 					</Sidebar.ItemGroup>
 					<Sidebar.ItemGroup>
 						

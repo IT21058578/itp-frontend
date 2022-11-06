@@ -11,7 +11,7 @@ const ServiceReqCard=({request})=>{
      
     function DeleteAlert(){
         
-        alert("The service sccessfully deleted!");
+        alert("The request sccessfully deleted!");
         window.location.reload(false);
     }
 

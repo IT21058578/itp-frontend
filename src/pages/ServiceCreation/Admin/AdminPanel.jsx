@@ -36,22 +36,29 @@ class AdminPanel extends Component{
         return(
             <div className="">
 
-                <div className="mx-40">
+                <div className="mx-20 ">
                 {
                 
                     this.state.categories?.length>0
                     
                     ?(
-                        <div>
-                            <div className="gride justify-items-end ">
-                                <div className="m-2">
-                                    <ServiceCreateButton/>
+                        <div className="h-screen overflow-scroll ">
+                            <div className="gride border-2 border-gray-300 rounded-lg m-2 bg-white">
+                                <div className="">
+                                    <p className="text-2xl p-2">Services control panel</p>
                                 </div>
-                                <div className="m-2">
-                                    <ServiceRequestControlButton/>
+                                <div className=" flex flex-wrap justify-end">
+                                    <div className="m-2">
+                                        <ServiceCreateButton/>
+                                    </div>
+                                    <div className="m-2">
+                                        <ServiceRequestControlButton/>
+                                    </div>
                                 </div>
+                                
+
                             </div>
-                        <div className="w-full h-full justify-center items-center bottom-52">
+                        <div className=" h-full justify-center items-center bottom-52 border-2 border-gray-300 rounded-lg bg-white m-2">
                             
 
                             

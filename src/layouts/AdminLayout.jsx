@@ -19,6 +19,10 @@ import AdminPanel from "../pages/ServiceCreation/Admin/AdminPanel";
 import ServiceUpdate from "../pages/ServiceCreation/Admin/ServiceUpdate";
 import ServiceCreate from "../pages/ServiceCreation/Admin/ServiceCreate";
 import RequestedServices from "../pages/ServiceCreation/Admin/RequestedServices";
+import StockManagementPage from "../pages/stockManagement";
+import SupplierManagementPage from "../pages/supplierManagement";
+import DialogsAdd from "../pages/supplier/addStock";
+import DialogsAddStock from "../pages/stock/addStock";
 import { ReactSession } from "react-client-session";
 
 function AdminLayout() {
@@ -68,6 +72,23 @@ function AdminLayout() {
 
 						{/*Fix these routes*/}
 						<Route path="/SCAdmin" element={<AdminPanel />}></Route>
+						<Route path="/SCAdmin" element={<AdminPanel />}></Route>
+						<Route
+							path="add-supplier"
+							element={<DialogsAdd auth={auth} />}
+						></Route>
+						<Route
+							path="add-stock"
+							element={<DialogsAddStock auth={auth} />}
+						></Route>
+						<Route
+							path="stock/*"
+							element={<StockManagementPage auth={auth} />}
+						></Route>
+						<Route
+							path="supplier/*"
+							element={<SupplierManagementPage auth={auth} />}
+						></Route>
 						<Route
 							path="/AdminCatogrizedServices/*"
 							element={<AdminCatogrizedServicesHook />}

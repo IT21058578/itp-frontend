@@ -19,6 +19,8 @@ import {
 import LogoutModal from "../loginRegister/LogoutModal";
 import { ReactSession } from "react-client-session";
 
+const STOCK_JOBS_URL = "/admin/stock";
+const SUPPLIER_JOBS_URL = "/admin/supplier";
 const ADM_LAND_URL = "/admin";
 const ADM_USERS_URL = "/admin/users";
 const ADM_JOBS_URL = "/admin/jobs";
@@ -128,7 +130,23 @@ function AdminSidebar() {
 								icon={PencilSquareIcon}
 								style={{ height: "2.5rem" }}
 							>
-								<div className="inline-block align-middle">Category Panel</div>
+								<div className="inline-block align-middle">Services Panel</div>
+							</Sidebar.Item>
+							<Sidebar.Item
+								href=""
+								onClick={(e) => gotoPage(e, STOCK_JOBS_URL)}
+								icon={BriefcaseIcon}
+								style={{ height: "2.5rem" }}
+							>
+								<div className="inline-block align-middle">Stock</div>
+							</Sidebar.Item>
+							<Sidebar.Item
+								href=""
+								onClick={(e) => gotoPage(e, SUPPLIER_JOBS_URL)}
+								icon={BriefcaseIcon}
+								style={{ height: "2.5rem" }}
+							>
+								<div className="inline-block align-middle">Supplier</div>
 							</Sidebar.Item>
 							<Sidebar.Item
 								href=""
@@ -147,6 +165,7 @@ function AdminSidebar() {
 								<div className="inline-block align-middle">Zones</div>
 							</Sidebar.Item>
 						</Sidebar.ItemGroup>
+						
 						<Sidebar.ItemGroup>
 							<Sidebar.Item
 								href=""
