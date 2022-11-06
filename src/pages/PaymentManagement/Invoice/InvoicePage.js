@@ -24,6 +24,14 @@ function InvoicePage() {
       .then(() => console.log("function ran"));
   }, []);
 
+  function saveInvoice() {
+    axios
+      .post(`http://localhost:8080/api/v1/invoice`, invoice)
+      .then((response) => console.log(response))
+      .catch((err) => console.log(err))
+      .then(() => console.log("function ran"));
+  }
+
   return (
     <div className="max-w-4xl">
       <Card>

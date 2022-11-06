@@ -17,7 +17,12 @@ function SavedPaymentInstruments() {
       .then(() => console.log("function ran"));
   }, []);
 
-  return <Instruments cards={data} />;
+  return (
+    <div>
+      {/* <button>Test</button> */}
+      <Instruments cards={data} />
+    </div>
+  );
 }
 
 export default SavedPaymentInstruments;
