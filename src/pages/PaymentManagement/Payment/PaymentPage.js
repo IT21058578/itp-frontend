@@ -29,7 +29,7 @@ function PaymentPage() {
         </Card>
 
         <SelectPaymentInstrument email={searchParams.get("email")} />
-        <AddPaymentInstrument />
+        <AddPaymentInstrument invoiceId={searchParams.get("invoiceID")} />
       </Card>
     </div>
   );
